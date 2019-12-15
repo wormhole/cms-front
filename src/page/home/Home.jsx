@@ -1,12 +1,12 @@
 import {Avatar, Breadcrumb, Dropdown, Icon, Layout, Menu} from 'antd';
-import React from 'react';
+import React, {Component} from 'react';
 import './home.less';
 import logo from '../../image/logo.jpg';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
 
-class Home extends React.Component {
+class Home extends Component {
 
     constructor(props) {
         super(props);

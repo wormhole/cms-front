@@ -2,6 +2,9 @@ const path = require('path');
 const HTMLPlugin = require('html-webpack-plugin');
 module.exports = {
     devtool: 'eval-source-map',
+    resolve: {
+        extensions: ['.js', '.jsx','.json']
+    },
     entry: path.join(__dirname, '../src/index.jsx'),
     output: {
         path: path.join(__dirname, '../dist'),
@@ -33,7 +36,14 @@ module.exports = {
         port: '3000',
         inline: true,
         open: true,
-        compress: true
+        compress: true,
+        proxy: {
+            "/api": {
+                "target": "http://localhost",
+                "changeOrigin": true,
+                "pathRewrite": {"^/api": "/"}
+            }
+        }
     },
     plugins: [
         new HTMLPlugin({
