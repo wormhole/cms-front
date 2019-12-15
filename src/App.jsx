@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {HashRouter, Route} from 'react-router-dom';
 import Home from './module/home/Home';
-import Login from './module/login/Login';
+import Login from './module/login';
 import Register from './module/register/Register';
 
 class App extends Component {

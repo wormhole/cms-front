@@ -5,6 +5,7 @@ import './login.less';
 class Login extends Component {
     constructor(props) {
         super(props);
+        console.log(props.login);
     }
 
     handleSubmit(e) {
@@ -23,7 +24,7 @@ class Login extends Component {
                 <div className="cms-login-outer">
                     <h3>用户登录</h3>
                     <div className="cms-login-inner">
-                        <Form onSubmit={this.handleSubmit} className="login-form">
+                        <Form onSubmit={this.handleSubmit.bind(this)} className="login-form">
                             <Form.Item>
                                 {getFieldDecorator('username', {
                                     rules: [{required: true, message: '请输入用户名！'}],
@@ -67,15 +68,15 @@ class Login extends Component {
                                 </Row>
                             </Form.Item>
                             <Form.Item>
-                                {getFieldDecorator('remember', {
+                                {getFieldDecorator('remember-me', {
                                     valuePropName: 'checked',
                                     initialValue: false,
                                 })(<Checkbox>记住我</Checkbox>)}
                             </Form.Item>
+                            <Button type="primary" htmlType="submit" className="cms-login-button">
+                                登录
+                            </Button>
                         </Form>
-                        <Button type="primary" htmlType="submit" className="cms-login-button">
-                            登录
-                        </Button>
                         <a href="/#/register">注册用户</a>
                     </div>
                 </div>
