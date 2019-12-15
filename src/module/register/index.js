@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
-import Login from './Login';
+import Register from './Register';
 import action from '../action';
 import {withRouter} from 'react-router-dom';
 
 const mapStateToProps = (state) => {
     return {
-        login: state.login
+        register: state.register
     }
 };
 
@@ -15,4 +15,4 @@ const mapActionToProps = (dispatch) => {
     }
 };
 
-export default withRouter(connect(mapStateToProps, mapActionToProps)(Login));
+export default withRouter(connect(mapStateToProps, mapActionToProps)(Register));
