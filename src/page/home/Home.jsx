@@ -69,7 +69,7 @@ class Home extends Component {
                                 <Breadcrumb.Item>监控面板</Breadcrumb.Item>
                             </Breadcrumb>
                             <div className="cms-content-body">
-                                Content
+
                             </div>
                         </Content>
                         <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
