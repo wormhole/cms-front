@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import Login from './Login.jsx';
+import action from './action';
 
 const mapStateToProps = (state) => {
     return {
@@ -9,7 +10,7 @@ const mapStateToProps = (state) => {
 
 const mapActionToProps = (dispatch) => {
     return {
-        save: (action) => dispatch(action)
+        save: (state) => dispatch(action(state))
     }
 };
 

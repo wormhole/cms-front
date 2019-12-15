@@ -5,20 +5,21 @@ import './login.less';
 class Login extends Component {
     constructor(props) {
         super(props);
-        console.log(props.login);
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
     };
 
+    onValueChange(key, e) {
+        if (key === 'rememberMe') {
+            this.props.save({[key]: e.target.checked});
+        } else {
+            this.props.save({[key]: e.target.value});
+        }
+    }
+
     render() {
-        const {getFieldDecorator} = this.props.form;
         return (
             <div className="cms-login-bg">
                 <div className="cms-login-outer">
@@ -26,41 +27,35 @@ class Login extends Component {
                     <div className="cms-login-inner">
                         <Form onSubmit={this.handleSubmit.bind(this)} className="login-form">
                             <Form.Item>
-                                {getFieldDecorator('username', {
-                                    rules: [{required: true, message: '请输入用户名！'}],
-                                })(
-                                    <Input
-                                        prefix={<Icon type="user" className='cms-icon'/>}
-                                        placeholder="用户名"
-                                        className='cms-input'
-                                    />,
-                                )}
+                                <Input
+                                    prefix={<Icon type="user" className='cms-icon'/>}
+                                    placeholder="用户名"
+                                    className='cms-input'
+                                    value={this.props.login.login.username}
+                                    onChange={this.onValueChange.bind(this, 'username')}
+                                />
                             </Form.Item>
                             <Form.Item>
-                                {getFieldDecorator('password', {
-                                    rules: [{required: true, message: '请输入密码！'}],
-                                })(
-                                    <Input
-                                        prefix={<Icon type="lock" className='cms-icon'/>}
-                                        type="password"
-                                        placeholder="密码"
-                                        className='cms-input'
-                                    />,
-                                )}
+                                <Input.Password
+                                    prefix={<Icon type="lock" className='cms-icon'/>}
+                                    type="password"
+                                    placeholder="密码"
+                                    className='cms-input'
+                                    value={this.props.login.login.password}
+                                    onChange={this.onValueChange.bind(this, 'password')}
+                                />
                             </Form.Item>
                             <Form.Item>
                                 <Row gutter={8}>
                                     <Col span={14}>
-                                        {getFieldDecorator('vcode', {
-                                            rules: [{required: true, message: '请输入验证码！'}],
-                                        })(
-                                            <Input
-                                                prefix={<Icon type="safety-certificate" className='cms-icon'/>}
-                                                type="text"
-                                                placeholder="验证码"
-                                                className='cms-input'
-                                            />,
-                                        )}
+                                        <Input
+                                            prefix={<Icon type="safety-certificate" className='cms-icon'/>}
+                                            type="text"
+                                            placeholder="验证码"
+                                            className='cms-input'
+                                            value={this.props.login.login.vcode}
+                                            onChange={this.onValueChange.bind(this, 'vcode')}
+                                        />
                                     </Col>
                                     <Col span={10}>
                                         <img src="/api/vcode" className="cms-verify-img" id="verify-img"/>
@@ -68,10 +63,8 @@ class Login extends Component {
                                 </Row>
                             </Form.Item>
                             <Form.Item>
-                                {getFieldDecorator('remember-me', {
-                                    valuePropName: 'checked',
-                                    initialValue: false,
-                                })(<Checkbox>记住我</Checkbox>)}
+                                <Checkbox checked={this.props.login.login.rememberMe}
+                                          onChange={this.onValueChange.bind(this, 'rememberMe')}>记住我</Checkbox>
                             </Form.Item>
                             <Button type="primary" htmlType="submit" className="cms-login-button">
                                 登录
@@ -85,4 +78,4 @@ class Login extends Component {
     }
 }
 
-export default Form.create({name: 'login-form'})(Login);
+export default Login;

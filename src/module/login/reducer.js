@@ -1,26 +1,26 @@
 import {combineReducers} from "redux";
 
 const initState = {
-    'username': '',
-    'password': '',
-    'remeber-me': false,
-    'vcode': '',
+    username: '',
+    password: '',
+    rememberMe: false,
+    vcode: '',
 };
 
-const save = (state = initState, action) => {
+const reducer = (state = initState, action) => {
 
-    if (action === null || action === undefined) {
+    if (action.type === 'save') {
         return {
             ...state,
-            ...action,
-        }
+            ...action.state,
+        };
     } else {
         return state;
     }
 };
 
 const loginReducer = combineReducers({
-    login: save
+    login: reducer
 });
 
 export default loginReducer;
