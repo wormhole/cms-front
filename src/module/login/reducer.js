@@ -1,5 +1,3 @@
-import {combineReducers} from "redux";
-
 const initState = {
     username: '',
     password: '',
@@ -8,7 +6,7 @@ const initState = {
     vcodeApi: '/api/vcode'
 };
 
-const reducer = (state = initState, action) => {
+const loginReducer = (state = initState, action) => {
 
     if (action.type === 'save') {
         return {
@@ -19,9 +17,5 @@ const reducer = (state = initState, action) => {
         return state;
     }
 };
-
-const loginReducer = combineReducers({
-    login: reducer
-});
 
 export default loginReducer;

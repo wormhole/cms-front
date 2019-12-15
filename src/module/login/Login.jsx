@@ -11,10 +11,10 @@ class Login extends Component {
     handleSubmit(e) {
         e.preventDefault();
         axios.post('/api/login', {
-            username: this.props.login.login.username,
-            password: this.props.login.login.password,
-            vcode: this.props.login.login.vcode,
-            rememberMe: this.props.login.login.rememberMe
+            username: this.props.login.username,
+            password: this.props.login.password,
+            vcode: this.props.login.vcode,
+            rememberMe: this.props.login.rememberMe
         }).then(res => {
             if (res.data.status === true) {
                 message.success(res.data.message);
@@ -53,7 +53,7 @@ class Login extends Component {
                                     prefix={<Icon type="user" className='cms-icon'/>}
                                     placeholder="用户名"
                                     className='cms-input'
-                                    value={this.props.login.login.username}
+                                    value={this.props.login.username}
                                     onChange={this.onValueChange.bind(this, 'username')}
                                 />
                             </Form.Item>
@@ -63,7 +63,7 @@ class Login extends Component {
                                     type="password"
                                     placeholder="密码"
                                     className='cms-input'
-                                    value={this.props.login.login.password}
+                                    value={this.props.login.password}
                                     onChange={this.onValueChange.bind(this, 'password')}
                                 />
                             </Form.Item>
@@ -75,18 +75,18 @@ class Login extends Component {
                                             type="text"
                                             placeholder="验证码"
                                             className='cms-input'
-                                            value={this.props.login.login.vcode}
+                                            value={this.props.login.vcode}
                                             onChange={this.onValueChange.bind(this, 'vcode')}
                                         />
                                     </Col>
                                     <Col span={10}>
-                                        <img src={this.props.login.login.vcodeApi} className="cms-verify-img"
+                                        <img src={this.props.login.vcodeApi} className="cms-verify-img"
                                              id="verify-img" onClick={this.onVCodeChange.bind(this)}/>
                                     </Col>
                                 </Row>
                             </Form.Item>
                             <Form.Item>
-                                <Checkbox checked={this.props.login.login.rememberMe}
+                                <Checkbox checked={this.props.login.rememberMe}
                                           onChange={this.onValueChange.bind(this, 'rememberMe')}>记住我</Checkbox>
                             </Form.Item>
                             <Button type="primary" htmlType="submit" className="cms-login-button">
