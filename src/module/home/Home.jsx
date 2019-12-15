@@ -1,5 +1,6 @@
-import {Avatar, Breadcrumb, Dropdown, Icon, Layout, Menu} from 'antd';
+import {Avatar, Breadcrumb, Dropdown, Icon, Layout, Menu, message} from 'antd';
 import React, {Component} from 'react';
+import axios from 'axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
 
@@ -12,6 +13,19 @@ class Home extends Component {
         super(props);
     }
 
+    onLogout() {
+        axios.get('/api/logout').then(res => {
+            if (res.data.status === true) {
+                message.success(res.data.message);
+                this.props.history.push("/login");
+            } else {
+                message.error(res.data.message);
+            }
+        }).catch(error => {
+            message.error("服务器错误");
+        });
+    }
+
     render() {
 
         const userDrop = (
@@ -21,7 +35,7 @@ class Home extends Component {
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item key="1">
-                    <a href="/logout">注销</a>
+                    <a href="#" onClick={this.onLogout.bind(this)}>注销</a>
                 </Menu.Item>
             </Menu>
         );

@@ -10,7 +10,7 @@ class Login extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        axios.post('/api/login.do', {
+        axios.post('/api/login', {
             username: this.props.login.login.username,
             password: this.props.login.login.password,
             vcode: this.props.login.login.vcode,
