@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {HashRouter, Route} from 'react-router-dom';
-import Home from './page/home/Home';
-import Login from './page/login/Login';
+import Home from './module/home/Home';
+import Login from './module/login/Login';
+import Register from './module/register/Register';
 
 class App extends Component {
 
@@ -14,6 +15,7 @@ class App extends Component {
             <HashRouter>
                 <Route exact={true} path='/' component={Home}/>
                 <Route exact={true} path='/login' component={Login}/>
+                <Route exact={true} path='/register' component={Register}/>
             </HashRouter>
         );
     }

@@ -37,7 +37,7 @@ class Login extends Component {
                             </Form.Item>
                             <Form.Item>
                                 {getFieldDecorator('password', {
-                                    rules: [{required: true, message: '请输入密码'}],
+                                    rules: [{required: true, message: '请输入密码！'}],
                                 })(
                                     <Input
                                         prefix={<Icon type="lock" className='cms-icon'/>}
@@ -51,7 +51,7 @@ class Login extends Component {
                                 <Row gutter={8}>
                                     <Col span={14}>
                                         {getFieldDecorator('vcode', {
-                                            rules: [{required: true, message: '请输入验证码'}],
+                                            rules: [{required: true, message: '请输入验证码！'}],
                                         })(
                                             <Input
                                                 prefix={<Icon type="safety-certificate" className='cms-icon'/>}
@@ -69,7 +69,7 @@ class Login extends Component {
                             <Form.Item>
                                 {getFieldDecorator('remember', {
                                     valuePropName: 'checked',
-                                    initialValue: true,
+                                    initialValue: false,
                                 })(<Checkbox>记住我</Checkbox>)}
                             </Form.Item>
                         </Form>
