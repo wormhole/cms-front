@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Button, Checkbox, Col, Form, Icon, Input, Row} from 'antd';
+import {Button, Checkbox, Col, Form, Icon, Input, message, Row} from 'antd';
 import './login.less';
+import axios from 'axios';
 
 class Login extends Component {
     constructor(props) {
@@ -9,6 +10,23 @@ class Login extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        axios.post('/api/login.do', {
+            username: this.props.login.login.username,
+            password: this.props.login.login.password,
+            vcode: this.props.login.login.vcode,
+            rememberMe: this.props.login.login.rememberMe
+        }).then(res => {
+            if (res.data.status === true) {
+                message.success(res.data.message);
+                this.props.history.push("/");
+            } else {
+                message.error(res.data.message);
+                this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
+            }
+        }).catch(error => {
+            message.error("服务器错误");
+            this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
+        });
     };
 
     onValueChange(key, e) {
@@ -17,6 +35,10 @@ class Login extends Component {
         } else {
             this.props.save({[key]: e.target.value});
         }
+    }
+
+    onVCodeChange() {
+        this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
     }
 
     render() {
@@ -58,7 +80,8 @@ class Login extends Component {
                                         />
                                     </Col>
                                     <Col span={10}>
-                                        <img src="/api/vcode" className="cms-verify-img" id="verify-img"/>
+                                        <img src={this.props.login.login.vcodeApi} className="cms-verify-img"
+                                             id="verify-img" onClick={this.onVCodeChange.bind(this)}/>
                                     </Col>
                                 </Row>
                             </Form.Item>

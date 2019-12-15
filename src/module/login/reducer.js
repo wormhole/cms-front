@@ -5,6 +5,7 @@ const initState = {
     password: '',
     rememberMe: false,
     vcode: '',
+    vcodeApi: '/api/vcode'
 };
 
 const reducer = (state = initState, action) => {
