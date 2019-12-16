@@ -11,7 +11,16 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            collapsed: false
+        }
     }
+
+    toggle() {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    };
 
     onLogout() {
         axios.get('/api/logout').then(res => {
@@ -42,8 +51,8 @@ class Home extends Component {
 
         return (
             <div className="cms-home">
-                <Layout>
-                    <Sider className="cms-left">
+                <Layout className="cms-layout">
+                    <Sider className="cms-left" trigger={null} collapsible collapsed={this.state.collapsed}>
                         <div className="cms-logo">
                             <div>内容管理系统</div>
                         </div>
@@ -69,6 +78,11 @@ class Home extends Component {
                     </Sider>
                     <Layout className="cms-right">
                         <Header className="cms-header">
+                            <Icon
+                                className="cms-trigger"
+                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                onClick={this.toggle.bind(this)}
+                            />
                             <div className="cms-user">
                                 <Dropdown overlay={userDrop} className="cms-dropdown">
                                     <a className="ant-dropdown-link" href="#">
@@ -85,8 +99,8 @@ class Home extends Component {
                             <div className="cms-content-body">
 
                             </div>
+                            <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                         </Content>
-                        <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                     </Layout>
                 </Layout>
             </div>
