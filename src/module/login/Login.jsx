@@ -6,7 +6,6 @@ import axios from 'axios';
 class Login extends Component {
     constructor(props) {
         super(props);
-        console.log(props.login);
     }
 
     handleSubmit(e) {

@@ -11,15 +11,10 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            collapsed: false
-        }
     }
 
     toggle() {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
+        this.props.save({collapsed: !this.props.home.collapsed})
     };
 
     onLogout() {
@@ -52,7 +47,7 @@ class Home extends Component {
         return (
             <div className="cms-home">
                 <Layout className="cms-layout">
-                    <Sider className="cms-left" trigger={null} collapsible collapsed={this.state.collapsed}>
+                    <Sider className="cms-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
                         <div className="cms-logo">
                             <div>内容管理系统</div>
                         </div>
@@ -80,7 +75,7 @@ class Home extends Component {
                         <Header className="cms-header">
                             <Icon
                                 className="cms-trigger"
-                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                type={this.props.home.collapsed ? 'menu-unfold' : 'menu-fold'}
                                 onClick={this.toggle.bind(this)}
                             />
                             <div className="cms-user">

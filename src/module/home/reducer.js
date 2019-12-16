@@ -4,7 +4,7 @@ const initState = {
 
 const homeReducer = (state = initState, action) => {
 
-    if (action.type === 'save') {
+    if (action.type === 'home') {
         return {
             ...state,
             ...action.state,
