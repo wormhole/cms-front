@@ -1,6 +1,6 @@
 const action = (state) => {
     return {
-        type: 'save',
+        type: 'login',
         state: state
     }
 };

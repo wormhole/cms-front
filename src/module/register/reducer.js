@@ -10,7 +10,7 @@ const initState = {
 
 const registerReducer = (state = initState, action) => {
 
-    if (action.type === 'save') {
+    if (action.type === 'register') {
         return {
             ...state,
             ...action.state,

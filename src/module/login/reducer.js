@@ -8,7 +8,7 @@ const initState = {
 
 const loginReducer = (state = initState, action) => {
 
-    if (action.type === 'save') {
+    if (action.type === 'login') {
         return {
             ...state,
             ...action.state,
