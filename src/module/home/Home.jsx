@@ -91,7 +91,7 @@ class Home extends Component {
                             </div>
                         </Header>
                         <Content className="cms-content">
-                            <Route path="/dashboard" component={DashBoard}/>
+                            <Route exact path="/dashboard" component={DashBoard}/>
                             <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                         </Content>
                     </Layout>
