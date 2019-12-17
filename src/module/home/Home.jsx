@@ -36,11 +36,11 @@ class Home extends Component {
 
         const userDrop = (
             <Menu>
-                <Menu.Item key="0">
+                <Menu.Item key="personal-info">
                     <a href="#">个人信息</a>
                 </Menu.Item>
                 <Menu.Divider/>
-                <Menu.Item key="1">
+                <Menu.Item key="logout">
                     <a href="#" onClick={this.onLogout.bind(this)}>注销</a>
                 </Menu.Item>
             </Menu>
@@ -54,7 +54,7 @@ class Home extends Component {
                             <div>内容管理系统</div>
                         </div>
                         <Menu theme="dark" mode="inline" className="cms-menu">
-                            <Menu.Item key="1">
+                            <Menu.Item key="dashboard">
                                 <Icon type="dashboard"/>
                                 <span><Link to="dashboard"
                                             className="cms-link">监控面板</Link></span>
@@ -68,9 +68,9 @@ class Home extends Component {
                                     </span>
                                 }
                             >
-                                <Menu.Item key="2">用户管理</Menu.Item>
-                                <Menu.Item key="3">角色管理</Menu.Item>
-                                <Menu.Item key="4">权限管理</Menu.Item>
+                                <Menu.Item key="user-management">用户管理</Menu.Item>
+                                <Menu.Item key="role-management">角色管理</Menu.Item>
+                                <Menu.Item key="permission-management">权限管理</Menu.Item>
                             </SubMenu>
                         </Menu>
                     </Sider>
