@@ -1,8 +1,10 @@
-import {Avatar, Breadcrumb, Dropdown, Icon, Layout, Menu, message} from 'antd';
+import {Avatar, Dropdown, Icon, Layout, Menu, message} from 'antd';
 import React, {Component} from 'react';
+import {Link, Route} from 'react-router-dom';
 import axios from 'axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
+import DashBoard from "../dashboard/DashBoard";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -54,7 +56,8 @@ class Home extends Component {
                         <Menu theme="dark" mode="inline" className="cms-menu">
                             <Menu.Item key="1">
                                 <Icon type="dashboard"/>
-                                <span>监控面板</span>
+                                <span><Link to="dashboard"
+                                            className="cms-link">监控面板</Link></span>
                             </Menu.Item>
                             <SubMenu
                                 key="user"
@@ -88,12 +91,7 @@ class Home extends Component {
                             </div>
                         </Header>
                         <Content className="cms-content">
-                            <Breadcrumb className="cms-content-breadcrumb">
-                                <Breadcrumb.Item>监控面板</Breadcrumb.Item>
-                            </Breadcrumb>
-                            <div className="cms-content-body">
-
-                            </div>
+                            <Route path="/dashboard" component={DashBoard}/>
                             <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                         </Content>
                     </Layout>

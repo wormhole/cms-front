@@ -13,9 +13,9 @@ class App extends Component {
     render() {
         return (
             <HashRouter>
-                <Route exact={true} path='/' component={Home}/>
-                <Route exact={true} path='/login' component={Login}/>
-                <Route exact={true} path='/register' component={Register}/>
+                <Route path='/' component={Home}/>
+                <Route exact path='/login' component={Login}/>
+                <Route exact path='/register' component={Register}/>
             </HashRouter>
         );
     }
