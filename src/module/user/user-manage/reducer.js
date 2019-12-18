@@ -2,9 +2,10 @@ const initState = {
     selectedRowKeys: [],
     dataSource: [{
         key: 'id',
-        username: '蔡忞晟',
+        username: 'admin',
         telephone: '18584848465',
         email: '363408268@qq.com',
+        role: ['admin'],
         enabled: '可用'
     }]
 };

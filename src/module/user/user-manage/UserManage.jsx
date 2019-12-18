@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Table} from 'antd';
+import {Breadcrumb, Table, Tag} from 'antd';
 import {Link} from 'react-router-dom';
 
 class UserManage extends Component {
@@ -16,27 +16,44 @@ class UserManage extends Component {
     render() {
 
         const columns = [
-            {
-                title: '用户名',
-                dataIndex: 'username',
-                key: 'username',
-            },
-            {
-                title: '电话',
-                dataIndex: 'telephone',
-                key: 'telephone',
-            },
-            {
-                title: '邮箱',
-                dataIndex: 'email',
-                key: 'email',
-            },
-            {
-                title: '状态',
-                dataIndex: 'enabled',
-                key: 'enabled',
-            }
-        ];
+                {
+                    title: '用户名',
+                    dataIndex: 'username',
+                    key: 'username',
+                },
+                {
+                    title: '电话',
+                    dataIndex: 'telephone',
+                    key: 'telephone',
+                },
+                {
+                    title: '邮箱',
+                    dataIndex: 'email',
+                    key: 'email',
+                },
+                {
+                    title: '角色',
+                    dataIndex: 'role',
+                    key: 'role',
+                    render: (tags) => (
+                        <span>
+                              {tags.map(tag => (
+                                  <Tag color="blue" key={tag}>
+                                      {tag}
+                                  </Tag>
+                              ))}
+                        </span>
+                    ),
+                },
+                {
+                    title: '状态',
+                    dataIndex:
+                        'enabled',
+                    key:
+                        'enabled',
+                }
+            ]
+        ;
 
         const rowSelection = {
             selectedRowKeys: this.props.userManage.selectedRowKeys,
