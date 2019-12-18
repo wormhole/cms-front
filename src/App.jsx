@@ -21,4 +21,5 @@ class App extends Component {
     }
 }
 
-export default App;
+// 热刷新时保存组件的状态
+export default process.env.NODE_ENV !== 'production' ? require('react-hot-loader').hot(module)(App) : App;

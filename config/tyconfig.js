@@ -14,6 +14,7 @@ module.exports = {
   contentBase: path.join(__dirname, '../dist'),
   devServerHost: 'localhost',
   devServerPort: 3000,
+  devServerOpenBrowser: true,
   proxy: {
     '/api': {
       target: 'http://localhost',
