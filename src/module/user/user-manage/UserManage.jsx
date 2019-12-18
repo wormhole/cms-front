@@ -8,12 +8,17 @@ class UserManage extends Component {
         console.log("UserManage");
     }
 
+    onSelected(selectedRowKeys) {
+        console.log(selectedRowKeys);
+        this.props.save({selectedRowKeys: selectedRowKeys});
+    }
+
     render() {
 
         const columns = [
             {
                 title: '用户名',
-                dataIndex: 'uesrname',
+                dataIndex: 'username',
                 key: 'username',
             },
             {
@@ -33,6 +38,11 @@ class UserManage extends Component {
             }
         ];
 
+        const rowSelection = {
+            selectedRowKeys: this.props.userManage.selectedRowKeys,
+            onChange: this.onSelected.bind(this)
+        };
+
         return (
             <div className="cms-page">
                 <Breadcrumb className="cms-breadcrumb">
@@ -41,7 +51,8 @@ class UserManage extends Component {
                     <Breadcrumb.Item><Link to="/user/user-manage" className="cms-link">用户管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-body">
-                    <Table columns={columns}/>
+                    <Table rowSelection={rowSelection} columns={columns} dataSource={this.props.userManage.dataSource}
+                           bordered/>
                 </div>
             </div>
         )

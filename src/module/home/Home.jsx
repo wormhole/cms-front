@@ -4,8 +4,8 @@ import {Link, Redirect, Route} from 'react-router-dom';
 import axios from 'axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
-import DashBoard from "../dashboard/DashBoard";
-import UserManage from "../user/user-manage/UserManage";
+import DashBoard from '../dashboard/DashBoard';
+import UserManage from '../user/user-manage';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
