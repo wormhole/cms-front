@@ -5,7 +5,7 @@ const commonPlugins = [
     libraryDirectory: 'es',
     style: 'css' // `style: true` 会加载 less 文件
   }]
-]
+];
 
 module.exports = {
   presets: [
@@ -17,4 +17,4 @@ module.exports = {
     ]
   ],
   plugins: process.env.NODE_EMV !== 'production' ? ['react-hot-loader/babel', ...commonPlugins] : [...commonPlugins]
-}
+};
