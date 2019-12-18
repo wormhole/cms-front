@@ -3,18 +3,36 @@ html {
   width: 100%;
   margin: 0;
   padding: 0;
+
+  body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    #app {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+
+      .cms-page {
+        height: 100%;
+        overflow: auto;
+
+        .cms-breadcrumb {
+          padding: 15px 25px;
+          font-size: 15px;
+        }
+
+        .cms-body {
+          margin: 25px;
+        }
+
+      }
+    }
+  }
 }
 
-body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
 
-#app {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+
