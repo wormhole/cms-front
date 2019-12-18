@@ -9,6 +9,10 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended'
   ],
+  rules: {
+    semi: ['error', 'always'], // 要分号
+    quotes: ['error', 'single'] // 字符串用单引号
+  },
   settings: {
     react: {
       version: 'detect'
