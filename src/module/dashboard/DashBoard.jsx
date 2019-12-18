@@ -6,6 +6,7 @@ import './dashboard.less';
 class DashBoard extends Component {
     constructor(props) {
         super(props);
+        console.log("DashBoard");
     }
 
     render() {
