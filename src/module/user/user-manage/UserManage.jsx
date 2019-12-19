@@ -13,6 +13,7 @@ class UserManage extends Component {
 
     handleTableChange(pagination, filters, sorter) {
         this.props.save({pagination});
+        console.log(filters);
     };
 
     render() {
@@ -22,6 +23,16 @@ class UserManage extends Component {
                     title: '用户名',
                     dataIndex: 'username',
                     key: 'username',
+                    filters: [
+                        {
+                          text: 'admin1',
+                          value: 'admin1',
+                        },
+                        {
+                          text: 'admin2',
+                          value: 'admin2',
+                        }
+                    ]
                 },
                 {
                     title: '电话',

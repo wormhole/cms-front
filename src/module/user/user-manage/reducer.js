@@ -3,77 +3,77 @@ const initState = {
     pagination: {current: 1, pageSize: 5},
     dataSource: [{
         key: '1',
-        username: 'admin',
+        username: 'admin1',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '2',
-        username: 'admin',
+        username: 'admin2',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '3',
-        username: 'admin',
+        username: 'admin3',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '4',
-        username: 'admin',
+        username: 'admin4',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '5',
-        username: 'admin',
+        username: 'admin5',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '6',
-        username: 'admin',
+        username: 'admin6',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '7',
-        username: 'admin',
+        username: 'admin7',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '8',
-        username: 'admin',
+        username: 'admin8',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '9',
-        username: 'admin',
+        username: 'admin9',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '10',
-        username: 'admin',
+        username: 'admin10',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '可用'
     }, {
         key: '11',
-        username: 'admin',
+        username: 'admin11',
         telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
