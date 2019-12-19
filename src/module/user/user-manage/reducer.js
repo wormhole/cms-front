@@ -4,7 +4,7 @@ const initState = {
     dataSource: [{
         key: '1',
         username: 'admin1',
-        telephone: '18584848467',
+        telephone: '18584848465',
         email: '363408268@qq.com',
         role: ['admin'],
         enabled: '1'
