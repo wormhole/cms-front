@@ -8,10 +8,17 @@ class UserManage extends Component {
         console.log("UserManage");
     }
 
-    onSelected(selectedRowKeys) {
+    handleSelected(selectedRowKeys) {
         console.log(selectedRowKeys);
         this.props.save({selectedRowKeys: selectedRowKeys});
     }
+
+    handleTableChange(pagination, filters, sorter) {
+        this.props.save({pagination});
+        console.log(pagination);
+        console.log(filters);
+        console.log(sorter);
+    };
 
     render() {
 
@@ -57,7 +64,7 @@ class UserManage extends Component {
 
         const rowSelection = {
             selectedRowKeys: this.props.userManage.selectedRowKeys,
-            onChange: this.onSelected.bind(this)
+            onChange: this.handleSelected.bind(this)
         };
 
         return (
@@ -68,8 +75,14 @@ class UserManage extends Component {
                     <Breadcrumb.Item><Link to="/user/user-manage" className="cms-link">用户管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-body">
-                    <Table rowSelection={rowSelection} columns={columns} dataSource={this.props.userManage.dataSource}
-                           bordered/>
+                    <Table
+                        rowSelection={rowSelection}
+                        columns={columns}
+                        dataSource={this.props.userManage.dataSource}
+                        pagination={this.props.userManage.pagination}
+                        onChange={this.handleTableChange.bind(this)}
+                        bordered
+                    />
                 </div>
             </div>
         )
