@@ -62,10 +62,8 @@ class UserManage extends Component {
                 },
                 {
                     title: '状态',
-                    dataIndex:
-                        'enabled',
-                    key:
-                        'enabled',
+                    dataIndex: 'enabled',
+                    key: 'enabled',
                     sorter: (a,b) => null
                 }
             ]
