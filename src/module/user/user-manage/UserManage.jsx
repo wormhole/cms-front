@@ -5,19 +5,14 @@ import {Link} from 'react-router-dom';
 class UserManage extends Component {
     constructor(props) {
         super(props);
-        console.log("UserManage");
     }
 
     handleSelected(selectedRowKeys) {
-        console.log(selectedRowKeys);
         this.props.save({selectedRowKeys: selectedRowKeys});
     }
 
     handleTableChange(pagination, filters, sorter) {
         this.props.save({pagination});
-        console.log(pagination);
-        console.log(filters);
-        console.log(sorter);
     };
 
     render() {

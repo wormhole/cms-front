@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 class DashBoard extends Component {
     constructor(props) {
         super(props);
-        console.log("DashBoard");
     }
 
     render() {
