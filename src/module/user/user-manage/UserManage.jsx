@@ -13,7 +13,9 @@ class UserManage extends Component {
 
     handleTableChange(pagination, filters, sorter) {
         this.props.save({pagination});
+        console.log(pagination);
         console.log(filters);
+        console.log(sorter);
     };
 
     render() {
@@ -64,6 +66,7 @@ class UserManage extends Component {
                         'enabled',
                     key:
                         'enabled',
+                    sorter: (a,b) => null
                 }
             ]
         ;
