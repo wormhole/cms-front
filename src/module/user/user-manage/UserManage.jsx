@@ -27,12 +27,12 @@ class UserManage extends Component {
                     key: 'username',
                     filters: [
                         {
-                          text: 'admin1',
-                          value: 'admin1',
+                            text: 'admin1',
+                            value: 'admin1',
                         },
                         {
-                          text: 'admin2',
-                          value: 'admin2',
+                            text: 'admin2',
+                            value: 'admin2',
                         }
                     ]
                 },
@@ -64,7 +64,7 @@ class UserManage extends Component {
                     title: '状态',
                     dataIndex: 'enabled',
                     key: 'enabled',
-                    sorter: (a,b) => null
+                    sorter: (a, b) => null
                 }
             ]
         ;
