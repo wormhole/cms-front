@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Table, Tag} from 'antd';
+import {Breadcrumb, Button, Table, Tag} from 'antd';
 import {Link} from 'react-router-dom';
 
 class UserManage extends Component {
@@ -25,16 +25,6 @@ class UserManage extends Component {
                     title: '用户名',
                     dataIndex: 'username',
                     key: 'username',
-                    filters: [
-                        {
-                            text: 'admin1',
-                            value: 'admin1',
-                        },
-                        {
-                            text: 'admin2',
-                            value: 'admin2',
-                        }
-                    ]
                 },
                 {
                     title: '电话',
@@ -50,21 +40,30 @@ class UserManage extends Component {
                     title: '角色',
                     dataIndex: 'role',
                     key: 'role',
-                    render: (tags) => (
+                    render: (roles) => (
                         <span>
-                              {tags.map(tag => (
-                                  <Tag color="blue" key={tag}>
-                                      {tag}
+                              {roles.map(role => (
+                                  <Tag color="blue" key={role}>
+                                      {role}
                                   </Tag>
                               ))}
                         </span>
                     ),
+                    filters: [
+                        {
+                            text: 'admin',
+                            value: 'admin'
+                        }
+                    ]
                 },
                 {
                     title: '状态',
                     dataIndex: 'enabled',
                     key: 'enabled',
-                    sorter: (a, b) => null
+                    sorter: (a, b) => null,
+                    render: (enabled) => (
+                        <span>{enabled === 1 ? '启用' : '禁用'}</span>
+                    )
                 }
             ]
         ;
@@ -82,7 +81,12 @@ class UserManage extends Component {
                     <Breadcrumb.Item><Link to="/user/user-manage" className="cms-link">用户管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-body">
+                    <div className="cms-button-group">
+                        <Button type="primary" className="cms-button">新增</Button>
+                        <Button type="danger" className="cms-button">删除</Button>
+                    </div>
                     <Table
+                        className="cms-table"
                         rowSelection={rowSelection}
                         columns={columns}
                         dataSource={this.props.userManage.dataSource}
