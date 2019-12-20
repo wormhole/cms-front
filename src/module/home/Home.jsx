@@ -1,10 +1,11 @@
 import {Avatar, Dropdown, Icon, Layout, Menu, message} from 'antd';
 import React, {Component} from 'react';
-import {Link, Route} from 'react-router-dom';
+import {Link, Redirect, Route} from 'react-router-dom';
 import axios from 'axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
-import DashBoard from "../dashboard/DashBoard";
+import DashBoard from '../dashboard/DashBoard';
+import UserManage from '../user/user-manage';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -56,7 +57,7 @@ class Home extends Component {
                         <Menu theme="dark" mode="inline" className="cms-menu">
                             <Menu.Item key="dashboard">
                                 <Icon type="dashboard"/>
-                                <span><Link to="dashboard"
+                                <span><Link to="/dashboard"
                                             className="cms-link">监控面板</Link></span>
                             </Menu.Item>
                             <SubMenu
@@ -68,9 +69,10 @@ class Home extends Component {
                                     </span>
                                 }
                             >
-                                <Menu.Item key="user-management">用户管理</Menu.Item>
-                                <Menu.Item key="role-management">角色管理</Menu.Item>
-                                <Menu.Item key="permission-management">权限管理</Menu.Item>
+                                <Menu.Item key="user-manage"><Link to="/user/user-manage"
+                                                                   className="cms-link">用户管理</Link></Menu.Item>
+                                <Menu.Item key="role-manage">角色管理</Menu.Item>
+                                <Menu.Item key="permission-manage">权限管理</Menu.Item>
                             </SubMenu>
                         </Menu>
                     </Sider>
@@ -91,7 +93,9 @@ class Home extends Component {
                             </div>
                         </Header>
                         <Content className="cms-content">
+                            <Redirect path="/" to="/dashboard"/>
                             <Route exact path="/dashboard" component={DashBoard}/>
+                            <Route exact path="/user/user-manage" component={UserManage}/>
                             <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                         </Content>
                     </Layout>

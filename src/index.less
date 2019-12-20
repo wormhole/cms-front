@@ -3,18 +3,54 @@ html {
   width: 100%;
   margin: 0;
   padding: 0;
+
+  body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    #app {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+
+      .cms-page {
+        height: 100%;
+        overflow: auto;
+
+        .cms-breadcrumb {
+          padding: 15px 25px;
+          font-size: 15px;
+        }
+
+        .cms-body {
+          margin: 0 25px;
+          padding: 20px;
+          background: #FFFFFF;
+          border-radius: 5px;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+
+          .cms-button-group {
+            .cms-button {
+              margin: 10px 20px 10px 0;
+              width: 100px;
+              height: 35px;
+            }
+          }
+
+          .cms-table {
+            .ant-table {
+              background: #FFFFFF;
+            }
+          }
+        }
+
+      }
+    }
+  }
 }
 
-body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
 
-#app {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+

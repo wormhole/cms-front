@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Breadcrumb} from 'antd';
 import {Link} from 'react-router-dom';
-import './dashboard.less';
 
 class DashBoard extends Component {
     constructor(props) {
