@@ -89,7 +89,7 @@ class Home extends Component {
                                 onClick={this.handleToggle.bind(this)}
                             />
                             <div className="cms-user">
-                                <Dropdown overlay={userDrop} className="cms-dropdown">
+                                <Dropdown overlay={userDrop} className="cms-dropdown" placement="bottomRight">
                                     <a className="ant-dropdown-link" href="#">
                                         admin<Icon type="down"/>
                                     </a>
