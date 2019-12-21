@@ -241,10 +241,13 @@ class UserManage extends Component {
                     title="分配角色"
                     visible={this.props.userManage.transferShow}
                     onOk={this.handleTransferOk.bind(this)}
-                    onCancel={this.handleTransferCancel.bind(this)}>
+                    onCancel={this.handleTransferCancel.bind(this)}
+                    cancelText="取消"
+                    okText="分配">
                     <Transfer
                         showSearch
                         titles={['未分配', '已分配']}
+                        locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
                         dataSource={transferData}
                         filterOption={this.handleFilter.bind(this)}
                         targetKeys={[2]}
