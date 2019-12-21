@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Button, message, Table, Tag} from 'antd';
+import {Breadcrumb, Button, Input, message, Table, Tag} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
@@ -19,21 +19,42 @@ class UserManage extends Component {
             page: pagination.current,
             roleIds: filters.roles ? filters.roles : [],
             sort: sorter.field ? sorter.field : null,
-            order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null
+            order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
+            key: this.props.userManage.key
         };
         this.loading(params);
     };
 
+    handleSearch(key) {
+        let params = {
+            page: 1,
+            limit: 10,
+            sort: this.props.userManage.sort,
+            order: this.props.userManage.order,
+            roles: this.props.userManage.roles,
+            key: key
+        };
+        this.loading(params);
+    }
+
+    handleSearchValueChange(e) {
+        this.props.save({keyValue: e.target.value});
+    }
+
     componentDidMount() {
         let params = {
             page: 1,
-            limit: 10
+            limit: 10,
+            sort: null,
+            order: null,
+            key: null,
+            roles: []
         };
         this.loading(params);
     }
 
     loading(params) {
-        this.props.save({loading: true});
+        this.props.save({loading: true, sort: params.sort, order: params.order, key: params.key, roles: params.roles});
         axios.get('/api/user/user_manage/list', {
             params: {
                 ...params
@@ -132,6 +153,13 @@ class UserManage extends Component {
                         <Button type="danger" className="cms-button">删除</Button>
                         <Button type="primary" className="cms-button" ghost>启用</Button>
                         <Button type="danger" className="cms-button" ghost>禁用</Button>
+                        <Input.Search
+                            placeholder="请输入关键字"
+                            onSearch={this.handleSearch.bind(this)}
+                            onChange={this.handleSearchValueChange.bind(this)}
+                            value={this.props.userManage.keyValue}
+                            className="cms-search"
+                        />
                     </div>
                     <Table
                         className="cms-table"
