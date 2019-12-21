@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Button, Input, message, Table, Tag} from 'antd';
+import {Breadcrumb, Button, Input, message, Table, Tag, Tooltip} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
@@ -142,7 +142,37 @@ class UserManage extends Component {
                     render: (enabled) => (
                         <span>{enabled === 1 ? '启用' : '禁用'}</span>
                     )
-                }
+                },
+            {
+                title: '操作',
+                key: 'deletable',
+                dataIndex: 'deletable',
+                fixed: 'right',
+                width: 325,
+                render: (deletable) => (
+                    <div>
+                        <Tooltip placement="top" title={"编辑"}>
+                            <Button type="primary" className="cms-inner-button" icon="edit" ghost/>
+                        </Tooltip>
+                        {deletable === 1 ?
+                            <span>
+                                    <Tooltip placement="top" title={"删除"}>
+                                        <Button type="danger" className="cms-inner-button" icon="delete" ghost/>
+                                    </Tooltip>
+                                    <Tooltip placement="top" title={"启用"}>
+                                        <Button type="primary" className="cms-inner-button" icon="check" ghost/>
+                                    </Tooltip>
+                                    <Tooltip placement="top" title={"禁用"}>
+                                        <Button type="danger" className="cms-inner-button" icon="close" ghost/>
+                                    </Tooltip>
+                                    <Tooltip placement="top" title={"分配角色"}>
+                                        <Button type="primary" className="cms-inner-button" icon="user-add" ghost/>
+                                    </Tooltip>
+                                </span> : null
+                        }
+                    </div>
+                )
+            },
             ]
         ;
 
@@ -162,8 +192,9 @@ class UserManage extends Component {
                     <div className="cms-button-group">
                         <Button type="primary" className="cms-button">新增</Button>
                         <Button type="danger" className="cms-button">删除</Button>
-                        <Button type="primary" className="cms-button" ghost>启用</Button>
-                        <Button type="danger" className="cms-button" ghost>禁用</Button>
+                        <Button type="primary" className="cms-button">启用</Button>
+                        <Button type="danger" className="cms-button">禁用</Button>
+                        <Button type="primary" className="cms-button">分配角色</Button>
                         <Input.Search
                             placeholder="请输入关键字"
                             onSearch={this.handleSearch.bind(this)}
@@ -180,6 +211,7 @@ class UserManage extends Component {
                         pagination={this.props.userManage.pagination}
                         loading={this.props.userManage.loading}
                         onChange={this.handleTableChange.bind(this)}
+                        scroll={{x: 1300}}
                         bordered
                     />
                 </div>
