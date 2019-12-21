@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Button, Table, Tag} from 'antd';
+import {Breadcrumb, Button, message, Table, Tag} from 'antd';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 class UserManage extends Component {
+
     constructor(props) {
         super(props);
     }
@@ -13,10 +15,52 @@ class UserManage extends Component {
 
     handleTableChange(pagination, filters, sorter) {
         this.props.save({pagination});
-        console.log(pagination);
-        console.log(filters);
-        console.log(sorter);
+        let params = {
+            limit: pagination.pageSize,
+            page: pagination.current,
+            roleIds: filters.roles ? filters.roles : [],
+            sort: sorter.field ? sorter.field : null,
+            order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null
+        };
+        this.loading(params);
     };
+
+    componentDidMount() {
+        let params = {
+            page: 1,
+            limit: 10
+        };
+        this.loading(params);
+    }
+
+    loading(params) {
+        axios.get('/api/user/user_manage/list', {
+            params: {
+                ...params
+            }
+        }).then(function (response) {
+            console.log(response);
+            if (response.data.status) {
+                let pagination = {
+                    current: params.page,
+                    pageSize: params.limit,
+                    total: response.data.data.total,
+                };
+                let dataSource = [];
+                response.data.data.list.map((user) => {
+                        dataSource.push({
+                            ...user,
+                            key: user.id
+                        })
+                    }
+                );
+                this.props.save({pagination: pagination, dataSource: dataSource});
+            }
+        }).catch(function (error) {
+            console.log(error);
+            message.error("服务器错误");
+        });
+    }
 
     render() {
 
@@ -38,13 +82,13 @@ class UserManage extends Component {
                 },
                 {
                     title: '角色',
-                    dataIndex: 'role',
-                    key: 'role',
+                    dataIndex: 'roles',
+                    key: 'roles',
                     render: (roles) => (
                         <span>
                               {roles.map(role => (
-                                  <Tag color="blue" key={role}>
-                                      {role}
+                                  <Tag color="blue" key={role.id}>
+                                      {role.name}
                                   </Tag>
                               ))}
                         </span>
@@ -52,7 +96,10 @@ class UserManage extends Component {
                     filters: [
                         {
                             text: 'admin',
-                            value: 'admin'
+                            value: 'ad66668e-bbc4-4209-91fe-0c581c9e4e93'
+                        }, {
+                            text: 'guest',
+                            value: '44a2b276-a27f-4662-bb5e-70094a624391'
                         }
                     ]
                 },
