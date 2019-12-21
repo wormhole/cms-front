@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Button, Input, message, Table, Tag, Tooltip, Transfer} from 'antd';
+import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Tooltip, Transfer} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
@@ -50,6 +50,14 @@ class UserManage extends Component {
 
     handleFilter(filterValue, option) {
         return option.name.indexOf(filterValue) > -1;
+    }
+
+    handleTransferOk() {
+
+    }
+
+    handleTransferCancel() {
+
     }
 
     loading(params) {
@@ -229,15 +237,21 @@ class UserManage extends Component {
                         bordered
                     />
                 </div>
-                {this.props.userManage.transferShow ?
+                <Modal
+                    title="分配角色"
+                    visible={this.props.userManage.transferShow}
+                    onOk={this.handleTransferOk.bind(this)}
+                    onCancel={this.handleTransferCancel.bind(this)}>
                     <Transfer
                         showSearch
+                        titles={['未分配', '已分配']}
                         dataSource={transferData}
                         filterOption={this.handleFilter.bind(this)}
                         targetKeys={[2]}
                         onChange={null}
                         render={item => item.name}
-                    /> : null}
+                    />
+                </Modal>
             </div>
         )
     }
