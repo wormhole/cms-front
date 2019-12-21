@@ -138,7 +138,7 @@ class UserManage extends Component {
                     title: '状态',
                     dataIndex: 'enabled',
                     key: 'enabled',
-                    sorter: (a, b) => null,
+                    sorter: true,
                     render: (enabled) => (
                         <span>{enabled === 1 ? '启用' : '禁用'}</span>
                     )
@@ -149,13 +149,14 @@ class UserManage extends Component {
                 dataIndex: 'deletable',
                 fixed: 'right',
                 width: 325,
-                render: (deletable) => (
-                    <div>
-                        <Tooltip placement="top" title={"编辑"}>
-                            <Button type="primary" className="cms-inner-button" icon="edit" ghost/>
-                        </Tooltip>
-                        {deletable === 1 ?
-                            <span>
+                render: (deletable, recoder) => {
+                    return (
+                        <div>
+                            <Tooltip placement="top" title={"编辑"}>
+                                <Button type="primary" className="cms-inner-button" icon="edit" ghost/>
+                            </Tooltip>
+                            {deletable === 1 ?
+                                <span>
                                     <Tooltip placement="top" title={"删除"}>
                                         <Button type="danger" className="cms-inner-button" icon="delete" ghost/>
                                     </Tooltip>
@@ -169,9 +170,10 @@ class UserManage extends Component {
                                         <Button type="primary" className="cms-inner-button" icon="user-add" ghost/>
                                     </Tooltip>
                                 </span> : null
-                        }
-                    </div>
-                )
+                            }
+                        </div>
+                    )
+                }
             },
             ]
         ;
