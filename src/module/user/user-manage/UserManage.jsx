@@ -243,7 +243,8 @@ class UserManage extends Component {
                     onOk={this.handleTransferOk.bind(this)}
                     onCancel={this.handleTransferCancel.bind(this)}
                     cancelText="取消"
-                    okText="分配">
+                    okText="分配"
+                    width="450px">
                     <Transfer
                         showSearch
                         titles={['未分配', '已分配']}
