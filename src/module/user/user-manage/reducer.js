@@ -9,7 +9,8 @@ const initState = {
     },
     pagination: {current: 1, pageSize: 10},
     dataSource: [],
-    loading: false
+    loading: false,
+    transferShow: false
 };
 
 const userManageReducer = (state = initState, action) => {

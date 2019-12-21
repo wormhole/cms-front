@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Button, Input, message, Table, Tag, Tooltip} from 'antd';
+import {Breadcrumb, Button, Input, message, Table, Tag, Tooltip, Transfer} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,6 +7,15 @@ class UserManage extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        let params = {
+            page: 1,
+            limit: 10,
+            ...this.props.userManage.params
+        };
+        this.loading(params);
     }
 
     handleSelected(selectedRowKeys) {
@@ -39,13 +48,8 @@ class UserManage extends Component {
         this.props.save({keyValue: e.target.value});
     }
 
-    componentDidMount() {
-        let params = {
-            page: 1,
-            limit: 10,
-            ...this.props.userManage.params
-        };
-        this.loading(params);
+    handleFilter(filterValue, option) {
+        return option.name.indexOf(filterValue) > -1;
     }
 
     loading(params) {
@@ -183,6 +187,14 @@ class UserManage extends Component {
             onChange: this.handleSelected.bind(this)
         };
 
+        const transferData = [{
+            key: 1,
+            name: 'admin'
+        }, {
+            key: 2,
+            name: 'guest'
+        }];
+
         return (
             <div className="cms-page">
                 <Breadcrumb className="cms-breadcrumb">
@@ -217,6 +229,15 @@ class UserManage extends Component {
                         bordered
                     />
                 </div>
+                {this.props.userManage.transferShow ?
+                    <Transfer
+                        showSearch
+                        dataSource={transferData}
+                        filterOption={this.handleFilter.bind(this)}
+                        targetKeys={[2]}
+                        onChange={null}
+                        render={item => item.name}
+                    /> : null}
             </div>
         )
     }
