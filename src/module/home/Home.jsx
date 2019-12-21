@@ -24,15 +24,15 @@ class Home extends Component {
     };
 
     handleLogout() {
-        axios.get('/api/logout').then(res => {
-            if (res.data.status === true) {
-                message.success(res.data.message);
+        axios.get('/api/logout').then(response => {
+            if (response.data.status === true) {
+                message.success(response.data.message);
                 this.props.history.push("/login");
             } else {
-                message.error(res.data.message);
+                message.error(response.data.message);
             }
         }).catch(error => {
-            message.error("服务器错误");
+            message.error(error.response.data.message);
         });
     }
 
