@@ -14,7 +14,6 @@ class UserManage extends Component {
     }
 
     handleTableChange(pagination, filters, sorter) {
-        this.props.save({pagination});
         let params = {
             limit: pagination.pageSize,
             page: pagination.current,
@@ -38,8 +37,7 @@ class UserManage extends Component {
             params: {
                 ...params
             }
-        }).then(function (response) {
-            console.log(response);
+        }).then(response => {
             if (response.data.status) {
                 let pagination = {
                     current: params.page,
@@ -56,8 +54,7 @@ class UserManage extends Component {
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource});
             }
-        }).catch(function (error) {
-            console.log(error);
+        }).catch(error => {
             message.error("服务器错误");
         });
     }
@@ -69,6 +66,7 @@ class UserManage extends Component {
                     title: '用户名',
                     dataIndex: 'username',
                     key: 'username',
+                    sorter: (a, b) => null
                 },
                 {
                     title: '电话',
