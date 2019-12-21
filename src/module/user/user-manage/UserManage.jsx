@@ -130,6 +130,8 @@ class UserManage extends Component {
                     <div className="cms-button-group">
                         <Button type="primary" className="cms-button">新增</Button>
                         <Button type="danger" className="cms-button">删除</Button>
+                        <Button type="primary" className="cms-button" ghost>启用</Button>
+                        <Button type="danger" className="cms-button" ghost>禁用</Button>
                     </div>
                     <Table
                         className="cms-table"
