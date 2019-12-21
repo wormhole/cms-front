@@ -1,7 +1,8 @@
 const initState = {
     selectedRowKeys: [],
     pagination: {},
-    dataSource: []
+    dataSource: [],
+    loading: false
 };
 
 const userManageReducer = (state = initState, action) => {

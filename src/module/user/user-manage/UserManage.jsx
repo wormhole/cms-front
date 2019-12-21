@@ -33,6 +33,7 @@ class UserManage extends Component {
     }
 
     loading(params) {
+        this.props.save({loading: true});
         axios.get('/api/user/user_manage/list', {
             params: {
                 ...params
@@ -52,7 +53,7 @@ class UserManage extends Component {
                         })
                     }
                 );
-                this.props.save({pagination: pagination, dataSource: dataSource});
+                this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
             }
         }).catch(error => {
             message.error("服务器错误");
@@ -136,6 +137,7 @@ class UserManage extends Component {
                         columns={columns}
                         dataSource={this.props.userManage.dataSource}
                         pagination={this.props.userManage.pagination}
+                        loading={this.props.userManage.loading}
                         onChange={this.handleTableChange.bind(this)}
                         bordered
                     />
