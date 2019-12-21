@@ -20,7 +20,7 @@ class UserManage extends Component {
             roleIds: filters.roles ? filters.roles : [],
             sort: sorter.field ? sorter.field : null,
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
-            key: this.props.userManage.key
+            key: this.props.userManage.params.key
         };
         this.loading(params);
     };
@@ -29,9 +29,7 @@ class UserManage extends Component {
         let params = {
             page: 1,
             limit: 10,
-            sort: this.props.userManage.sort,
-            order: this.props.userManage.order,
-            roles: this.props.userManage.roles,
+            ...this.props.userManage.params,
             key: key
         };
         this.loading(params);
@@ -45,16 +43,16 @@ class UserManage extends Component {
         let params = {
             page: 1,
             limit: 10,
-            sort: null,
-            order: null,
-            key: null,
-            roles: []
+            ...this.props.userManage.params
         };
         this.loading(params);
     }
 
     loading(params) {
-        this.props.save({loading: true, sort: params.sort, order: params.order, key: params.key, roles: params.roles});
+        this.props.save({
+            loading: true,
+            params: {sort: params.sort, order: params.order, key: params.key, roles: params.roles}
+        });
         axios.get('/api/user/user_manage/list', {
             params: {
                 ...params

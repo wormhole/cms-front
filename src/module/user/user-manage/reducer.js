@@ -1,10 +1,12 @@
 const initState = {
     selectedRowKeys: [],
     keyValue: null,
-    key: null,
-    sort: null,
-    order: null,
-    roles: [],
+    params: {
+        key: null,
+        sort: null,
+        order: null,
+        roles: []
+    },
     pagination: {current: 1, pageSize: 10},
     dataSource: [],
     loading: false
