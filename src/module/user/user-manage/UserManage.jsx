@@ -73,9 +73,22 @@ class UserManage extends Component {
                     }
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
+            } else {
+                message.error(response.data.message);
             }
         }).catch(error => {
-            message.error("服务器错误");
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
         });
     }
 

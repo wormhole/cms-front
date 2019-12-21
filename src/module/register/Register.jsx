@@ -17,17 +17,29 @@ class Register extends Component {
             vcode: this.props.register.vcode,
             password: this.props.register.password,
             checkPassword: this.props.register.checkPassword
-        }).then(res => {
-            if (res.data.status) {
-                message.success(res.data.message);
-                this.props.save({vcodeApi: '/api/vcode?' + Math.random()});
+        }).then(response => {
+            if (response.data.status === true) {
+                message.success(response.data.message);
+                this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
             } else {
-                message.error(res.data.message);
-                this.props.save({vcodeApi: '/api/vcode?' + Math.random()});
+                message.error(response.data.message);
+                this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
             }
         }).catch(error => {
-            message.error("服务器错误");
-            this.props.save({vcodeApi: '/api/vcode?' + Math.random()});
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    break;
+            }
         });
     };
 
