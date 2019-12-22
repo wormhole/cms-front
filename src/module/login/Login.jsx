@@ -61,7 +61,7 @@ class Login extends Component {
                 <div className="cms-login-outer">
                     <h3>用户登录</h3>
                     <div className="cms-login-inner">
-                        <Form onSubmit={this.handleSubmit.bind(this)} className="login-form">
+                        <Form onSubmit={this.handleSubmit.bind(this)} className="cms-login-form">
                             <Form.Item>
                                 <Input
                                     prefix={<Icon type="user" className='cms-icon'/>}

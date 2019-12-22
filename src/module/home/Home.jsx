@@ -5,7 +5,7 @@ import axios from 'axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
 import DashBoard from '../dashboard/DashBoard';
-import UserManage from '../user/user-manage';
+import UserManage, {Add} from '../user/user-manage';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -100,6 +100,7 @@ class Home extends Component {
                             <Redirect path="/" to="/dashboard"/>
                             <Route exact path="/dashboard" component={DashBoard}/>
                             <Route exact path="/user/user-manage" component={UserManage}/>
+                            <Route exact path="/user/user-manage/add" component={Add}/>
                             <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                         </Content>
                     </Layout>

@@ -57,7 +57,7 @@ class Register extends Component {
                 <div className="cms-register-outer">
                     <h3>用户注册</h3>
                     <div className="cms-register-inner">
-                        <Form onSubmit={this.handleSubmit.bind(this)} className="register-form">
+                        <Form onSubmit={this.handleSubmit.bind(this)} className="cms-register-form">
                             <Form.Item>
                                 <Input
                                     prefix={<Icon type="user" className='cms-icon'/>}

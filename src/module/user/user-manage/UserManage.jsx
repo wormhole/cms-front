@@ -48,6 +48,10 @@ class UserManage extends Component {
         this.props.save({keyValue: e.target.value});
     }
 
+    handleAdd() {
+        this.props.history.push("/user/user-manage/add");
+    }
+
     handleDelete(ids) {
         if (ids.length === 0) {
             message.warning("请至少选择一条数据");
@@ -434,7 +438,7 @@ class UserManage extends Component {
                 </Breadcrumb>
                 <div className="cms-body">
                     <div className="cms-button-group">
-                        <Button type="primary" className="cms-button">添加用户</Button>
+                        <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加用户</Button>
                         <Button type="danger" className="cms-button"
                                 disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.userManage.selectedRowKeys)}>删除用户</Button>
