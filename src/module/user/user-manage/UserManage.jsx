@@ -63,7 +63,7 @@ class UserManage extends Component {
     loading(params) {
         this.props.save({
             loading: true,
-            params: {sort: params.sort, order: params.order, key: params.key, roles: params.roles}
+            params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
         });
         axios.get('/api/user/user_manage/list', {
             params: {

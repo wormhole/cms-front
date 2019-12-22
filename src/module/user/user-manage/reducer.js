@@ -5,12 +5,12 @@ const initState = {
         key: null,
         sort: null,
         order: null,
-        roles: []
+        roleIds: []
     },
     pagination: {current: 1, pageSize: 10},
     dataSource: [],
     loading: false,
-    transferShow: true
+    transferShow: false
 };
 
 const userManageReducer = (state = initState, action) => {
