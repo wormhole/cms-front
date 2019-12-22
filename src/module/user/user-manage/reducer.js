@@ -9,6 +9,7 @@ const initState = {
     },
     pagination: {current: 1, pageSize: 10},
     dataSource: [],
+    filters: [],
     loading: false,
     transferModalShow: false,
     transferData: [],

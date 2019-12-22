@@ -15,7 +15,8 @@ class UserManage extends Component {
             limit: 10,
             ...this.props.userManage.params
         };
-        this.loading(params);
+        this.loadTable(params);
+        this.loadFilters();
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -31,7 +32,7 @@ class UserManage extends Component {
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
             key: this.props.userManage.params.key
         };
-        this.loading(params);
+        this.loadTable(params);
     };
 
     handleTableSearch(key) {
@@ -41,7 +42,7 @@ class UserManage extends Component {
             ...this.props.userManage.params,
             key: key
         };
-        this.loading(params);
+        this.loadTable(params);
     }
 
     handleTableSearchValueChange(e) {
@@ -72,7 +73,7 @@ class UserManage extends Component {
                         limit: 10,
                         ...this.props.userManage.params
                     };
-                    this.loading(params);
+                    this.loadTable(params);
                 } else {
                     message.error(response.data.message);
                 }
@@ -107,7 +108,7 @@ class UserManage extends Component {
                         limit: this.props.userManage.pagination.pageSize,
                         ...this.props.userManage.params
                     };
-                    this.loading(params);
+                    this.loadTable(params);
                 } else {
                     message.error(response.data.message);
                 }
@@ -142,7 +143,7 @@ class UserManage extends Component {
                         limit: this.props.userManage.pagination.pageSize,
                         ...this.props.userManage.params
                     };
-                    this.loading(params);
+                    this.loadTable(params);
                 } else {
                     message.error(response.data.message);
                 }
@@ -242,7 +243,7 @@ class UserManage extends Component {
                     ...this.props.userManage.params
                 };
                 this.props.save({userId: null, transferModalShow: false});
-                this.loading(params);
+                this.loadTable(params);
             } else {
                 message.error(response.data.message);
             }
@@ -268,7 +269,7 @@ class UserManage extends Component {
         })
     }
 
-    loading(params) {
+    loadTable(params) {
         this.props.save({
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
@@ -293,6 +294,36 @@ class UserManage extends Component {
                     }
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
+    loadFilters() {
+        axios.get('/api/user/user_manage/ref_role').then(response => {
+            if (response.data.status) {
+                let filters = [];
+                response.data.data.roles.map((item) => {
+                    filters.push({
+                        text: item.name,
+                        value: item.id
+                    });
+                });
+                this.props.save({filters: filters});
             } else {
                 message.error(response.data.message);
             }
@@ -344,15 +375,7 @@ class UserManage extends Component {
                               ))}
                         </span>
                     ),
-                    filters: [
-                        {
-                            text: 'admin',
-                            value: 'ad66668e-bbc4-4209-91fe-0c581c9e4e93'
-                        }, {
-                            text: 'guest',
-                            value: '44a2b276-a27f-4662-bb5e-70094a624391'
-                        }
-                    ]
+                    filters: this.props.userManage.filters
                 },
                 {
                     title: '状态',
