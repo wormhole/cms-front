@@ -10,7 +10,10 @@ const initState = {
     pagination: {current: 1, pageSize: 10},
     dataSource: [],
     loading: false,
-    transferShow: false
+    transferModalShow: false,
+    transferData: [],
+    transferTargetKeys: [],
+    userId: null
 };
 
 const userManageReducer = (state = initState, action) => {
