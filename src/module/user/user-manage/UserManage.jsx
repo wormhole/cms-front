@@ -16,7 +16,6 @@ class UserManage extends Component {
             ...this.props.userManage.params
         };
         this.loadTable(params);
-        this.loadFilters();
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -294,6 +293,7 @@ class UserManage extends Component {
                     }
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
+                this.loadFilters();
             } else {
                 message.error(response.data.message);
             }
@@ -314,7 +314,7 @@ class UserManage extends Component {
     }
 
     loadFilters() {
-        axios.get('/api/user/user_manage/ref_role').then(response => {
+        axios.get('/api/user/user_manage/filters').then(response => {
             if (response.data.status) {
                 let filters = [];
                 response.data.data.roles.map((item) => {
