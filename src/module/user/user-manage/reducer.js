@@ -14,7 +14,15 @@ const initState = {
     transferModalShow: false,
     transferData: [],
     transferTargetKeys: [],
-    userId: null
+    userId: null,
+    editUser: {
+        id: null,
+        username: null,
+        email: null,
+        telephone: null,
+        password: null,
+        checkPassword: null
+    }
 };
 
 const userManageReducer = (state = initState, action) => {

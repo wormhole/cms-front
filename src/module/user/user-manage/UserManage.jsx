@@ -49,122 +49,121 @@ class UserManage extends Component {
     }
 
     handleAdd() {
-        this.props.history.push("/user/user-manage/add");
+        this.props.history.push({pathname: "/user/user-manage/add", type: "add"});
+    }
+
+    handleEdit(id) {
+        console.log(id);
+        this.props.userManage.dataSource.map((item) => {
+            if (item.id === id) {
+                console.log(item);
+                this.props.save({editUser: {checkPassword: null, password: null, ...item}});
+            }
+        });
+        this.props.history.push({pathname: "/user/user-manage/add", type: "edit"});
     }
 
     handleDelete(ids) {
-        if (ids.length === 0) {
-            message.warning("请至少选择一条数据");
-        } else {
-            axios.delete("/api/user/user_manage/delete", {
-                data: {
-                    ids: ids
-                }
-            }).then(response => {
-                if (response.data.status) {
-                    message.success(response.data.message);
-                    let selectedRowKeys = this.props.userManage.selectedRowKeys;
-                    ids.map((item) => {
-                        let index = selectedRowKeys.indexOf(item);
-                        if (index > -1) {
-                            selectedRowKeys.splice(index, 1);
-                        }
-                    });
-                    this.props.save({selectedRowKeys: selectedRowKeys});
-                    let params = {
-                        page: 1,
-                        limit: 10,
-                        ...this.props.userManage.params
-                    };
-                    this.loadTable(params);
-                } else {
-                    message.error(response.data.message);
-                }
-            }).catch(error => {
-                switch (error.response.status) {
-                    case 401:
-                        message.warning(error.response.data.message);
-                        this.props.history.push("/login");
-                        break;
-                    case 403:
-                        message.error(error.response.data.message);
-                        break;
-                    default:
-                        message.error(error.response.data.message);
-                        break;
-                }
-            });
-        }
+        axios.delete("/api/user/user_manage/delete", {
+            data: {
+                ids: ids
+            }
+        }).then(response => {
+            if (response.data.status) {
+                message.success(response.data.message);
+                let selectedRowKeys = this.props.userManage.selectedRowKeys;
+                ids.map((item) => {
+                    let index = selectedRowKeys.indexOf(item);
+                    if (index > -1) {
+                        selectedRowKeys.splice(index, 1);
+                    }
+                });
+                this.props.save({selectedRowKeys: selectedRowKeys});
+                let params = {
+                    page: 1,
+                    limit: 10,
+                    ...this.props.userManage.params
+                };
+                this.loadTable(params);
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
     }
 
     handleEnabled(ids) {
-        if (ids.length === 0) {
-            message.warning("请至少选择一条数据");
-        } else {
-            axios.put("/api/user/user_manage/enabled", {
-                ids: ids
-            }).then(response => {
-                if (response.data.status) {
-                    message.success(response.data.message);
-                    let params = {
-                        page: this.props.userManage.pagination.current,
-                        limit: this.props.userManage.pagination.pageSize,
-                        ...this.props.userManage.params
-                    };
-                    this.loadTable(params);
-                } else {
-                    message.error(response.data.message);
-                }
-            }).catch(error => {
-                switch (error.response.status) {
-                    case 401:
-                        message.warning(error.response.data.message);
-                        this.props.history.push("/login");
-                        break;
-                    case 403:
-                        message.error(error.response.data.message);
-                        break;
-                    default:
-                        message.error(error.response.data.message);
-                        break;
-                }
-            });
-        }
+        axios.put("/api/user/user_manage/enabled", {
+            ids: ids
+        }).then(response => {
+            if (response.data.status) {
+                message.success(response.data.message);
+                let params = {
+                    page: this.props.userManage.pagination.current,
+                    limit: this.props.userManage.pagination.pageSize,
+                    ...this.props.userManage.params
+                };
+                this.loadTable(params);
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
     }
 
     handleDisabled(ids) {
-        if (ids.length === 0) {
-            message.warning("请至少选择一条数据");
-        } else {
-            axios.put("/api/user/user_manage/disabled", {
-                ids: ids
-            }).then(response => {
-                if (response.data.status) {
-                    message.success(response.data.message);
-                    let params = {
-                        page: this.props.userManage.pagination.current,
-                        limit: this.props.userManage.pagination.pageSize,
-                        ...this.props.userManage.params
-                    };
-                    this.loadTable(params);
-                } else {
-                    message.error(response.data.message);
-                }
-            }).catch(error => {
-                switch (error.response.status) {
-                    case 401:
-                        message.warning(error.response.data.message);
-                        this.props.history.push("/login");
-                        break;
-                    case 403:
-                        message.error(error.response.data.message);
-                        break;
-                    default:
-                        message.error(error.response.data.message);
-                        break;
-                }
-            });
-        }
+        axios.put("/api/user/user_manage/disabled", {
+            ids: ids
+        }).then(response => {
+            if (response.data.status) {
+                message.success(response.data.message);
+                let params = {
+                    page: this.props.userManage.pagination.current,
+                    limit: this.props.userManage.pagination.pageSize,
+                    ...this.props.userManage.params
+                };
+                this.loadTable(params);
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
     }
 
     handleGrantRole(id) {
@@ -400,7 +399,8 @@ class UserManage extends Component {
                     return (
                         <div>
                             <Tooltip placement="top" title={"编辑"}>
-                                <Button type="primary" className="cms-inner-button" icon="edit" ghost/>
+                                <Button type="primary" className="cms-inner-button" icon="edit"
+                                        onClick={this.handleEdit.bind(this, recorder.id)} ghost/>
                             </Tooltip>
                             {deletable === 1 ?
                                 <span>
@@ -439,6 +439,10 @@ class UserManage extends Component {
                 <div className="cms-body">
                     <div className="cms-button-group">
                         <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加</Button>
+                        <Button type="primary" className="cms-button"
+                                disabled={this.props.userManage.selectedRowKeys.length === 1 ? false : true}
+                                onClick={this.handleEdit.bind(this, this.props.userManage.selectedRowKeys[0])}
+                                ghost>编辑</Button>
                         <Button type="danger" className="cms-button"
                                 disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.userManage.selectedRowKeys)}
