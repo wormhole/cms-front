@@ -438,19 +438,23 @@ class UserManage extends Component {
                 </Breadcrumb>
                 <div className="cms-body">
                     <div className="cms-button-group">
-                        <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加用户</Button>
+                        <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加</Button>
                         <Button type="danger" className="cms-button"
                                 disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
-                                onClick={this.handleDelete.bind(this, this.props.userManage.selectedRowKeys)}>删除用户</Button>
+                                onClick={this.handleDelete.bind(this, this.props.userManage.selectedRowKeys)}
+                                ghost>删除</Button>
                         <Button type="primary" className="cms-button"
                                 disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
-                                onClick={this.handleEnabled.bind(this, this.props.userManage.selectedRowKeys)}>启用</Button>
+                                onClick={this.handleEnabled.bind(this, this.props.userManage.selectedRowKeys)}
+                                ghost>启用</Button>
                         <Button type="danger" className="cms-button"
                                 disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
-                                onClick={this.handleDisabled.bind(this, this.props.userManage.selectedRowKeys)}>禁用</Button>
+                                onClick={this.handleDisabled.bind(this, this.props.userManage.selectedRowKeys)}
+                                ghost>禁用</Button>
                         <Button type="primary" className="cms-button"
                                 disabled={this.props.userManage.selectedRowKeys.length === 1 ? false : true}
-                                onClick={this.handleGrantRole.bind(this, this.props.userManage.selectedRowKeys[0])}>分配角色</Button>
+                                onClick={this.handleGrantRole.bind(this, this.props.userManage.selectedRowKeys[0])}
+                                ghost>分配角色</Button>
                         <Input.Search
                             placeholder="请输入关键字"
                             onSearch={this.handleTableSearch.bind(this)}
