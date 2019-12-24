@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Tooltip, Transfer} from 'antd';
+import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
@@ -53,14 +53,21 @@ class UserManage extends Component {
     }
 
     handleEdit(id) {
-        console.log(id);
         this.props.userManage.dataSource.map((item) => {
             if (item.id === id) {
-                console.log(item);
                 this.props.save({editUser: {checkPassword: null, password: null, ...item}});
             }
         });
-        this.props.history.push({pathname: "/user/user-manage/add", type: "edit"});
+        this.props.history.push({pathname: "/user/user-manage/add", type: "edit", content: "base"});
+    }
+
+    handlePassword(id) {
+        this.props.userManage.dataSource.map((item) => {
+            if (item.id === id) {
+                this.props.save({editUser: {checkPassword: null, password: null, ...item}});
+            }
+        });
+        this.props.history.push({pathname: "/user/user-manage/add", type: "edit", content: "password"});
     }
 
     handleDelete(ids) {
@@ -390,36 +397,28 @@ class UserManage extends Component {
                     )
                 },
             {
-                title: '操作',
-                key: 'deletable',
-                dataIndex: 'deletable',
+                title: '操作项',
                 fixed: 'right',
-                width: 325,
-                render: (deletable, recorder) => {
+                width: 270,
+                render: (recorder) => {
                     return (
                         <div>
-                            <Tooltip placement="top" title={"编辑"}>
-                                <Button type="primary" className="cms-inner-button" icon="edit"
-                                        onClick={this.handleEdit.bind(this, recorder.id)} ghost/>
-                            </Tooltip>
-                            {deletable === 1 ?
+                            <a onClick={this.handleEdit.bind(this, recorder.id)}
+                               className="cms-inner-a">编辑</a>
+                            <a onClick={this.handlePassword.bind(this, recorder.id)}
+                               className="cms-inner-danger-a">重置</a>
+                            {recorder.deletable === 1 ?
                                 <span>
-                                    <Tooltip placement="top" title={"删除"}>
-                                        <Button type="danger" className="cms-inner-button" icon="delete"
-                                                onClick={this.handleDelete.bind(this, [recorder.id])} ghost/>
-                                    </Tooltip>
-                                    <Tooltip placement="top" title={"启用"}>
-                                        <Button type="primary" className="cms-inner-button" icon="check"
-                                                onClick={this.handleEnabled.bind(this, [recorder.id])} ghost/>
-                                    </Tooltip>
-                                    <Tooltip placement="top" title={"禁用"}>
-                                        <Button type="danger" className="cms-inner-button" icon="close"
-                                                onClick={this.handleDisabled.bind(this, [recorder.id])} ghost/>
-                                    </Tooltip>
-                                    <Tooltip placement="top" title={"分配角色"}>
-                                        <Button type="primary" className="cms-inner-button" icon="user-add"
-                                                onClick={this.handleGrantRole.bind(this, recorder.id)} ghost/>
-                                    </Tooltip>
+                                        <a onClick={this.handleDelete.bind(this, [recorder.id])}
+                                           className="cms-inner-danger-a">删除</a>
+                                    {recorder.enabled === 1 ?
+                                        <a onClick={this.handleDisabled.bind(this, [recorder.id])}
+                                           className="cms-inner-danger-a">禁用</a> :
+                                        <a onClick={this.handleEnabled.bind(this, [recorder.id])}
+                                           className="cms-inner-a">启用</a>
+                                    }
+                                    <a onClick={this.handleGrantRole.bind(this, recorder.id)}
+                                       className="cms-inner-a">分配</a>
                                 </span> : null
                             }
                         </div>
@@ -439,26 +438,10 @@ class UserManage extends Component {
                 <div className="cms-body">
                     <div className="cms-button-group">
                         <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="primary" className="cms-button"
-                                disabled={this.props.userManage.selectedRowKeys.length === 1 ? false : true}
-                                onClick={this.handleEdit.bind(this, this.props.userManage.selectedRowKeys[0])}
-                                ghost>编辑</Button>
                         <Button type="danger" className="cms-button"
                                 disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.userManage.selectedRowKeys)}
                                 ghost>删除</Button>
-                        <Button type="primary" className="cms-button"
-                                disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
-                                onClick={this.handleEnabled.bind(this, this.props.userManage.selectedRowKeys)}
-                                ghost>启用</Button>
-                        <Button type="danger" className="cms-button"
-                                disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
-                                onClick={this.handleDisabled.bind(this, this.props.userManage.selectedRowKeys)}
-                                ghost>禁用</Button>
-                        <Button type="primary" className="cms-button"
-                                disabled={this.props.userManage.selectedRowKeys.length === 1 ? false : true}
-                                onClick={this.handleGrantRole.bind(this, this.props.userManage.selectedRowKeys[0])}
-                                ghost>分配角色</Button>
                         <Input.Search
                             placeholder="请输入关键字"
                             onSearch={this.handleTableSearch.bind(this)}
