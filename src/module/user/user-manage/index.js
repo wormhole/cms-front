@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import UserManage from './UserManage';
 import action from './action';
 import {withRouter} from 'react-router-dom';
+import UserAdd from "./UserAdd";
 
 const mapStateToProps = (state) => {
     return {
@@ -15,4 +16,5 @@ const mapActionToProps = (dispatch) => {
     }
 };
 
+export const Add = withRouter(connect(mapStateToProps, mapActionToProps)(UserAdd));
 export default withRouter(connect(mapStateToProps, mapActionToProps)(UserManage));

@@ -1,5 +1,8 @@
 const initState = {
-    collapsed: false
+    collapsed: false,
+    logoTextStyle: {
+        display: 'inline'
+    }
 };
 
 const homeReducer = (state = initState, action) => {

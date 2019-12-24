@@ -5,7 +5,7 @@ import axios from 'axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
 import DashBoard from '../dashboard/DashBoard';
-import UserManage from '../user/user-manage';
+import UserManage, {Add} from '../user/user-manage';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -16,20 +16,23 @@ class Home extends Component {
         super(props);
     }
 
-    toggle() {
-        this.props.save({collapsed: !this.props.home.collapsed})
+    handleToggle() {
+        this.props.save({
+            collapsed: !this.props.home.collapsed,
+            logoTextStyle: {display: this.props.home.collapsed ? 'inline' : 'none'}
+        })
     };
 
-    onLogout() {
-        axios.get('/api/logout').then(res => {
-            if (res.data.status === true) {
-                message.success(res.data.message);
+    handleLogout() {
+        axios.get('/api/logout').then(response => {
+            if (response.data.status === true) {
+                message.success(response.data.message);
                 this.props.history.push("/login");
             } else {
-                message.error(res.data.message);
+                message.error(response.data.message);
             }
         }).catch(error => {
-            message.error("服务器错误");
+            message.error(error.response.data.message);
         });
     }
 
@@ -37,12 +40,12 @@ class Home extends Component {
 
         const userDrop = (
             <Menu>
-                <Menu.Item key="personal-info">
+                <Menu.Item key="user-info">
                     <a href="#">个人信息</a>
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item key="logout">
-                    <a href="#" onClick={this.onLogout.bind(this)}>注销</a>
+                    <a href="#" onClick={this.handleLogout.bind(this)}>注销</a>
                 </Menu.Item>
             </Menu>
         );
@@ -52,27 +55,29 @@ class Home extends Component {
                 <Layout className="cms-layout">
                     <Sider className="cms-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
                         <div className="cms-logo">
-                            <div>内容管理系统</div>
+                            <Avatar shape="square" size={40} src={logo} className="cms-avatar"/>
+                            <span className="cms-logo-text" style={this.props.home.logoTextStyle}>内容管理系统</span>
                         </div>
                         <Menu theme="dark" mode="inline" className="cms-menu">
-                            <Menu.Item key="dashboard">
-                                <Icon type="dashboard"/>
+                            <Menu.Item key="dashboard" className="cms-menu-item">
+                                <Icon type="dashboard" size={40}/>
                                 <span><Link to="/dashboard"
                                             className="cms-link">监控面板</Link></span>
                             </Menu.Item>
                             <SubMenu
+                                className="cms-submenu"
                                 key="user"
                                 title={
-                                    <span>
-                                        <Icon type="user"/>
+                                    <span className="cms-submenu-title">
+                                        <Icon type="team" size={40}/>
                                         <span>用户与权限</span>
                                     </span>
                                 }
                             >
-                                <Menu.Item key="user-manage"><Link to="/user/user-manage"
-                                                                   className="cms-link">用户管理</Link></Menu.Item>
-                                <Menu.Item key="role-manage">角色管理</Menu.Item>
-                                <Menu.Item key="permission-manage">权限管理</Menu.Item>
+                                <Menu.Item key="user-manage" className="cms-menu-item"><Link to="/user/user-manage"
+                                                                                             className="cms-link">用户管理</Link></Menu.Item>
+                                <Menu.Item key="role-manage" className="cms-menu-item">角色管理</Menu.Item>
+                                <Menu.Item key="permission-manage" className="cms-menu-item">权限管理</Menu.Item>
                             </SubMenu>
                         </Menu>
                     </Sider>
@@ -81,12 +86,11 @@ class Home extends Component {
                             <Icon
                                 className="cms-trigger"
                                 type={this.props.home.collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={this.toggle.bind(this)}
+                                onClick={this.handleToggle.bind(this)}
                             />
                             <div className="cms-user">
-                                <Dropdown overlay={userDrop} className="cms-dropdown">
+                                <Dropdown overlay={userDrop} className="cms-dropdown" placement="bottomRight">
                                     <a className="ant-dropdown-link" href="#">
-                                        <Avatar size={40} src={logo} className="cms-avatar"/>
                                         admin<Icon type="down"/>
                                     </a>
                                 </Dropdown>
@@ -96,6 +100,7 @@ class Home extends Component {
                             <Redirect path="/" to="/dashboard"/>
                             <Route exact path="/dashboard" component={DashBoard}/>
                             <Route exact path="/user/user-manage" component={UserManage}/>
+                            <Route exact path="/user/user-manage/add" component={Add}/>
                             <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                         </Content>
                     </Layout>

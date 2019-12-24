@@ -15,17 +15,31 @@ class Login extends Component {
             password: this.props.login.password,
             vcode: this.props.login.vcode,
             rememberMe: this.props.login.rememberMe
-        }).then(res => {
-            if (res.data.status === true) {
-                message.success(res.data.message);
+        }).then(response => {
+
+            if (response.data.status === true) {
+                message.success(response.data.message);
                 this.props.history.push("/");
             } else {
-                message.error(res.data.message);
+                message.error(response.data.message);
                 this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
             }
+
         }).catch(error => {
-            message.error("服务器错误");
-            this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    break;
+            }
         });
     };
 
@@ -47,7 +61,7 @@ class Login extends Component {
                 <div className="cms-login-outer">
                     <h3>用户登录</h3>
                     <div className="cms-login-inner">
-                        <Form onSubmit={this.handleSubmit.bind(this)} className="login-form">
+                        <Form onSubmit={this.handleSubmit.bind(this)} className="cms-login-form">
                             <Form.Item>
                                 <Input
                                     prefix={<Icon type="user" className='cms-icon'/>}
