@@ -3,10 +3,10 @@ import React from "react";
 import {Route} from "react-router-dom";
 
 const UserRouter = () => (
-    <Route path="/user">
+    <div>
         <Route exact path="/user/user-manage" component={UserManage}/>
         <Route exact path="/user/user-manage/add" component={Add}/>
-    </Route>
+    </div>
 );
 
 export default UserRouter;
