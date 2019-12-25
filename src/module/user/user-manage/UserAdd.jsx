@@ -6,6 +6,7 @@ import axios from "axios";
 class UserAdd extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.location);
     }
 
     handleBack() {
@@ -34,6 +35,8 @@ class UserAdd extends Component {
                     type: 1
                 }
             }
+        } else {
+
         }
 
         axios.put("/api/user/user_manage/update", param).then(response => {
