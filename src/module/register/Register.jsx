@@ -15,8 +15,7 @@ class Register extends Component {
             telephone: this.props.register.telephone,
             email: this.props.register.email,
             vcode: this.props.register.vcode,
-            password: this.props.register.password,
-            checkPassword: this.props.register.checkPassword
+            password: this.props.register.password
         }).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
