@@ -1,6 +1,6 @@
 const action = (state) => {
     return {
-        type: 'user-manage',
+        type: 'user',
         state: state
     }
 };

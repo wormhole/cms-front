@@ -3,7 +3,7 @@ import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from 'a
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-class UserManage extends Component {
+class User extends Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +13,7 @@ class UserManage extends Component {
         let params = {
             page: 1,
             limit: 10,
-            ...this.props.userManage.params
+            ...this.props.user.params
         };
         this.loadTable(params);
     }
@@ -29,7 +29,7 @@ class UserManage extends Component {
             roleIds: filters.roles ? filters.roles : [],
             sort: sorter.field ? sorter.field : null,
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
-            key: this.props.userManage.params.key
+            key: this.props.user.params.key
         };
         this.loadTable(params);
     };
@@ -38,7 +38,7 @@ class UserManage extends Component {
         let params = {
             page: 1,
             limit: 10,
-            ...this.props.userManage.params,
+            ...this.props.user.params,
             key: key
         };
         this.loadTable(params);
@@ -49,36 +49,36 @@ class UserManage extends Component {
     }
 
     handleAdd() {
-        this.props.history.push({pathname: "/user/user-manage/add", type: "add"});
+        this.props.history.push({pathname: "/auth/user/add", type: "add"});
     }
 
     handleEdit(id) {
-        this.props.userManage.dataSource.map((item) => {
+        this.props.user.dataSource.map((item) => {
             if (item.id === id) {
                 this.props.save({editUser: {checkPassword: null, password: null, ...item}});
             }
         });
-        this.props.history.push({pathname: "/user/user-manage/add", type: "edit", content: "base"});
+        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "base"});
     }
 
     handlePassword(id) {
-        this.props.userManage.dataSource.map((item) => {
+        this.props.user.dataSource.map((item) => {
             if (item.id === id) {
                 this.props.save({editUser: {checkPassword: null, password: null, ...item}});
             }
         });
-        this.props.history.push({pathname: "/user/user-manage/add", type: "edit", content: "password"});
+        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "password"});
     }
 
     handleDelete(ids) {
-        axios.delete("/api/user/user_manage/delete", {
+        axios.delete("/api/auth/user/delete", {
             data: {
                 ids: ids
             }
         }).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
-                let selectedRowKeys = this.props.userManage.selectedRowKeys;
+                let selectedRowKeys = this.props.user.selectedRowKeys;
                 ids.map((item) => {
                     let index = selectedRowKeys.indexOf(item);
                     if (index > -1) {
@@ -89,7 +89,7 @@ class UserManage extends Component {
                 let params = {
                     page: 1,
                     limit: 10,
-                    ...this.props.userManage.params
+                    ...this.props.user.params
                 };
                 this.loadTable(params);
             } else {
@@ -112,15 +112,15 @@ class UserManage extends Component {
     }
 
     handleEnabled(ids) {
-        axios.put("/api/user/user_manage/enabled", {
+        axios.put("/api/auth/user/enabled", {
             ids: ids
         }).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
                 let params = {
-                    page: this.props.userManage.pagination.current,
-                    limit: this.props.userManage.pagination.pageSize,
-                    ...this.props.userManage.params
+                    page: this.props.user.pagination.current,
+                    limit: this.props.user.pagination.pageSize,
+                    ...this.props.user.params
                 };
                 this.loadTable(params);
             } else {
@@ -143,15 +143,15 @@ class UserManage extends Component {
     }
 
     handleDisabled(ids) {
-        axios.put("/api/user/user_manage/disabled", {
+        axios.put("/api/auth/user/disabled", {
             ids: ids
         }).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
                 let params = {
-                    page: this.props.userManage.pagination.current,
-                    limit: this.props.userManage.pagination.pageSize,
-                    ...this.props.userManage.params
+                    page: this.props.user.pagination.current,
+                    limit: this.props.user.pagination.pageSize,
+                    ...this.props.user.params
                 };
                 this.loadTable(params);
             } else {
@@ -174,7 +174,7 @@ class UserManage extends Component {
     }
 
     handleGrantRole(id) {
-        axios.get("/api/user/user_manage/ref_user_role", {
+        axios.get("/api/auth/user/ref_user_role", {
             params: {
                 id: id
             }
@@ -222,7 +222,7 @@ class UserManage extends Component {
 
     handleTransferChange(targetKeys, direction, moveKeys) {
         if (direction === 'left') {
-            let targetKeys = this.props.userManage.transferTargetKeys;
+            let targetKeys = this.props.user.transferTargetKeys;
             moveKeys.map((item) => {
                 let index = targetKeys.indexOf(item);
                 if (index > -1) {
@@ -231,7 +231,7 @@ class UserManage extends Component {
             });
             this.props.save({transferTargetKeys: targetKeys});
         } else if (direction === 'right') {
-            let targetKeys = this.props.userManage.transferTargetKeys;
+            let targetKeys = this.props.user.transferTargetKeys;
             moveKeys.map((item) => {
                 targetKeys.push(item);
             });
@@ -240,16 +240,16 @@ class UserManage extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/api/user/user_manage/grant_role", {
-            userId: this.props.userManage.userId,
-            roleIds: this.props.userManage.transferTargetKeys
+        axios.put("/api/auth/user/grant_role", {
+            userId: this.props.user.userId,
+            roleIds: this.props.user.transferTargetKeys
         }).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
                 let params = {
-                    page: this.props.userManage.pagination.current,
-                    limit: this.props.userManage.pagination.pageSize,
-                    ...this.props.userManage.params
+                    page: this.props.user.pagination.current,
+                    limit: this.props.user.pagination.pageSize,
+                    ...this.props.user.params
                 };
                 this.props.save({userId: null, transferModalShow: false});
                 this.loadTable(params);
@@ -283,7 +283,7 @@ class UserManage extends Component {
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
         });
-        axios.get('/api/user/user_manage/list', {
+        axios.get('/api/auth/user/list', {
             params: {
                 ...params
             }
@@ -324,7 +324,7 @@ class UserManage extends Component {
     }
 
     loadFilters() {
-        axios.get('/api/user/user_manage/filters').then(response => {
+        axios.get('/api/auth/user/filters').then(response => {
             if (response.data.status) {
                 let filters = [];
                 response.data.data.roles.map((item) => {
@@ -385,7 +385,7 @@ class UserManage extends Component {
                               ))}
                         </span>
                     ),
-                    filters: this.props.userManage.filters
+                    filters: this.props.user.filters
                 },
                 {
                     title: '状态',
@@ -433,33 +433,33 @@ class UserManage extends Component {
                 <Breadcrumb className="cms-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>用户与权限</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/user/user-manage" className="cms-link">用户管理</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/auth/user" className="cms-link">用户管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-body">
                     <div className="cms-button-group">
                         <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加</Button>
                         <Button type="danger" className="cms-button"
-                                disabled={this.props.userManage.selectedRowKeys.length > 0 ? false : true}
-                                onClick={this.handleDelete.bind(this, this.props.userManage.selectedRowKeys)}
+                                disabled={this.props.user.selectedRowKeys.length > 0 ? false : true}
+                                onClick={this.handleDelete.bind(this, this.props.user.selectedRowKeys)}
                                 ghost>删除</Button>
                         <Input.Search
                             placeholder="请输入关键字"
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
-                            value={this.props.userManage.keyValue}
+                            value={this.props.user.keyValue}
                             className="cms-search"
                         />
                     </div>
                     <Table
                         className="cms-table"
                         rowSelection={{
-                            selectedRowKeys: this.props.userManage.selectedRowKeys,
+                            selectedRowKeys: this.props.user.selectedRowKeys,
                             onChange: this.handleTableSelected.bind(this)
                         }}
                         columns={columns}
-                        dataSource={this.props.userManage.dataSource}
-                        pagination={this.props.userManage.pagination}
-                        loading={this.props.userManage.loading}
+                        dataSource={this.props.user.dataSource}
+                        pagination={this.props.user.pagination}
+                        loading={this.props.user.loading}
                         onChange={this.handleTableChange.bind(this)}
                         scroll={{x: 1300}}
                         bordered
@@ -467,7 +467,7 @@ class UserManage extends Component {
                 </div>
                 <Modal
                     title="分配角色"
-                    visible={this.props.userManage.transferModalShow}
+                    visible={this.props.user.transferModalShow}
                     onOk={this.handleTransferOk.bind(this)}
                     onCancel={this.handleTransferCancel.bind(this)}
                     cancelText="取消"
@@ -477,9 +477,9 @@ class UserManage extends Component {
                         showSearch
                         titles={['未分配', '已分配']}
                         locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
-                        dataSource={this.props.userManage.transferData}
+                        dataSource={this.props.user.transferData}
                         filterOption={this.handleTransferFilter.bind(this)}
-                        targetKeys={this.props.userManage.transferTargetKeys}
+                        targetKeys={this.props.user.transferTargetKeys}
                         onChange={this.handleTransferChange.bind(this)}
                         render={item => item.name}
                     />
@@ -489,4 +489,4 @@ class UserManage extends Component {
     }
 }
 
-export default UserManage;
+export default User;

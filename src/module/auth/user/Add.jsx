@@ -3,14 +3,14 @@ import {Breadcrumb, Button, Form, Input, message} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from "axios";
 
-class UserAdd extends Component {
+class Add extends Component {
     constructor(props) {
         super(props);
     }
 
     componentWillMount() {
         if (this.props.location.type === undefined) {
-            this.props.history.push("/user/user-manage");
+            this.props.history.push("/auth/user");
         }
     }
 
@@ -23,26 +23,26 @@ class UserAdd extends Component {
             let param;
             if (this.props.location.content === 'base') {
                 param = {
-                    id: this.props.userManage.editUser.id,
-                    username: this.props.userManage.editUser.username,
-                    email: this.props.userManage.editUser.email,
-                    telephone: this.props.userManage.editUser.telephone,
+                    id: this.props.user.editUser.id,
+                    username: this.props.user.editUser.username,
+                    email: this.props.user.editUser.email,
+                    telephone: this.props.user.editUser.telephone,
                     type: 0
                 }
             } else if (this.props.location.content === 'password') {
-                if (this.props.userManage.editUser.password !== this.props.userManage.editUser.checkPassword) {
-                    this.props.save({editUser: {...this.props.userManage.editUser, checkPassword: null}});
+                if (this.props.user.editUser.password !== this.props.user.editUser.checkPassword) {
+                    this.props.save({editUser: {...this.props.user.editUser, checkPassword: null}});
                     message.warning("两次密码不一致");
                     return;
                 } else {
                     param = {
-                        id: this.props.userManage.editUser.id,
-                        password: this.props.userManage.editUser.password,
+                        id: this.props.user.editUser.id,
+                        password: this.props.user.editUser.password,
                         type: 1
                     }
                 }
             }
-            axios.put("/api/user/user_manage/update", param).then(response => {
+            axios.put("/api/auth/user/update", param).then(response => {
                 if (response.data.status) {
                     message.success(response.data.message);
                 } else {
@@ -63,11 +63,11 @@ class UserAdd extends Component {
                 }
             });
         } else if (this.props.location.type === 'add') {
-            axios.post('/api/user/user_manage/add', {
-                username: this.props.userManage.editUser.username,
-                telephone: this.props.userManage.editUser.telephone,
-                email: this.props.userManage.editUser.email,
-                password: this.props.userManage.editUser.password
+            axios.post('/api/auth/user/add', {
+                username: this.props.user.editUser.username,
+                telephone: this.props.user.editUser.telephone,
+                email: this.props.user.editUser.email,
+                password: this.props.user.editUser.password
             }).then(response => {
                 if (response.data.status === true) {
                     message.success(response.data.message);
@@ -92,7 +92,7 @@ class UserAdd extends Component {
     }
 
     handleValueChange(key, e) {
-        this.props.save({editUser: {...this.props.userManage.editUser, [key]: e.target.value}});
+        this.props.save({editUser: {...this.props.user.editUser, [key]: e.target.value}});
     }
 
     render() {
@@ -102,8 +102,8 @@ class UserAdd extends Component {
                 <Breadcrumb className="cms-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>用户与权限</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/user/user-manage" className="cms-link">用户管理</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/user/user-manage/add"
+                    <Breadcrumb.Item><Link to="/auth/user" className="cms-link">用户管理</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/auth/user/add"
                                            className="cms-link">{this.props.location.type === 'add' ? '添加' : '编辑'}</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-body">
@@ -126,17 +126,17 @@ class UserAdd extends Component {
                             <div>
                                 <Form.Item label="用户名" className="cms-form-item">
                                     <Input type="text" className="cms-input" placeholder="请输入用户名"
-                                           value={this.props.userManage.editUser.username}
+                                           value={this.props.user.editUser.username}
                                            onChange={this.handleValueChange.bind(this, 'username')}/>
                                 </Form.Item>
                                 <Form.Item label="邮箱" className="cms-form-item">
                                     <Input type="email" className="cms-input" placeholder="请输入邮箱"
-                                           value={this.props.userManage.editUser.email}
+                                           value={this.props.user.editUser.email}
                                            onChange={this.handleValueChange.bind(this, 'email')}/>
                                 </Form.Item>
                                 <Form.Item label="电话号码" className="cms-form-item">
                                     <Input type="telephone" className="cms-input" placeholder="请输入电话号码"
-                                           value={this.props.userManage.editUser.telephone}
+                                           value={this.props.user.editUser.telephone}
                                            onChange={this.handleValueChange.bind(this, 'telephone')}/>
                                 </Form.Item>
                             </div> : null}
@@ -144,12 +144,12 @@ class UserAdd extends Component {
                             <div>
                                 <Form.Item label="密码" className="cms-form-item">
                                     <Input.Password className="cms-input" placeholder="请输入密码"
-                                                    value={this.props.userManage.editUser.password}
+                                                    value={this.props.user.editUser.password}
                                                     onChange={this.handleValueChange.bind(this, 'password')}/>
                                 </Form.Item>
                                 <Form.Item label="确认密码" className="cms-form-item">
                                     <Input.Password className="cms-input" placeholder="请确认密码"
-                                                    value={this.props.userManage.editUser.checkPassword}
+                                                    value={this.props.user.editUser.checkPassword}
                                                     onChange={this.handleValueChange.bind(this, 'checkPassword')}/>
                                 </Form.Item>
                             </div> : null}
@@ -161,4 +161,4 @@ class UserAdd extends Component {
     }
 }
 
-export default UserAdd;
+export default Add;

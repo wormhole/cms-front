@@ -5,7 +5,7 @@ import axios from 'axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
 import DashBoard from '../dashboard/DashBoard';
-import UserRouter from '../user/UserRouter';
+import AuthRouter from '../auth/AuthRouter';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -66,18 +66,18 @@ class Home extends Component {
                             </Menu.Item>
                             <SubMenu
                                 className="cms-submenu"
-                                key="user"
+                                key="auth"
                                 title={
                                     <span className="cms-submenu-title">
                                         <Icon type="team" size={40}/>
-                                        <span>用户与权限</span>
+                                        <span>认证与授权</span>
                                     </span>
                                 }
                             >
-                                <Menu.Item key="user-manage" className="cms-menu-item"><Link to="/user/user-manage"
-                                                                                             className="cms-link">用户管理</Link></Menu.Item>
-                                <Menu.Item key="role-manage" className="cms-menu-item">角色管理</Menu.Item>
-                                <Menu.Item key="permission-manage" className="cms-menu-item">权限管理</Menu.Item>
+                                <Menu.Item key="user" className="cms-menu-item"><Link to="/auth/user"
+                                                                                      className="cms-link">用户管理</Link></Menu.Item>
+                                <Menu.Item key="role" className="cms-menu-item">角色管理</Menu.Item>
+                                <Menu.Item key="permission" className="cms-menu-item">权限管理</Menu.Item>
                             </SubMenu>
                         </Menu>
                     </Sider>
@@ -99,7 +99,7 @@ class Home extends Component {
                         <Content className="cms-content">
                             <Redirect path="/" to="/dashboard"/>
                             <Route exact path="/dashboard" component={DashBoard}/>
-                            <UserRouter/>
+                            <AuthRouter/>
                             <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
                         </Content>
                     </Layout>

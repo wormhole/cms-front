@@ -1,12 +1,12 @@
 import {connect} from 'react-redux';
-import UserManage from './UserManage';
+import User from './User';
 import action from './action';
 import {withRouter} from 'react-router-dom';
-import UserAdd from "./UserAdd";
+import Add from "./Add";
 
 const mapStateToProps = (state) => {
     return {
-        userManage: state.userManage
+        user: state.user
     }
 };
 
@@ -16,5 +16,5 @@ const mapActionToProps = (dispatch) => {
     }
 };
 
-export const Add = withRouter(connect(mapStateToProps, mapActionToProps)(UserAdd));
-export default withRouter(connect(mapStateToProps, mapActionToProps)(UserManage));
+export const AddPage = withRouter(connect(mapStateToProps, mapActionToProps)(Add));
+export default withRouter(connect(mapStateToProps, mapActionToProps)(User));
