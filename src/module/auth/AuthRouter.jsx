@@ -8,7 +8,7 @@ const AuthRouter = () => (
         <Route exact path="/auth/user" component={User}/>
         <Route exact path="/auth/user/add" component={UserAdd}/>
         <Route exact path="/auth/role" component={Role}/>
-        <Route exact path="/auth/role/add" compoent={RoleAdd}/>
+        <Route exact path="/auth/role/add" component={RoleAdd}/>
     </div>
 );
 

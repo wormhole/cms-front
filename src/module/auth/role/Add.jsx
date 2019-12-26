@@ -6,12 +6,11 @@ import axios from "axios";
 class Add extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.history);
     }
 
     componentWillMount() {
         if (this.props.location.type === undefined) {
-            //this.props.history.push("/auth/role");
+            this.props.history.push("/auth/role");
         }
     }
 
