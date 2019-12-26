@@ -1,11 +1,14 @@
-import User, {AddPage} from "./user";
+import User, {UserAdd} from "./user";
+import Role, {RoleAdd} from "./Role";
 import React from "react";
 import {Route} from "react-router-dom";
 
 const AuthRouter = () => (
     <div>
         <Route exact path="/auth/user" component={User}/>
-        <Route exact path="/auth/user/add" component={AddPage}/>
+        <Route exact path="/auth/user/add" component={UserAdd}/>
+        <Route exact path="/auth/role" component={Role}/>
+        <Route exact path="/auth/role/add" compoent={RoleAdd}/>
     </div>
 );
 

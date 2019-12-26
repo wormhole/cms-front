@@ -1,12 +1,12 @@
 import {connect} from 'react-redux';
-import User from './User';
+import Role from './Role';
 import action from './action';
 import {withRouter} from 'react-router-dom';
 import Add from "./Add";
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        role: state.role
     }
 };
 
@@ -16,5 +16,5 @@ const mapActionToProps = (dispatch) => {
     }
 };
 
-export const UserAdd = withRouter(connect(mapStateToProps, mapActionToProps)(Add));
-export default withRouter(connect(mapStateToProps, mapActionToProps)(User));
+export const RoleAdd = withRouter(connect(mapStateToProps, mapActionToProps)(Add));
+export default withRouter(connect(mapStateToProps, mapActionToProps)(Role));

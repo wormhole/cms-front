@@ -104,7 +104,7 @@ class Add extends Component {
                     <Breadcrumb.Item>用户与权限</Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/auth/user" className="cms-link">用户管理</Link></Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/auth/user/add"
-                                           className="cms-link">{this.props.location.type === 'add' ? '添加' : '编辑'}</Link></Breadcrumb.Item>
+                                           className="cms-link">{this.props.location.type === 'edit' ? '编辑' : '添加'}</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-body">
                     <div className="cms-button-group">
