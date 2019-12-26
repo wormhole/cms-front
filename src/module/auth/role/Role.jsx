@@ -314,7 +314,7 @@ class Role extends Component {
                 {
                     title: '操作项',
                     fixed: 'right',
-                    width: 270,
+                    width: 250,
                     render: (recorder) => {
                         return (
                             <div>

@@ -1,5 +1,5 @@
 import User, {UserAdd} from "./user";
-import Role, {RoleAdd} from "./Role";
+import Role, {RoleAdd} from "./role";
 import React from "react";
 import {Route} from "react-router-dom";
 
