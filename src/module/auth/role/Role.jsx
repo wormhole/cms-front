@@ -53,7 +53,7 @@ class Role extends Component {
     }
 
     handleEdit(id) {
-        this.props.user.dataSource.map((item) => {
+        this.props.role.dataSource.map((item) => {
             if (item.id === id) {
                 this.props.save({editRole: {...item}});
             }
@@ -69,7 +69,7 @@ class Role extends Component {
         }).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
-                let selectedRowKeys = this.props.user.selectedRowKeys;
+                let selectedRowKeys = this.props.role.selectedRowKeys;
                 ids.map((item) => {
                     let index = selectedRowKeys.indexOf(item);
                     if (index > -1) {
@@ -318,10 +318,10 @@ class Role extends Component {
                     render: (recorder) => {
                         return (
                             <div>
-                                <a onClick={this.handleEdit.bind(this, recorder.id)}
-                                   className="cms-inner-a">编辑</a>
                                 {recorder.deletable === 1 ?
                                     <span>
+                                        <a onClick={this.handleEdit.bind(this, recorder.id)}
+                                           className="cms-inner-a">编辑</a>
                                         <a onClick={this.handleDelete.bind(this, [recorder.id])}
                                            className="cms-inner-danger-a">删除</a>
                                         <a onClick={this.handleGrantPermission.bind(this, recorder.id)}
