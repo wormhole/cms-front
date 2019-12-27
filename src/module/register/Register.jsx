@@ -19,12 +19,34 @@ class Register extends Component {
         }).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
-                this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
+                this.props.save({
+                    vcodeApi: "/api/vcode?" + Math.random(),
+                    username: null,
+                    telephone: null,
+                    email: null,
+                    vcode: null,
+                    password: null
+                });
             } else {
                 message.error(response.data.message);
-                this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
+                this.props.save({
+                    vcodeApi: "/api/vcode?" + Math.random(),
+                    username: null,
+                    telephone: null,
+                    email: null,
+                    vcode: null,
+                    password: null
+                });
             }
         }).catch(error => {
+            this.props.save({
+                vcodeApi: "/api/vcode?" + Math.random(),
+                username: null,
+                telephone: null,
+                email: null,
+                vcode: null,
+                password: null
+            });
             switch (error.response.status) {
                 case 401:
                     message.warning(error.response.data.message);
@@ -42,11 +64,11 @@ class Register extends Component {
         });
     };
 
-    onValueChange(key, e) {
+    handleValueChange(key, e) {
         this.props.save({[key]: e.target.value});
     }
 
-    onVCodeChange() {
+    handleVCodeChange() {
         this.props.save({vcodeApi: '/api/vcode?' + Math.random()});
     }
 
@@ -63,7 +85,7 @@ class Register extends Component {
                                     placeholder="用户名"
                                     className='cms-input'
                                     value={this.props.register.username}
-                                    onChange={this.onValueChange.bind(this, 'username')}
+                                    onChange={this.handleValueChange.bind(this, 'username')}
                                 />
                             </Form.Item>
                             <Form.Item>
@@ -72,7 +94,7 @@ class Register extends Component {
                                     placeholder="邮箱"
                                     className='cms-input'
                                     value={this.props.register.email}
-                                    onChange={this.onValueChange.bind(this, 'email')}
+                                    onChange={this.handleValueChange.bind(this, 'email')}
                                 />
                             </Form.Item>
                             <Form.Item>
@@ -81,7 +103,7 @@ class Register extends Component {
                                     placeholder="电话号码"
                                     className='cms-input'
                                     value={this.props.register.telephone}
-                                    onChange={this.onValueChange.bind(this, 'telephone')}
+                                    onChange={this.handleValueChange.bind(this, 'telephone')}
                                 />
                             </Form.Item>
                             <Form.Item>
@@ -91,7 +113,7 @@ class Register extends Component {
                                     placeholder="密码"
                                     className='cms-input'
                                     value={this.props.register.password}
-                                    onChange={this.onValueChange.bind(this, 'password')}
+                                    onChange={this.handleValueChange.bind(this, 'password')}
                                 />
                             </Form.Item>
                             <Form.Item>
@@ -101,7 +123,7 @@ class Register extends Component {
                                     placeholder="确认密码"
                                     className='cms-input'
                                     value={this.props.register.checkPassword}
-                                    onChange={this.onValueChange.bind(this, 'checkPassword')}
+                                    onChange={this.handleValueChange.bind(this, 'checkPassword')}
                                 />
                             </Form.Item>
                             <Form.Item>
@@ -113,12 +135,12 @@ class Register extends Component {
                                             placeholder="验证码"
                                             className='cms-input'
                                             value={this.props.register.vcode}
-                                            onChange={this.onValueChange.bind(this, 'vcode')}
+                                            onChange={this.handleValueChange.bind(this, 'vcode')}
                                         />
                                     </Col>
                                     <Col span={10}>
                                         <img src={this.props.register.vcodeApi} className="cms-verify-img"
-                                             id="verify-img" onClick={this.onVCodeChange.bind(this)}/>
+                                             id="verify-img" onClick={this.handleVCodeChange.bind(this)}/>
                                     </Col>
                                 </Row>
                             </Form.Item>
