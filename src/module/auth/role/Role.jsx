@@ -289,7 +289,7 @@ class Role extends Component {
                     title: '角色名',
                     dataIndex: 'name',
                     key: 'name',
-                    sorter: (a, b) => null
+                    sorter: true
                 },
                 {
                     title: '描述',
@@ -340,7 +340,7 @@ class Role extends Component {
                 <Breadcrumb className="cms-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>认证与授权</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/auth/user" className="cms-link">角色管理</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/auth/role" className="cms-link">角色管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-body">
                     <div className="cms-button-group">

@@ -360,7 +360,7 @@ class User extends Component {
                     title: '用户名',
                     dataIndex: 'username',
                     key: 'username',
-                    sorter: (a, b) => null
+                    sorter: true
                 },
                 {
                     title: '电话',

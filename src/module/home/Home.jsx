@@ -78,7 +78,8 @@ class Home extends Component {
                                                                                       className="cms-link">用户管理</Link></Menu.Item>
                                 <Menu.Item key="role" className="cms-menu-item"><Link to="/auth/role"
                                                                                       className="cms-link">角色管理</Link></Menu.Item>
-                                <Menu.Item key="permission" className="cms-menu-item">权限管理</Menu.Item>
+                                <Menu.Item key="permission" className="cms-menu-item"><Link to="/auth/permission"
+                                                                                            className="cms-link">权限管理</Link></Menu.Item>
                             </SubMenu>
                         </Menu>
                     </Sider>
