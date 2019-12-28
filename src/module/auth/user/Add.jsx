@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Breadcrumb, Button, Form, Input, message} from 'antd';
 import {Link} from 'react-router-dom';
-import axios from "axios";
+import axios from "../../../util/axios";
 
 class Add extends Component {
     constructor(props) {
@@ -55,7 +55,7 @@ class Add extends Component {
                     }
                 }
             }
-            axios.put("/api/auth/user/update", param).then(response => {
+            axios.put("/auth/user/update", param).then(response => {
                 if (response.data.status) {
                     message.success(response.data.message);
                 } else {
@@ -76,7 +76,7 @@ class Add extends Component {
                 }
             });
         } else if (this.props.location.type === 'add') {
-            axios.post('/api/auth/user/add', {
+            axios.post('/auth/user/add', {
                 username: this.props.user.editUser.username,
                 telephone: this.props.user.editUser.telephone,
                 email: this.props.user.editUser.email,

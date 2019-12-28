@@ -1,7 +1,7 @@
 import {Avatar, Dropdown, Icon, Layout, Menu, message} from 'antd';
 import React, {Component} from 'react';
 import {Link, Redirect, Route} from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../util/axios';
 import './home.less';
 import logo from '../../image/logo.jpg';
 import DashBoard from '../dashboard/DashBoard';
@@ -29,7 +29,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/home/menu').then(response => {
+        axios.get('/home/menu').then(response => {
             if (response.data.status) {
                 this.props.save({user: response.data.data});
             } else {
@@ -59,7 +59,7 @@ class Home extends Component {
     };
 
     handleLogout() {
-        axios.get('/api/logout').then(response => {
+        axios.get('/logout').then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
                 this.props.history.push("/login");

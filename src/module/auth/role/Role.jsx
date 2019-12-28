@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from 'antd';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../util/axios';
 
 class Role extends Component {
 
@@ -62,7 +62,7 @@ class Role extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/api/auth/role/delete", {
+        axios.delete("/auth/role/delete", {
             data: {
                 ids: ids
             }
@@ -103,7 +103,7 @@ class Role extends Component {
     }
 
     handleGrantPermission(id) {
-        axios.get("/api/auth/role/ref_role_permission", {
+        axios.get("/auth/role/ref_role_permission", {
             params: {
                 id: id
             }
@@ -169,7 +169,7 @@ class Role extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/api/auth/role/grant_permission", {
+        axios.put("/auth/role/grant_permission", {
             roleId: this.props.role.roleId,
             permissionIds: this.props.role.transferTargetKeys
         }).then(response => {
@@ -212,7 +212,7 @@ class Role extends Component {
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, permissionIds: params.permissionIds}
         });
-        axios.get('/api/auth/role/list', {
+        axios.get('/auth/role/list', {
             params: {
                 ...params
             }
@@ -253,7 +253,7 @@ class Role extends Component {
     }
 
     loadFilters() {
-        axios.get('/api/auth/role/filters').then(response => {
+        axios.get('/auth/role/filters').then(response => {
             if (response.data.status) {
                 let filters = [];
                 response.data.data.permissions.map((item) => {

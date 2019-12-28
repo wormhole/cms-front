@@ -3,7 +3,7 @@ const initState = {
     password: '',
     rememberMe: false,
     vcode: '',
-    vcodeApi: '/api/vcode'
+    vcodeApi: process.env.NODE_ENV === 'production' ? '/vcode' : '/api/vcode'
 };
 
 const loginReducer = (state = initState, action) => {
