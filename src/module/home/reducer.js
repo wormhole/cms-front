@@ -2,6 +2,13 @@ const initState = {
     collapsed: false,
     logoTextStyle: {
         display: 'inline'
+    },
+    user: {
+        username: null,
+        email: null,
+        telephone: null,
+        roles: [],
+        permissions: []
     }
 };
 

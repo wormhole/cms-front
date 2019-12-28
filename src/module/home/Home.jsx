@@ -16,6 +16,41 @@ class Home extends Component {
         super(props);
     }
 
+    componentWillUnmount() {
+        this.props.save({
+            user: {
+                username: null,
+                email: null,
+                telephone: null,
+                roles: [],
+                permissions: []
+            }
+        });
+    }
+
+    componentDidMount() {
+        axios.get('/api/home/menu').then(response => {
+            if (response.data.status) {
+                this.props.save({user: response.data.data});
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
     handleToggle() {
         this.props.save({
             collapsed: !this.props.home.collapsed,
@@ -59,28 +94,30 @@ class Home extends Component {
                             <span className="cms-logo-text" style={this.props.home.logoTextStyle}>内容管理系统</span>
                         </div>
                         <Menu theme="dark" mode="inline" className="cms-menu">
-                            <Menu.Item key="dashboard" className="cms-menu-item">
-                                <Icon type="dashboard" size={40}/>
-                                <span><Link to="/dashboard"
-                                            className="cms-link">监控面板</Link></span>
-                            </Menu.Item>
-                            <SubMenu
-                                className="cms-submenu"
-                                key="auth"
-                                title={
-                                    <span className="cms-submenu-title">
+                            {this.props.home.user.permissions.indexOf('dashboard') > -1 ?
+                                <Menu.Item key="dashboard" className="cms-menu-item">
+                                    <Icon type="dashboard" size={40}/>
+                                    <span><Link to="/dashboard"
+                                                className="cms-link">监控面板</Link></span>
+                                </Menu.Item> : null}
+                            {this.props.home.user.permissions.indexOf('user') > -1 ?
+                                <SubMenu
+                                    className="cms-submenu"
+                                    key="auth"
+                                    title={
+                                        <span className="cms-submenu-title">
                                         <Icon type="team" size={40}/>
                                         <span>认证与授权</span>
                                     </span>
-                                }
-                            >
-                                <Menu.Item key="user" className="cms-menu-item"><Link to="/auth/user"
-                                                                                      className="cms-link">用户管理</Link></Menu.Item>
-                                <Menu.Item key="role" className="cms-menu-item"><Link to="/auth/role"
-                                                                                      className="cms-link">角色管理</Link></Menu.Item>
-                                <Menu.Item key="permission" className="cms-menu-item"><Link to="/auth/permission"
-                                                                                            className="cms-link">权限管理</Link></Menu.Item>
-                            </SubMenu>
+                                    }
+                                >
+                                    <Menu.Item key="user" className="cms-menu-item"><Link to="/auth/user"
+                                                                                          className="cms-link">用户管理</Link></Menu.Item>
+                                    <Menu.Item key="role" className="cms-menu-item"><Link to="/auth/role"
+                                                                                          className="cms-link">角色管理</Link></Menu.Item>
+                                    <Menu.Item key="permission" className="cms-menu-item"><Link to="/auth/permission"
+                                                                                                className="cms-link">权限管理</Link></Menu.Item>
+                                </SubMenu> : null}
                         </Menu>
                     </Sider>
                     <Layout className="cms-right">
@@ -93,7 +130,8 @@ class Home extends Component {
                             <div className="cms-user">
                                 <Dropdown overlay={userDrop} className="cms-dropdown" placement="bottomRight">
                                     <a className="ant-dropdown-link" href="#">
-                                        admin<Icon type="down"/>
+                                        {this.props.home.user.username ? this.props.home.user.username : '未登录'}&nbsp;
+                                        <Icon type="down"/>
                                     </a>
                                 </Dropdown>
                             </div>
