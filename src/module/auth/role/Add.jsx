@@ -14,6 +14,16 @@ class Add extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.save({
+            editRole: {
+                id: null,
+                name: null,
+                description: null
+            }
+        });
+    }
+
     handleBack() {
         this.props.history.goBack();
     }

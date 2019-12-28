@@ -14,6 +14,19 @@ class Add extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.save({
+            editUser: {
+                id: null,
+                username: null,
+                email: null,
+                telephone: null,
+                password: null,
+                checkPassword: null
+            }
+        });
+    }
+
     handleBack() {
         this.props.history.goBack();
     }
