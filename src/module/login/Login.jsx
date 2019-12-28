@@ -8,6 +8,16 @@ class Login extends Component {
         super(props);
     }
 
+    componentWillUnmount() {
+        this.props.save({
+            username: null,
+            password: null,
+            vcode: null,
+            rememberMe: null,
+            vcodeApi: "/api/vcode?" + Math.random()
+        });
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         axios.post('/api/login', {
@@ -16,12 +26,6 @@ class Login extends Component {
             vcode: this.props.login.vcode,
             rememberMe: this.props.login.rememberMe
         }).then(response => {
-            this.props.save({
-                username: null,
-                password: null,
-                vcode: null,
-                rememberMe: null
-            });
             if (response.data.status === true) {
                 message.success(response.data.message);
                 this.props.history.push("/");
@@ -30,12 +34,6 @@ class Login extends Component {
                 this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
             }
         }).catch(error => {
-            this.props.save({
-                username: null,
-                password: null,
-                vcode: null,
-                rememberMe: null
-            });
             switch (error.response.status) {
                 case 401:
                     message.warning(error.response.data.message);

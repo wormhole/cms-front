@@ -8,6 +8,18 @@ class Register extends Component {
         super(props);
     }
 
+    componentWillUnmount() {
+        this.props.save({
+            vcodeApi: "/api/vcode?" + Math.random(),
+            username: null,
+            telephone: null,
+            email: null,
+            vcode: null,
+            password: null,
+            checkPassword: null
+        });
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         axios.post('/api/register', {
@@ -21,32 +33,14 @@ class Register extends Component {
                 message.success(response.data.message);
                 this.props.save({
                     vcodeApi: "/api/vcode?" + Math.random(),
-                    username: null,
-                    telephone: null,
-                    email: null,
-                    vcode: null,
-                    password: null
                 });
             } else {
                 message.error(response.data.message);
                 this.props.save({
                     vcodeApi: "/api/vcode?" + Math.random(),
-                    username: null,
-                    telephone: null,
-                    email: null,
-                    vcode: null,
-                    password: null
                 });
             }
         }).catch(error => {
-            this.props.save({
-                vcodeApi: "/api/vcode?" + Math.random(),
-                username: null,
-                telephone: null,
-                email: null,
-                vcode: null,
-                password: null
-            });
             switch (error.response.status) {
                 case 401:
                     message.warning(error.response.data.message);
