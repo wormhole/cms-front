@@ -25,9 +25,9 @@ const initState = {
     }
 };
 
-const userManageReducer = (state = initState, action) => {
+const userReducer = (state = initState, action) => {
 
-    if (action.type === 'user-manage') {
+    if (action.type === 'user') {
         return {
             ...state,
             ...action.state,
@@ -37,4 +37,4 @@ const userManageReducer = (state = initState, action) => {
     }
 };
 
-export default userManageReducer;
+export default userReducer;

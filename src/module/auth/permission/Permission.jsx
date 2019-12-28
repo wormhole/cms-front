@@ -1,0 +1,226 @@
+import React, {Component} from 'react';
+import {Breadcrumb, Button, Input, message, Table} from 'antd';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+
+class Permission extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        let params = {
+            page: 1,
+            limit: 10,
+            ...this.props.permission.params
+        };
+        this.loadTable(params);
+    }
+
+    handleTableSelected(selectedRowKeys) {
+        this.props.save({selectedRowKeys: selectedRowKeys});
+    }
+
+    handleTableChange(pagination, filters, sorter) {
+        let params = {
+            limit: pagination.pageSize,
+            page: pagination.current,
+            sort: sorter.field ? sorter.field : null,
+            order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
+            key: this.props.permission.params.key
+        };
+        this.loadTable(params);
+    };
+
+    handleTableSearch(key) {
+        let params = {
+            page: 1,
+            limit: 10,
+            ...this.props.permission.params,
+            key: key
+        };
+        this.loadTable(params);
+    }
+
+    handleTableSearchValueChange(e) {
+        this.props.save({keyValue: e.target.value});
+    }
+
+    handleAdd() {
+        this.props.history.push({pathname: "/auth/permission/add", type: "add"});
+    }
+
+    handleEdit(id) {
+        this.props.permission.dataSource.map((item) => {
+            if (item.id === id) {
+                this.props.save({editPermission: {...item}});
+            }
+        });
+        this.props.history.push({pathname: "/auth/permission/add", type: "edit"});
+    }
+
+    handleDelete(ids) {
+        axios.delete("/api/auth/permission/delete", {
+            data: {
+                ids: ids
+            }
+        }).then(response => {
+            if (response.data.status) {
+                message.success(response.data.message);
+                let selectedRowKeys = this.props.permission.selectedRowKeys;
+                ids.map((item) => {
+                    let index = selectedRowKeys.indexOf(item);
+                    if (index > -1) {
+                        selectedRowKeys.splice(index, 1);
+                    }
+                });
+                this.props.save({selectedRowKeys: selectedRowKeys});
+                let params = {
+                    page: 1,
+                    limit: 10,
+                    ...this.props.permission.params
+                };
+                this.loadTable(params);
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
+    loadTable(params) {
+        this.props.save({
+            loading: true,
+            params: {sort: params.sort, order: params.order, key: params.key}
+        });
+        axios.get('/api/auth/permission/list', {
+            params: {
+                ...params
+            }
+        }).then(response => {
+            if (response.data.status) {
+                let pagination = {
+                    current: params.page,
+                    pageSize: params.limit,
+                    total: response.data.data.total,
+                };
+                let dataSource = [];
+                response.data.data.list.map((permission) => {
+                        dataSource.push({
+                            ...permission,
+                            key: permission.id
+                        })
+                    }
+                );
+                this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
+    render() {
+
+        const columns = [
+                {
+                    title: '权限名',
+                    dataIndex: 'name',
+                    key: 'name',
+                    sorter: (a, b) => null
+                },
+                {
+                    title: '描述',
+                    dataIndex: 'description',
+                    key: 'description',
+                },
+                {
+                    title: '操作项',
+                    fixed: 'right',
+                    width: 250,
+                    render: (recorder) => {
+                        return (
+                            <div>
+                                {recorder.deletable === 1 ?
+                                    <span>
+                                        <a onClick={this.handleEdit.bind(this, recorder.id)}
+                                           className="cms-inner-a">编辑</a>
+                                        <a onClick={this.handleDelete.bind(this, [recorder.id])}
+                                           className="cms-inner-danger-a">删除</a>
+                                </span> : null
+                                }
+                            </div>
+                        )
+                    }
+                },
+            ]
+        ;
+
+        return (
+            <div className="cms-page">
+                <Breadcrumb className="cms-breadcrumb">
+                    <Breadcrumb.Item><Link to="/dashboard" className="cms-link">首页</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>认证与授权</Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/auth/permission" className="cms-link">权限管理</Link></Breadcrumb.Item>
+                </Breadcrumb>
+                <div className="cms-body">
+                    <div className="cms-button-group">
+                        <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加</Button>
+                        <Button type="danger" className="cms-button"
+                                disabled={this.props.permission.selectedRowKeys.length > 0 ? false : true}
+                                onClick={this.handleDelete.bind(this, this.props.permission.selectedRowKeys)}
+                                ghost>删除</Button>
+                        <Input.Search
+                            placeholder="请输入关键字"
+                            onSearch={this.handleTableSearch.bind(this)}
+                            onChange={this.handleTableSearchValueChange.bind(this)}
+                            value={this.props.permission.keyValue}
+                            className="cms-search"
+                        />
+                    </div>
+                    <Table
+                        className="cms-table"
+                        rowSelection={{
+                            selectedRowKeys: this.props.permission.selectedRowKeys,
+                            onChange: this.handleTableSelected.bind(this)
+                        }}
+                        columns={columns}
+                        dataSource={this.props.permission.dataSource}
+                        pagination={this.props.permission.pagination}
+                        loading={this.props.permission.loading}
+                        onChange={this.handleTableChange.bind(this)}
+                        scroll={{x: 1300}}
+                        bordered
+                    />
+                </div>
+            </div>
+        )
+    }
+}
+
+export default Permission;
