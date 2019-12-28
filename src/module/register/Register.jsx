@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, Form, Icon, Input, message, Row} from 'antd';
 import './register.less';
-import axios from "axios";
+import axios from "../../util/axios";
 
 class Register extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class Register extends Component {
 
     componentWillUnmount() {
         this.props.save({
-            vcodeApi: "/api/vcode?" + Math.random(),
+            vcodeApi: this.props.login.vcodeApi + '?' + Math.random(),
             username: null,
             telephone: null,
             email: null,
@@ -22,7 +22,7 @@ class Register extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        axios.post('/api/register', {
+        axios.post('/register', {
             username: this.props.register.username,
             telephone: this.props.register.telephone,
             email: this.props.register.email,
@@ -32,12 +32,12 @@ class Register extends Component {
             if (response.data.status === true) {
                 message.success(response.data.message);
                 this.props.save({
-                    vcodeApi: "/api/vcode?" + Math.random(),
+                    vcodeApi: this.props.login.vcodeApi + '?' + Math.random(),
                 });
             } else {
                 message.error(response.data.message);
                 this.props.save({
-                    vcodeApi: "/api/vcode?" + Math.random(),
+                    vcodeApi: this.props.login.vcodeApi + '?' + Math.random(),
                 });
             }
         }).catch(error => {
@@ -48,11 +48,11 @@ class Register extends Component {
                     break;
                 case 403:
                     message.error(error.response.data.message);
-                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    this.props.save({vcodeApi: this.props.login.vcodeApi + '?' + Math.random()});
                     break;
                 default:
                     message.error(error.response.data.message);
-                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    this.props.save({vcodeApi: this.props.login.vcodeApi + '?' + Math.random()});
                     break;
             }
         });
@@ -63,7 +63,7 @@ class Register extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({vcodeApi: '/api/vcode?' + Math.random()});
+        this.props.save({vcodeApi: '/vcode?' + Math.random()});
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Checkbox, Col, Form, Icon, Input, message, Row} from 'antd';
 import './login.less';
-import axios from 'axios';
+import axios from '../../util/axios';
 
 class Login extends Component {
     constructor(props) {
@@ -14,13 +14,13 @@ class Login extends Component {
             password: null,
             vcode: null,
             rememberMe: null,
-            vcodeApi: "/api/vcode?" + Math.random()
+            vcodeApi: this.props.login.vcodeApi + '?' + Math.random()
         });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        axios.post('/api/login', {
+        axios.post('/login', {
             username: this.props.login.username,
             password: this.props.login.password,
             vcode: this.props.login.vcode,
@@ -31,7 +31,7 @@ class Login extends Component {
                 this.props.history.push("/");
             } else {
                 message.error(response.data.message);
-                this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
+                this.props.save({vcodeApi: this.props.login.vcodeApi + '?' + Math.random()})
             }
         }).catch(error => {
             switch (error.response.status) {
@@ -41,11 +41,11 @@ class Login extends Component {
                     break;
                 case 403:
                     message.error(error.response.data.message);
-                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    this.props.save({vcodeApi: this.props.login.vcodeApi + '?' + Math.random()});
                     break;
                 default:
                     message.error(error.response.data.message);
-                    this.props.save({vcodeApi: "/api/vcode?" + Math.random()});
+                    this.props.save({vcodeApi: this.props.login.vcodeApi + '?' + Math.random()});
                     break;
             }
         });
@@ -60,7 +60,7 @@ class Login extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({vcodeApi: "/api/vcode?" + Math.random()})
+        this.props.save({vcodeApi: this.props.login.vcodeApi + '?' + Math.random()})
     }
 
     render() {

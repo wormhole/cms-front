@@ -5,7 +5,7 @@ const initState = {
     password: '',
     checkPassword: '',
     vcode: '',
-    vcodeApi: '/api/vcode'
+    vcodeApi: process.env.NODE_ENV === 'production' ? '/vcode' : '/api/vcode'
 };
 
 const registerReducer = (state = initState, action) => {

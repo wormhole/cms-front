@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Breadcrumb, Button, Input, message, Table} from 'antd';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../util/axios';
 
 class Permission extends Component {
 
@@ -61,7 +61,7 @@ class Permission extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/api/auth/permission/delete", {
+        axios.delete("/auth/permission/delete", {
             data: {
                 ids: ids
             }
@@ -106,7 +106,7 @@ class Permission extends Component {
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key}
         });
-        axios.get('/api/auth/permission/list', {
+        axios.get('/auth/permission/list', {
             params: {
                 ...params
             }

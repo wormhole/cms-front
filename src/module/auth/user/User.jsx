@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from 'antd';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../util/axios';
 
 class User extends Component {
 
@@ -71,7 +71,7 @@ class User extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/api/auth/user/delete", {
+        axios.delete("/auth/user/delete", {
             data: {
                 ids: ids
             }
@@ -112,7 +112,7 @@ class User extends Component {
     }
 
     handleEnabled(ids) {
-        axios.put("/api/auth/user/enabled", {
+        axios.put("/auth/user/enabled", {
             ids: ids
         }).then(response => {
             if (response.data.status) {
@@ -143,7 +143,7 @@ class User extends Component {
     }
 
     handleDisabled(ids) {
-        axios.put("/api/auth/user/disabled", {
+        axios.put("/auth/user/disabled", {
             ids: ids
         }).then(response => {
             if (response.data.status) {
@@ -174,7 +174,7 @@ class User extends Component {
     }
 
     handleGrantRole(id) {
-        axios.get("/api/auth/user/ref_user_role", {
+        axios.get("/auth/user/ref_user_role", {
             params: {
                 id: id
             }
@@ -240,7 +240,7 @@ class User extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/api/auth/user/grant_role", {
+        axios.put("/auth/user/grant_role", {
             userId: this.props.user.userId,
             roleIds: this.props.user.transferTargetKeys
         }).then(response => {
@@ -283,7 +283,7 @@ class User extends Component {
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
         });
-        axios.get('/api/auth/user/list', {
+        axios.get('/auth/user/list', {
             params: {
                 ...params
             }
@@ -324,7 +324,7 @@ class User extends Component {
     }
 
     loadFilters() {
-        axios.get('/api/auth/user/filters').then(response => {
+        axios.get('/auth/user/filters').then(response => {
             if (response.data.status) {
                 let filters = [];
                 response.data.data.roles.map((item) => {
