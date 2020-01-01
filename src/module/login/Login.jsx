@@ -20,12 +20,12 @@ class Login extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        axios.post('/login', {
-            username: this.props.login.username,
-            password: this.props.login.password,
-            vcode: this.props.login.vcode,
-            rememberMe: this.props.login.rememberMe
-        }).then(response => {
+        let param = new FormData();
+        param.append("username", this.props.login.username);
+        param.append("password", this.props.login.password);
+        param.append("vcode", this.props.login.vcode);
+        param.append("rememberMe", this.props.login.rememberMe);
+        axios.post('/login', param, {headers: {"Content-Type": "multipart/form-data"},}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
                 this.props.history.push("/");
