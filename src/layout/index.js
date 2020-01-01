@@ -1,11 +1,11 @@
 import {withRouter} from 'react-router-dom';
-import Home from './Home';
+import MainLayout from './MainLayout';
 import action from "./action";
 import {connect} from 'react-redux';
 
 const mapStateToProps = (state) => {
     return {
-        home: state.home
+        layout: state.layout
     }
 };
 
@@ -15,4 +15,4 @@ const mapActionToProps = (dispatch) => {
     }
 };
 
-export default withRouter(connect(mapStateToProps, mapActionToProps)(Home));
+export default withRouter(connect(mapStateToProps, mapActionToProps)(MainLayout));

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Checkbox, Col, Form, Icon, Input, message, Row} from 'antd';
 import './login.less';
-import axios from '../../util/axios';
+import axios from '../util/axios';
 
 class Login extends Component {
     constructor(props) {

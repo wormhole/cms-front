@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, Form, Icon, Input, message, Row} from 'antd';
 import './register.less';
-import axios from "../../util/axios";
+import axios from "../util/axios";
 
 class Register extends Component {
     constructor(props) {
