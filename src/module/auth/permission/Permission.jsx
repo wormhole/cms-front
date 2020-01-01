@@ -152,7 +152,7 @@ class Permission extends Component {
                     title: '权限名',
                     dataIndex: 'name',
                     key: 'name',
-                    sorter: (a, b) => null
+                    sorter: true
                 },
                 {
                     title: '描述',
