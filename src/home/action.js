@@ -1,6 +1,6 @@
 const action = (state) => {
     return {
-        type: 'layout',
+        type: 'home',
         state: state
     }
 };

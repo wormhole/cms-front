@@ -12,9 +12,9 @@ const initState = {
     }
 };
 
-const layoutReducer = (state = initState, action) => {
+const homeReducer = (state = initState, action) => {
 
-    if (action.type === 'layout') {
+    if (action.type === 'home') {
         return {
             ...state,
             ...action.state,
@@ -24,4 +24,4 @@ const layoutReducer = (state = initState, action) => {
     }
 };
 
-export default layoutReducer;
+export default homeReducer;

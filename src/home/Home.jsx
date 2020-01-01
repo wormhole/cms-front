@@ -2,7 +2,7 @@ import {Avatar, Dropdown, Icon, Layout, Menu, message} from 'antd';
 import React, {Component} from 'react';
 import {Link, Redirect, Route} from 'react-router-dom';
 import axios from '../util/axios';
-import './layout.less';
+import './home.less';
 import logo from '../image/logo.jpg';
 import DashBoard from '../module/dashboard/DashBoard';
 import Router from "../module/Router";
@@ -10,7 +10,7 @@ import Router from "../module/Router";
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
 
-class MainLayout extends Component {
+class Home extends Component {
 
     constructor(props) {
         super(props);
@@ -29,7 +29,7 @@ class MainLayout extends Component {
     }
 
     componentDidMount() {
-        axios.get('/layout/menu').then(response => {
+        axios.get('/home/menu').then(response => {
             if (response.data.status) {
                 this.props.save({user: response.data.data});
             } else {
@@ -53,8 +53,8 @@ class MainLayout extends Component {
 
     handleToggle() {
         this.props.save({
-            collapsed: !this.props.layout.collapsed,
-            logoTextStyle: {display: this.props.layout.collapsed ? 'inline' : 'none'}
+            collapsed: !this.props.home.collapsed,
+            logoTextStyle: {display: this.props.home.collapsed ? 'inline' : 'none'}
         })
     };
 
@@ -86,21 +86,21 @@ class MainLayout extends Component {
         );
 
         return (
-            <div className="cms-main-layout">
+            <div className="cms-home">
                 <Layout className="cms-layout">
-                    <Sider className="cms-left" trigger={null} collapsible collapsed={this.props.layout.collapsed}>
+                    <Sider className="cms-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
                         <div className="cms-logo">
                             <Avatar shape="square" size={40} src={logo} className="cms-avatar"/>
-                            <span className="cms-logo-text" style={this.props.layout.logoTextStyle}>内容管理系统</span>
+                            <span className="cms-logo-text" style={this.props.home.logoTextStyle}>内容管理系统</span>
                         </div>
                         <Menu theme="dark" mode="inline" className="cms-menu">
-                            {this.props.layout.user.permissions.indexOf('dashboard') > -1 ?
+                            {this.props.home.user.permissions.indexOf('dashboard') > -1 ?
                                 <Menu.Item key="dashboard" className="cms-menu-item">
                                     <Icon type="dashboard" size={40}/>
                                     <span><Link to="/dashboard"
                                                 className="cms-link">监控面板</Link></span>
                                 </Menu.Item> : null}
-                            {this.props.layout.user.permissions.indexOf('user') > -1 ?
+                            {this.props.home.user.permissions.indexOf('user') > -1 ?
                                 <SubMenu
                                     className="cms-submenu"
                                     key="auth"
@@ -124,13 +124,13 @@ class MainLayout extends Component {
                         <Header className="cms-header">
                             <Icon
                                 className="cms-trigger"
-                                type={this.props.layout.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                type={this.props.home.collapsed ? 'menu-unfold' : 'menu-fold'}
                                 onClick={this.handleToggle.bind(this)}
                             />
                             <div className="cms-user">
                                 <Dropdown overlay={userDrop} className="cms-dropdown" placement="bottomRight">
                                     <a className="ant-dropdown-link" href="#">
-                                        {this.props.layout.user.username ? this.props.layout.user.username : '未登录'}&nbsp;
+                                        {this.props.home.user.username ? this.props.home.user.username : '未登录'}&nbsp;
                                         <Icon type="down"/>
                                     </a>
                                 </Dropdown>
@@ -149,4 +149,4 @@ class MainLayout extends Component {
     }
 }
 
-export default MainLayout;
+export default Home;
