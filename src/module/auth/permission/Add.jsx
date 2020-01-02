@@ -115,7 +115,7 @@ class Add extends Component {
                     }} className="cms-form">
                         <div>
                             <Form.Item label="权限名" className="cms-form-item">
-                                <Input type="text" className="cms-input" placeholder="请输入角色"
+                                <Input type="text" className="cms-input" placeholder="请输入权限名"
                                        value={this.props.permission.editPermission.name}
                                        onChange={this.handleValueChange.bind(this, 'name')}/>
                             </Form.Item>
