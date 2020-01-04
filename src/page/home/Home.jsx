@@ -20,8 +20,6 @@ class Home extends Component {
         this.props.save({
             user: {
                 username: null,
-                email: null,
-                telephone: null,
                 roles: [],
                 permissions: []
             }
@@ -29,7 +27,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('/home/menu').then(response => {
+        axios.get('/home/authority').then(response => {
             if (response.data.status) {
                 this.props.save({user: response.data.data});
             } else {
