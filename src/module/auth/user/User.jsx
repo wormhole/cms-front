@@ -407,6 +407,8 @@ class User extends Component {
                                className="cms-module-inner-a">编辑</a>
                             <a onClick={this.handlePassword.bind(this, recorder.id)}
                                className="cms-module-inner-danger-a">重置</a>
+                            <a onClick={this.handleGrantRole.bind(this, recorder.id)}
+                               className="cms-module-inner-a">分配</a>
                             {recorder.deletable === 1 ?
                                 <span>
                                         <a onClick={this.handleDelete.bind(this, [recorder.id])}
@@ -417,8 +419,6 @@ class User extends Component {
                                         <a onClick={this.handleEnabled.bind(this, [recorder.id])}
                                            className="cms-module-inner-a">启用</a>
                                     }
-                                    <a onClick={this.handleGrantRole.bind(this, recorder.id)}
-                                       className="cms-module-inner-a">分配</a>
                                 </span> : null
                             }
                         </div>
