@@ -94,12 +94,11 @@ class Home extends Component {
                             <span className="cms-logo-text" style={this.props.home.logoTextStyle}>内容管理系统</span>
                         </div>
                         <Menu theme="dark" mode="inline" className="cms-menu">
-                            {this.props.home.user.permissions.indexOf('dashboard') > -1 ?
-                                <Menu.Item key="dashboard" className="cms-menu-item">
-                                    <Icon type="dashboard" size={40}/>
-                                    <span><Link to="/dashboard"
-                                                className="cms-link">监控面板</Link></span>
-                                </Menu.Item> : null}
+                            <Menu.Item key="dashboard" className="cms-menu-item">
+                                <Icon type="dashboard" size={40}/>
+                                <span><Link to="/dashboard"
+                                            className="cms-link">监控面板</Link></span>
+                            </Menu.Item>
                             {this.props.home.user.permissions.indexOf('user') > -1 ?
                                 <SubMenu
                                     className="cms-submenu"
