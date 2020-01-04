@@ -9,11 +9,11 @@ class DashBoard extends Component {
 
     render() {
         return (
-            <div className="cms-page">
-                <Breadcrumb className="cms-breadcrumb">
-                    <Breadcrumb.Item><Link to="/dashboard" className="cms-link">监控面板</Link></Breadcrumb.Item>
+            <div className="cms-module">
+                <Breadcrumb className="cms-module-breadcrumb">
+                    <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">监控面板</Link></Breadcrumb.Item>
                 </Breadcrumb>
-                <div className="cms-body">
+                <div className="cms-module-content">
                     dashboard
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import {combineReducers, createStore} from 'redux';
-import loginReducer from "./login/reducer";
-import registerReducer from "./register/reducer";
-import homeReducer from "./home/reducer";
+import loginReducer from "./page/login/reducer";
+import registerReducer from "./page/register/reducer";
+import homeReducer from "./page/home/reducer";
 import userReducer from "./module/auth/user/reducer";
 import roleReducer from "./module/auth/role/reducer";
 import permissionReducer from "./module/auth/permission/reducer";

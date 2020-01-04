@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Checkbox, Col, Form, Icon, Input, message, Row} from 'antd';
 import './login.less';
-import axios from '../util/axios';
+import axios from '../../util/axios';
 
 class Login extends Component {
     constructor(props) {
@@ -72,19 +72,19 @@ class Login extends Component {
                         <Form onSubmit={this.handleSubmit.bind(this)} className="cms-login-form">
                             <Form.Item>
                                 <Input
-                                    prefix={<Icon type="user" className='cms-icon'/>}
+                                    prefix={<Icon type="user" className='cms-login-icon'/>}
                                     placeholder="用户名"
-                                    className='cms-input'
+                                    className='cms-login-input'
                                     value={this.props.login.username}
                                     onChange={this.handleValueChange.bind(this, 'username')}
                                 />
                             </Form.Item>
                             <Form.Item>
                                 <Input.Password
-                                    prefix={<Icon type="lock" className='cms-icon'/>}
+                                    prefix={<Icon type="lock" className='cms-login-icon'/>}
                                     type="password"
                                     placeholder="密码"
-                                    className='cms-input'
+                                    className='cms-login-input'
                                     value={this.props.login.password}
                                     onChange={this.handleValueChange.bind(this, 'password')}
                                 />
@@ -93,16 +93,16 @@ class Login extends Component {
                                 <Row gutter={8}>
                                     <Col span={14}>
                                         <Input
-                                            prefix={<Icon type="safety-certificate" className='cms-icon'/>}
+                                            prefix={<Icon type="safety-certificate" className='cms-login-icon'/>}
                                             type="text"
                                             placeholder="验证码"
-                                            className='cms-input'
+                                            className='cms-login-input'
                                             value={this.props.login.vcode}
                                             onChange={this.handleValueChange.bind(this, 'vcode')}
                                         />
                                     </Col>
                                     <Col span={10}>
-                                        <img src={this.props.login.vcodeApi} className="cms-verify-img"
+                                        <img src={this.props.login.vcodeApi} className="cms-login-img"
                                              id="verify-img" onClick={this.handleVCodeChange.bind(this)}/>
                                     </Col>
                                 </Row>

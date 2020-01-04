@@ -404,21 +404,21 @@ class User extends Component {
                     return (
                         <div>
                             <a onClick={this.handleEdit.bind(this, recorder.id)}
-                               className="cms-inner-a">编辑</a>
+                               className="cms-module-inner-a">编辑</a>
                             <a onClick={this.handlePassword.bind(this, recorder.id)}
-                               className="cms-inner-danger-a">重置</a>
+                               className="cms-module-inner-danger-a">重置</a>
                             {recorder.deletable === 1 ?
                                 <span>
                                         <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                           className="cms-inner-danger-a">删除</a>
+                                           className="cms-module-inner-danger-a">删除</a>
                                     {recorder.enabled === 1 ?
                                         <a onClick={this.handleDisabled.bind(this, [recorder.id])}
-                                           className="cms-inner-danger-a">禁用</a> :
+                                           className="cms-module-inner-danger-a">禁用</a> :
                                         <a onClick={this.handleEnabled.bind(this, [recorder.id])}
-                                           className="cms-inner-a">启用</a>
+                                           className="cms-module-inner-a">启用</a>
                                     }
                                     <a onClick={this.handleGrantRole.bind(this, recorder.id)}
-                                       className="cms-inner-a">分配</a>
+                                       className="cms-module-inner-a">分配</a>
                                 </span> : null
                             }
                         </div>
@@ -429,16 +429,17 @@ class User extends Component {
         ;
 
         return (
-            <div className="cms-page">
-                <Breadcrumb className="cms-breadcrumb">
-                    <Breadcrumb.Item><Link to="/dashboard" className="cms-link">首页</Link></Breadcrumb.Item>
+            <div className="cms-module">
+                <Breadcrumb className="cms-module-breadcrumb">
+                    <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>认证与授权</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/auth/user" className="cms-link">用户管理</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/auth/user" className="cms-module-link">用户管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
-                <div className="cms-body">
-                    <div className="cms-button-group">
-                        <Button type="primary" className="cms-button" onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="danger" className="cms-button"
+                <div className="cms-module-content">
+                    <div className="cms-module-top">
+                        <Button type="primary" className="cms-module-top-button"
+                                onClick={this.handleAdd.bind(this)}>添加</Button>
+                        <Button type="danger" className="cms-module-top-button"
                                 disabled={this.props.user.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.user.selectedRowKeys)}
                                 ghost>删除</Button>
@@ -447,11 +448,11 @@ class User extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.user.keyValue}
-                            className="cms-search"
+                            className="cms-module-top-search"
                         />
                     </div>
                     <Table
-                        className="cms-table"
+                        className="cms-module-table"
                         rowSelection={{
                             selectedRowKeys: this.props.user.selectedRowKeys,
                             onChange: this.handleTableSelected.bind(this)

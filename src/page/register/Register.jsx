@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, Form, Icon, Input, message, Row} from 'antd';
 import './register.less';
-import axios from "../util/axios";
+import axios from "../../util/axios";
 
 class Register extends Component {
     constructor(props) {
@@ -75,47 +75,47 @@ class Register extends Component {
                         <Form onSubmit={this.handleSubmit.bind(this)} className="cms-register-form">
                             <Form.Item>
                                 <Input
-                                    prefix={<Icon type="user" className='cms-icon'/>}
+                                    prefix={<Icon type="user" className='cms-register-icon'/>}
                                     placeholder="用户名"
-                                    className='cms-input'
+                                    className='cms-register-input'
                                     value={this.props.register.username}
                                     onChange={this.handleValueChange.bind(this, 'username')}
                                 />
                             </Form.Item>
                             <Form.Item>
                                 <Input
-                                    prefix={<Icon type="ie" className='cms-icon'/>}
+                                    prefix={<Icon type="ie" className='cms-register-icon'/>}
                                     placeholder="邮箱"
-                                    className='cms-input'
+                                    className='cms-register-input'
                                     value={this.props.register.email}
                                     onChange={this.handleValueChange.bind(this, 'email')}
                                 />
                             </Form.Item>
                             <Form.Item>
                                 <Input
-                                    prefix={<Icon type="phone" className='cms-icon'/>}
+                                    prefix={<Icon type="phone" className='cms-register-icon'/>}
                                     placeholder="电话号码"
-                                    className='cms-input'
+                                    className='cms-register-input'
                                     value={this.props.register.telephone}
                                     onChange={this.handleValueChange.bind(this, 'telephone')}
                                 />
                             </Form.Item>
                             <Form.Item>
                                 <Input
-                                    prefix={<Icon type="lock" className='cms-icon'/>}
+                                    prefix={<Icon type="lock" className='cms-register-icon'/>}
                                     type="password"
                                     placeholder="密码"
-                                    className='cms-input'
+                                    className='cms-register-input'
                                     value={this.props.register.password}
                                     onChange={this.handleValueChange.bind(this, 'password')}
                                 />
                             </Form.Item>
                             <Form.Item>
                                 <Input
-                                    prefix={<Icon type="lock" className='cms-icon'/>}
+                                    prefix={<Icon type="lock" className='cms-register-icon'/>}
                                     type="password"
                                     placeholder="确认密码"
-                                    className='cms-input'
+                                    className='cms-register-input'
                                     value={this.props.register.checkPassword}
                                     onChange={this.handleValueChange.bind(this, 'checkPassword')}
                                 />
@@ -124,16 +124,16 @@ class Register extends Component {
                                 <Row gutter={8}>
                                     <Col span={14}>
                                         <Input
-                                            prefix={<Icon type="safety-certificate" className='cms-icon'/>}
+                                            prefix={<Icon type="safety-certificate" className='cms-register-icon'/>}
                                             type="text"
                                             placeholder="验证码"
-                                            className='cms-input'
+                                            className='cms-register-input'
                                             value={this.props.register.vcode}
                                             onChange={this.handleValueChange.bind(this, 'vcode')}
                                         />
                                     </Col>
                                     <Col span={10}>
-                                        <img src={this.props.register.vcodeApi} className="cms-verify-img"
+                                        <img src={this.props.register.vcodeApi} className="cms-register-img"
                                              id="verify-img" onClick={this.handleVCodeChange.bind(this)}/>
                                     </Col>
                                 </Row>
