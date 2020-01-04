@@ -1,97 +1,89 @@
 .cms-home {
-  height: 100%;
-  width: 100%;
-
-  .cms-layout {
 
     height: 100%;
     width: 100%;
 
     .cms-left {
-      height: 100%;
-      overflow: auto;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        height: 100%;
+        overflow: auto;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 
-      .cms-logo {
-        height: 35px;
-        margin: 15px;
-        text-align: center;
+        .cms-logo {
+            height: 35px;
+            margin: 15px;
+            text-align: center;
 
-        .cms-avatar {
-
+            .cms-logo-text {
+                margin-left: 10px;
+                font-size: 20px;
+                color: #FFFFFF;
+            }
         }
 
-        .cms-logo-text {
-          margin-left: 10px;
-          font-size: 20px;
-          color: #FFFFFF;
-        }
-      }
+        .cms-menu {
 
-      .cms-menu {
+            .cms-menu-item {
+                font-size: 16px;
+            }
 
-        .cms-menu-item {
-          font-size: 16px;
-        }
+            .cms-submenu {
+                .cms-submenu-title {
+                    font-size: 16px;
+                }
+            }
 
-        .cms-submenu {
-          .cms-submenu-title {
-            font-size: 16px;
-          }
+            .cms-link {
+                color: #FFFFFF;
+            }
         }
-
-        .cms-link {
-          color: #FFFFFF;
-        }
-      }
     }
 
     .cms-right {
 
-      height: 100%;
-      overflow: auto;
+        height: 100%;
+        overflow: auto;
 
-      .cms-header {
-        padding: 0 25px;
-        margin: 0;
-        height: 65px;
-        background: #FFFFFF;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        .cms-header {
+            padding: 0 25px;
+            margin: 0;
+            height: 65px;
+            background: #FFFFFF;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 
-        .cms-trigger {
-          font-size: 18px;
-          line-height: 64px;
-          cursor: pointer;
-          transition: color 0.3s;
+            .cms-trigger {
+                font-size: 18px;
+                line-height: 64px;
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+
+            .cms-trigger:hover {
+                color: #1890ff;
+            }
+
+            .cms-user {
+
+                float: right;
+
+                .cms-dropdown {
+                    font-size: 20px;
+                    color: rgba(0, 0, 0, 0.7);
+                }
+            }
         }
 
-        .cms-trigger:hover {
-          color: #1890ff;
+        .cms-content {
+            display: flex;
+            flex-direction: column;
         }
 
-        .cms-user {
-
-          float: right;
-
-          .cms-dropdown {
-            font-size: 20px;
-            color: rgba(0, 0, 0, 0.7);
-          }
+        .cms-footer {
+            flex: 1;
+            padding: 5px 0 5px 0;
+            font-size: 17px;
+            text-align: center;
         }
-      }
-
-      .cms-content {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .cms-footer {
-        flex: 1;
-        padding: 5px 0 5px 0;
-        font-size: 17px;
-        text-align: center;
-      }
     }
-  }
 }
+
 

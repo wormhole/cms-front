@@ -60,7 +60,7 @@ class Home extends Component {
 
     handleLogout() {
         axios.get('/logout').then(response => {
-            if (response.data.status === true) {
+            if (response.data.status) {
                 message.success(response.data.message);
                 this.props.history.push("/login");
             } else {
@@ -86,64 +86,62 @@ class Home extends Component {
         );
 
         return (
-            <div className="cms-home">
-                <Layout className="cms-layout">
-                    <Sider className="cms-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
-                        <div className="cms-logo">
-                            <Avatar shape="square" size={40} src={logo} className="cms-avatar"/>
-                            <span className="cms-logo-text" style={this.props.home.logoTextStyle}>内容管理系统</span>
-                        </div>
-                        <Menu theme="dark" mode="inline" className="cms-menu">
-                            <Menu.Item key="dashboard" className="cms-menu-item">
-                                <Icon type="dashboard" size={40}/>
-                                <span><Link to="/dashboard"
-                                            className="cms-link">监控面板</Link></span>
-                            </Menu.Item>
-                            {this.props.home.user.permissions.indexOf('user') > -1 ?
-                                <SubMenu
-                                    className="cms-submenu"
-                                    key="auth"
-                                    title={
-                                        <span className="cms-submenu-title">
+            <Layout className="cms-home">
+                <Sider className="cms-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
+                    <div className="cms-logo">
+                        <Avatar shape="square" size={40} src={logo}/>
+                        <span className="cms-logo-text" style={this.props.home.logoTextStyle}>内容管理系统</span>
+                    </div>
+                    <Menu theme="dark" mode="inline" className="cms-menu">
+                        <Menu.Item key="dashboard" className="cms-menu-item">
+                            <Icon type="dashboard" size={40}/>
+                            <span><Link to="/dashboard"
+                                        className="cms-link">监控面板</Link></span>
+                        </Menu.Item>
+                        {this.props.home.user.permissions.indexOf('user') > -1 ?
+                            <SubMenu
+                                className="cms-submenu"
+                                key="auth"
+                                title={
+                                    <span className="cms-submenu-title">
                                         <Icon type="team" size={40}/>
                                         <span>认证与授权</span>
                                     </span>
-                                    }
-                                >
-                                    <Menu.Item key="user" className="cms-menu-item"><Link to="/auth/user"
-                                                                                          className="cms-link">用户管理</Link></Menu.Item>
-                                    <Menu.Item key="role" className="cms-menu-item"><Link to="/auth/role"
-                                                                                          className="cms-link">角色管理</Link></Menu.Item>
-                                    <Menu.Item key="permission" className="cms-menu-item"><Link to="/auth/permission"
-                                                                                                className="cms-link">权限管理</Link></Menu.Item>
-                                </SubMenu> : null}
-                        </Menu>
-                    </Sider>
-                    <Layout className="cms-right">
-                        <Header className="cms-header">
-                            <Icon
-                                className="cms-trigger"
-                                type={this.props.home.collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={this.handleToggle.bind(this)}
-                            />
-                            <div className="cms-user">
-                                <Dropdown overlay={userDrop} className="cms-dropdown" placement="bottomRight">
-                                    <a className="ant-dropdown-link" href="#">
-                                        {this.props.home.user.username ? this.props.home.user.username : '未登录'}&nbsp;
-                                        <Icon type="down"/>
-                                    </a>
-                                </Dropdown>
-                            </div>
-                        </Header>
-                        <Content className="cms-content">
-                            <Redirect path="/" to="/dashboard"/>
-                            <Route exact path="/dashboard" component={DashBoard}/>
-                            <Router/>
-                            <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
-                        </Content>
-                    </Layout>
+                                }
+                            >
+                                <Menu.Item key="user" className="cms-menu-item"><Link to="/auth/user"
+                                                                                      className="cms-link">用户管理</Link></Menu.Item>
+                                <Menu.Item key="role" className="cms-menu-item"><Link to="/auth/role"
+                                                                                      className="cms-link">角色管理</Link></Menu.Item>
+                                <Menu.Item key="permission" className="cms-menu-item"><Link to="/auth/permission"
+                                                                                            className="cms-link">权限管理</Link></Menu.Item>
+                            </SubMenu> : null}
+                    </Menu>
+                </Sider>
+                <Layout className="cms-right">
+                    <Header className="cms-header">
+                        <Icon
+                            className="cms-trigger"
+                            type={this.props.home.collapsed ? 'menu-unfold' : 'menu-fold'}
+                            onClick={this.handleToggle.bind(this)}
+                        />
+                        <div className="cms-user">
+                            <Dropdown overlay={userDrop} className="cms-dropdown" placement="bottomRight">
+                                <a className="ant-dropdown-link" href="#">
+                                    {this.props.home.user.username ? this.props.home.user.username : '未登录'}&nbsp;
+                                    <Icon type="down"/>
+                                </a>
+                            </Dropdown>
+                        </div>
+                    </Header>
+                    <Content className="cms-content">
+                        <Redirect path="/" to="/dashboard"/>
+                        <Route exact path="/dashboard" component={DashBoard}/>
+                        <Router/>
+                        <Footer className="cms-footer">copyright &copy; 2019 by 凉衫薄</Footer>
+                    </Content>
                 </Layout>
-            </div>
+            </Layout>
         );
     }
 }
