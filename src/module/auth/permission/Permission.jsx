@@ -147,38 +147,34 @@ class Permission extends Component {
 
     render() {
 
-        const columns = [
-                {
-                    title: '权限名',
-                    dataIndex: 'name',
-                    key: 'name',
-                    sorter: true
-                },
-                {
-                    title: '描述',
-                    dataIndex: 'description',
-                    key: 'description',
-                },
-                {
-                    title: '操作项',
-                    fixed: 'right',
-                    width: 250,
-                    render: (recorder) => {
-                        return (
-                            <div>
-                                {recorder.deletable === 1 ?
-                                    <span>
-                                        <a onClick={this.handleEdit.bind(this, recorder.id)}
-                                           className="cms-module-inner-a">编辑</a>
-                                        <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                           className="cms-module-inner-danger-a">删除</a>
+        const columns = [{
+                title: '权限名',
+                dataIndex: 'name',
+                key: 'name',
+                sorter: true
+            }, {
+                title: '描述',
+                dataIndex: 'description',
+                key: 'description'
+            }, {
+                title: '操作项',
+                fixed: 'right',
+                width: 250,
+                render: (recorder) => {
+                    return (
+                        <div>
+                            {recorder.deletable === 1 ?
+                                <span>
+                                    <a onClick={this.handleEdit.bind(this, recorder.id)}
+                                       className="cms-module-inner-a">编辑</a>
+                                    <a onClick={this.handleDelete.bind(this, [recorder.id])}
+                                       className="cms-module-inner-danger-a">删除</a>
                                 </span> : null
-                                }
-                            </div>
-                        )
-                    }
-                },
-            ]
+                            }
+                        </div>
+                    )
+                }
+            }]
         ;
 
         return (

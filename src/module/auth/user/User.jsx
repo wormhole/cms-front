@@ -355,78 +355,70 @@ class User extends Component {
 
     render() {
 
-        const columns = [
-                {
-                    title: '用户名',
-                    dataIndex: 'username',
-                    key: 'username',
-                    sorter: true
-                },
-                {
-                    title: '电话',
-                    dataIndex: 'telephone',
-                    key: 'telephone',
-                },
-                {
-                    title: '邮箱',
-                    dataIndex: 'email',
-                    key: 'email',
-                },
-                {
-                    title: '角色',
-                    dataIndex: 'roles',
-                    key: 'roles',
-                    render: (roles) => (
-                        <span>
-                              {roles.map(role => (
-                                  <Tag color="blue" key={role.id}>
-                                      {role.name}
-                                  </Tag>
-                              ))}
-                        </span>
-                    ),
-                    filters: this.props.user.filters
-                },
-                {
-                    title: '状态',
-                    dataIndex: 'enabled',
-                    key: 'enabled',
-                    sorter: true,
-                    render: (enabled) => (
-                        <span>{enabled === 1 ? '启用' : '禁用'}</span>
-                    )
-                },
-            {
-                title: '操作项',
-                fixed: 'right',
-                width: 270,
-                render: (recorder) => {
-                    return (
-                        <div>
-                            <a onClick={this.handleEdit.bind(this, recorder.id)}
-                               className="cms-module-inner-a">编辑</a>
-                            <a onClick={this.handlePassword.bind(this, recorder.id)}
-                               className="cms-module-inner-danger-a">重置</a>
-                            <a onClick={this.handleGrantRole.bind(this, recorder.id)}
-                               className="cms-module-inner-a">分配</a>
-                            {recorder.deletable === 1 ?
-                                <span>
-                                        <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                           className="cms-module-inner-danger-a">删除</a>
-                                    {recorder.enabled === 1 ?
-                                        <a onClick={this.handleDisabled.bind(this, [recorder.id])}
-                                           className="cms-module-inner-danger-a">禁用</a> :
-                                        <a onClick={this.handleEnabled.bind(this, [recorder.id])}
-                                           className="cms-module-inner-a">启用</a>
-                                    }
-                                </span> : null
-                            }
-                        </div>
-                    )
-                }
-            },
-            ]
-        ;
+        const columns = [{
+            title: '用户名',
+            dataIndex: 'username',
+            key: 'username',
+            sorter: true
+        }, {
+            title: '电话',
+            dataIndex: 'telephone',
+            key: 'telephone'
+        }, {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email'
+        }, {
+            title: '角色',
+            dataIndex: 'roles',
+            key: 'roles',
+            render: (roles) => (
+                <span>
+                        {roles.map(role => (
+                            <Tag color="blue" key={role.id}>
+                                {role.name}
+                            </Tag>
+                        ))}
+                    </span>
+            ),
+            filters: this.props.user.filters
+        }, {
+            title: '状态',
+            dataIndex: 'enabled',
+            key: 'enabled',
+            sorter: true,
+            render: (enabled) => (
+                <span>{enabled === 1 ? '启用' : '禁用'}</span>
+            )
+        }, {
+            title: '操作项',
+            fixed: 'right',
+            width: 270,
+            render: (recorder) => {
+                return (
+                    <div>
+                        <a onClick={this.handleEdit.bind(this, recorder.id)}
+                           className="cms-module-inner-a">编辑</a>
+                        <a onClick={this.handlePassword.bind(this, recorder.id)}
+                           className="cms-module-inner-danger-a">重置</a>
+                        <a onClick={this.handleGrantRole.bind(this, recorder.id)}
+                           className="cms-module-inner-a">分配</a>
+                        {recorder.deletable === 1 ?
+                            <span>
+                                <a onClick={this.handleDelete.bind(this, [recorder.id])}
+                                   className="cms-module-inner-danger-a">删除</a>
+                                {recorder.enabled === 1 ?
+                                    <a onClick={this.handleDisabled.bind(this, [recorder.id])}
+                                       className="cms-module-inner-danger-a">禁用</a> :
+                                    <a onClick={this.handleEnabled.bind(this, [recorder.id])}
+                                       className="cms-module-inner-a">启用</a>
+                                }
+                            </span> : null
+                        }
+                    </div>
+                )
+            }
+        }];
 
         return (
             <div className="cms-module">
