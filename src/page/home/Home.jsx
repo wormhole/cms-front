@@ -117,7 +117,7 @@ class Home extends Component {
                     </Menu>
                 </Sider>
                 <Layout className="cms-home-right">
-                    <Header className="cms-home-header">
+                    <Header className="cms-home-head">
                         <Icon
                             className="cms-home-trigger"
                             type={this.props.home.collapsed ? 'menu-unfold' : 'menu-fold'}
