@@ -166,9 +166,9 @@ class Permission extends Component {
                             {recorder.deletable === 1 ?
                                 <span>
                                     <a onClick={this.handleEdit.bind(this, recorder.id)}
-                                       className="cms-module-inner-a">编辑</a>
+                                       className="cms-module-table-a">编辑</a>
                                     <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                       className="cms-module-inner-danger-a">删除</a>
+                                       className="cms-module-table-danger-a">删除</a>
                                 </span> : null
                             }
                         </div>
@@ -186,10 +186,10 @@ class Permission extends Component {
                                            className="cms-module-link">权限管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-top">
-                        <Button type="primary" className="cms-module-top-button"
+                    <div className="cms-module-tool">
+                        <Button type="primary" className="cms-module-tool-button"
                                 onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="danger" className="cms-module-top-button"
+                        <Button type="danger" className="cms-module-tool-button"
                                 disabled={this.props.permission.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.permission.selectedRowKeys)}
                                 ghost>删除</Button>
@@ -198,23 +198,25 @@ class Permission extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.permission.keyValue}
-                            className="cms-module-top-search"
+                            className="cms-module-tool-search"
                         />
                     </div>
-                    <Table
-                        className="cms-module-table"
-                        rowSelection={{
-                            selectedRowKeys: this.props.permission.selectedRowKeys,
-                            onChange: this.handleTableSelected.bind(this)
-                        }}
-                        columns={columns}
-                        dataSource={this.props.permission.dataSource}
-                        pagination={this.props.permission.pagination}
-                        loading={this.props.permission.loading}
-                        onChange={this.handleTableChange.bind(this)}
-                        scroll={{x: 1300}}
-                        bordered
-                    />
+                    <div className="cms-module-main">
+                        <Table
+                            className="cms-module-table"
+                            rowSelection={{
+                                selectedRowKeys: this.props.permission.selectedRowKeys,
+                                onChange: this.handleTableSelected.bind(this)
+                            }}
+                            columns={columns}
+                            dataSource={this.props.permission.dataSource}
+                            pagination={this.props.permission.pagination}
+                            loading={this.props.permission.loading}
+                            onChange={this.handleTableChange.bind(this)}
+                            scroll={{x: 1300}}
+                            bordered
+                        />
+                    </div>
                 </div>
             </div>
         )

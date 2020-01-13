@@ -315,13 +315,13 @@ class Role extends Component {
                     return (
                         <div>
                             <a onClick={this.handleGrantPermission.bind(this, recorder.id)}
-                               className="cms-module-inner-a">分配</a>
+                               className="cms-module-table-a">分配</a>
                             {recorder.deletable === 1 ?
                                 <span>
                                     <a onClick={this.handleEdit.bind(this, recorder.id)}
-                                       className="cms-module-inner-a">编辑</a>
+                                       className="cms-module-table-a">编辑</a>
                                     <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                       className="cms-module-inner-danger-a">删除</a>
+                                       className="cms-module-table-danger-a">删除</a>
                                 </span> : null
                             }
                         </div>
@@ -338,10 +338,10 @@ class Role extends Component {
                     <Breadcrumb.Item><Link to="/auth/role" className="cms-module-link">角色管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-top">
-                        <Button type="primary" className="cms-module-top-button"
+                    <div className="cms-module-tool">
+                        <Button type="primary" className="cms-module-tool-button"
                                 onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="danger" className="cms-module-top-button"
+                        <Button type="danger" className="cms-module-tool-button"
                                 disabled={this.props.role.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.role.selectedRowKeys)}
                                 ghost>删除</Button>
@@ -350,43 +350,45 @@ class Role extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.role.keyValue}
-                            className="cms-module-top-search"
+                            className="cms-module-bool-search"
                         />
                     </div>
-                    <Table
-                        className="cms-module-table"
-                        rowSelection={{
-                            selectedRowKeys: this.props.role.selectedRowKeys,
-                            onChange: this.handleTableSelected.bind(this)
-                        }}
-                        columns={columns}
-                        dataSource={this.props.role.dataSource}
-                        pagination={this.props.role.pagination}
-                        loading={this.props.role.loading}
-                        onChange={this.handleTableChange.bind(this)}
-                        scroll={{x: 1300}}
-                        bordered
-                    />
+                    <div className="cms-module-main">
+                        <Table
+                            className="cms-module-table"
+                            rowSelection={{
+                                selectedRowKeys: this.props.role.selectedRowKeys,
+                                onChange: this.handleTableSelected.bind(this)
+                            }}
+                            columns={columns}
+                            dataSource={this.props.role.dataSource}
+                            pagination={this.props.role.pagination}
+                            loading={this.props.role.loading}
+                            onChange={this.handleTableChange.bind(this)}
+                            scroll={{x: 1300}}
+                            bordered
+                        />
+                    </div>
+                    <Modal
+                        title="分配权限"
+                        visible={this.props.role.transferModalShow}
+                        onOk={this.handleTransferOk.bind(this)}
+                        onCancel={this.handleTransferCancel.bind(this)}
+                        cancelText="取消"
+                        okText="分配"
+                        width="450px">
+                        <Transfer
+                            showSearch
+                            titles={['未分配', '已分配']}
+                            locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
+                            dataSource={this.props.role.transferData}
+                            filterOption={this.handleTransferFilter.bind(this)}
+                            targetKeys={this.props.role.transferTargetKeys}
+                            onChange={this.handleTransferChange.bind(this)}
+                            render={item => item.name}
+                        />
+                    </Modal>
                 </div>
-                <Modal
-                    title="分配权限"
-                    visible={this.props.role.transferModalShow}
-                    onOk={this.handleTransferOk.bind(this)}
-                    onCancel={this.handleTransferCancel.bind(this)}
-                    cancelText="取消"
-                    okText="分配"
-                    width="450px">
-                    <Transfer
-                        showSearch
-                        titles={['未分配', '已分配']}
-                        locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
-                        dataSource={this.props.role.transferData}
-                        filterOption={this.handleTransferFilter.bind(this)}
-                        targetKeys={this.props.role.transferTargetKeys}
-                        onChange={this.handleTransferChange.bind(this)}
-                        render={item => item.name}
-                    />
-                </Modal>
             </div>
         )
     }

@@ -398,20 +398,20 @@ class User extends Component {
                 return (
                     <div>
                         <a onClick={this.handleEdit.bind(this, recorder.id)}
-                           className="cms-module-inner-a">编辑</a>
+                           className="cms-module-table-a">编辑</a>
                         <a onClick={this.handlePassword.bind(this, recorder.id)}
-                           className="cms-module-inner-danger-a">重置</a>
+                           className="cms-module-table-danger-a">重置</a>
                         <a onClick={this.handleGrantRole.bind(this, recorder.id)}
-                           className="cms-module-inner-a">分配</a>
+                           className="cms-module-table-a">分配</a>
                         {recorder.deletable === 1 ?
                             <span>
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                   className="cms-module-inner-danger-a">删除</a>
+                                   className="cms-module-table-danger-a">删除</a>
                                 {recorder.enabled === 1 ?
                                     <a onClick={this.handleDisabled.bind(this, [recorder.id])}
-                                       className="cms-module-inner-danger-a">禁用</a> :
+                                       className="cms-module-table-danger-a">禁用</a> :
                                     <a onClick={this.handleEnabled.bind(this, [recorder.id])}
-                                       className="cms-module-inner-a">启用</a>
+                                       className="cms-module-table-a">启用</a>
                                 }
                             </span> : null
                         }
@@ -428,10 +428,10 @@ class User extends Component {
                     <Breadcrumb.Item><Link to="/auth/user" className="cms-module-link">用户管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-top">
-                        <Button type="primary" className="cms-module-top-button"
+                    <div className="cms-module-tool">
+                        <Button type="primary" className="cms-module-tool-button"
                                 onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="danger" className="cms-module-top-button"
+                        <Button type="danger" className="cms-module-tool-button"
                                 disabled={this.props.user.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.user.selectedRowKeys)}
                                 ghost>删除</Button>
@@ -440,43 +440,45 @@ class User extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.user.keyValue}
-                            className="cms-module-top-search"
+                            className="cms-module-tool-search"
                         />
                     </div>
-                    <Table
-                        className="cms-module-table"
-                        rowSelection={{
-                            selectedRowKeys: this.props.user.selectedRowKeys,
-                            onChange: this.handleTableSelected.bind(this)
-                        }}
-                        columns={columns}
-                        dataSource={this.props.user.dataSource}
-                        pagination={this.props.user.pagination}
-                        loading={this.props.user.loading}
-                        onChange={this.handleTableChange.bind(this)}
-                        scroll={{x: 1300}}
-                        bordered
-                    />
+                    <div className="cms-module-main">
+                        <Table
+                            className="cms-module-table"
+                            rowSelection={{
+                                selectedRowKeys: this.props.user.selectedRowKeys,
+                                onChange: this.handleTableSelected.bind(this)
+                            }}
+                            columns={columns}
+                            dataSource={this.props.user.dataSource}
+                            pagination={this.props.user.pagination}
+                            loading={this.props.user.loading}
+                            onChange={this.handleTableChange.bind(this)}
+                            scroll={{x: 1300}}
+                            bordered
+                        />
+                    </div>
+                    <Modal
+                        title="分配角色"
+                        visible={this.props.user.transferModalShow}
+                        onOk={this.handleTransferOk.bind(this)}
+                        onCancel={this.handleTransferCancel.bind(this)}
+                        cancelText="取消"
+                        okText="分配"
+                        width="450px">
+                        <Transfer
+                            showSearch
+                            titles={['未分配', '已分配']}
+                            locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
+                            dataSource={this.props.user.transferData}
+                            filterOption={this.handleTransferFilter.bind(this)}
+                            targetKeys={this.props.user.transferTargetKeys}
+                            onChange={this.handleTransferChange.bind(this)}
+                            render={item => item.name}
+                        />
+                    </Modal>
                 </div>
-                <Modal
-                    title="分配角色"
-                    visible={this.props.user.transferModalShow}
-                    onOk={this.handleTransferOk.bind(this)}
-                    onCancel={this.handleTransferCancel.bind(this)}
-                    cancelText="取消"
-                    okText="分配"
-                    width="450px">
-                    <Transfer
-                        showSearch
-                        titles={['未分配', '已分配']}
-                        locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
-                        dataSource={this.props.user.transferData}
-                        filterOption={this.handleTransferFilter.bind(this)}
-                        targetKeys={this.props.user.transferTargetKeys}
-                        onChange={this.handleTransferChange.bind(this)}
-                        render={item => item.name}
-                    />
-                </Modal>
             </div>
         )
     }

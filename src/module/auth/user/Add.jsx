@@ -117,57 +117,59 @@ class Add extends Component {
                     <Breadcrumb.Item>认证与授权</Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/auth/user" className="cms-module-link">用户管理</Link></Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/auth/user/add"
-                                           className="cms-link">{this.props.location.type === 'edit' ? '编辑' : '添加'}</Link></Breadcrumb.Item>
+                                           className="cms-module-link">{this.props.location.type === 'edit' ? '编辑' : '添加'}</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-top">
-                        <Button type="primary" className="cms-module-top-back" onClick={this.handleBack.bind(this)}
+                    <div className="cms-module-tool">
+                        <Button type="primary" className="cms-module-tool-back" onClick={this.handleBack.bind(this)}
                                 ghost>返回</Button>
-                        <Button type="primary" className="cms-module-top-button"
+                        <Button type="primary" className="cms-module-tool-button"
                                 onClick={this.handleSave.bind(this)}>保存</Button>
                     </div>
-                    <Form {...{
-                        labelCol: {
-                            xs: {span: 2},
-                            sm: {span: 2}
-                        },
-                        wrapperCol: {
-                            xs: {span: 8},
-                            sm: {span: 8}
-                        }
-                    }} className="cms-module-form">
-                        {this.props.location.content !== 'password' ?
-                            <div>
-                                <Form.Item label="用户名" className="cms-module-form-item">
-                                    <Input type="text" className="cms-module-form-input" placeholder="请输入用户名"
-                                           value={this.props.user.editUser.username}
-                                           onChange={this.handleValueChange.bind(this, 'username')}/>
-                                </Form.Item>
-                                <Form.Item label="邮箱" className="cms-module-form-item">
-                                    <Input type="email" className="cms-module-form-input" placeholder="请输入邮箱"
-                                           value={this.props.user.editUser.email}
-                                           onChange={this.handleValueChange.bind(this, 'email')}/>
-                                </Form.Item>
-                                <Form.Item label="电话号码" className="cms-module-form-item">
-                                    <Input type="telephone" className="cms-module-form-input" placeholder="请输入电话号码"
-                                           value={this.props.user.editUser.telephone}
-                                           onChange={this.handleValueChange.bind(this, 'telephone')}/>
-                                </Form.Item>
-                            </div> : null}
-                        {this.props.location.content !== 'base' ?
-                            <div>
-                                <Form.Item label="密码" className="cms-module-form-item">
-                                    <Input.Password className="cms-module-form-input" placeholder="请输入密码"
-                                                    value={this.props.user.editUser.password}
-                                                    onChange={this.handleValueChange.bind(this, 'password')}/>
-                                </Form.Item>
-                                <Form.Item label="确认密码" className="cms-module-form-item">
-                                    <Input.Password className="cms-module-form-input" placeholder="请确认密码"
-                                                    value={this.props.user.editUser.checkPassword}
-                                                    onChange={this.handleValueChange.bind(this, 'checkPassword')}/>
-                                </Form.Item>
-                            </div> : null}
-                    </Form>
+                    <div className="cms-module-main">
+                        <Form {...{
+                            labelCol: {
+                                xs: {span: 2},
+                                sm: {span: 2}
+                            },
+                            wrapperCol: {
+                                xs: {span: 8},
+                                sm: {span: 8}
+                            }
+                        }} className="cms-module-form">
+                            {this.props.location.content !== 'password' ?
+                                <div>
+                                    <Form.Item label="用户名" className="cms-module-form-item">
+                                        <Input type="text" className="cms-module-form-input" placeholder="请输入用户名"
+                                               value={this.props.user.editUser.username}
+                                               onChange={this.handleValueChange.bind(this, 'username')}/>
+                                    </Form.Item>
+                                    <Form.Item label="邮箱" className="cms-module-form-item">
+                                        <Input type="email" className="cms-module-form-input" placeholder="请输入邮箱"
+                                               value={this.props.user.editUser.email}
+                                               onChange={this.handleValueChange.bind(this, 'email')}/>
+                                    </Form.Item>
+                                    <Form.Item label="电话号码" className="cms-module-form-item">
+                                        <Input type="telephone" className="cms-module-form-input" placeholder="请输入电话号码"
+                                               value={this.props.user.editUser.telephone}
+                                               onChange={this.handleValueChange.bind(this, 'telephone')}/>
+                                    </Form.Item>
+                                </div> : null}
+                            {this.props.location.content !== 'base' ?
+                                <div>
+                                    <Form.Item label="密码" className="cms-module-form-item">
+                                        <Input.Password className="cms-module-form-input" placeholder="请输入密码"
+                                                        value={this.props.user.editUser.password}
+                                                        onChange={this.handleValueChange.bind(this, 'password')}/>
+                                    </Form.Item>
+                                    <Form.Item label="确认密码" className="cms-module-form-item">
+                                        <Input.Password className="cms-module-form-input" placeholder="请确认密码"
+                                                        value={this.props.user.editUser.checkPassword}
+                                                        onChange={this.handleValueChange.bind(this, 'checkPassword')}/>
+                                    </Form.Item>
+                                </div> : null}
+                        </Form>
+                    </div>
                 </div>
             </div>
         )
