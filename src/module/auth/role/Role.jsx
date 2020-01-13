@@ -350,7 +350,7 @@ class Role extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.role.keyValue}
-                            className="cms-module-bool-search"
+                            className="cms-module-tool-search"
                         />
                     </div>
                     <div className="cms-module-main">
