@@ -10,7 +10,7 @@ class Register extends Component {
 
     componentWillUnmount() {
         this.props.save({
-            vcodeApi: this.props.login.vcodeApi + '?' + Math.random(),
+            vcodeApi: this.props.register.vcodeApi + '?' + Math.random(),
             username: null,
             telephone: null,
             email: null,
