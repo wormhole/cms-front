@@ -1,6 +1,6 @@
-const action = (state) => {
+const action = (state, type) => {
     return {
-        type: 'login',
+        type: type,
         state: state
     }
 };

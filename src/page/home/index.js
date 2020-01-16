@@ -1,6 +1,6 @@
 import {withRouter} from 'react-router-dom';
 import Home from './Home';
-import action from "./action";
+import action from "../../util/action";
 import {connect} from 'react-redux';
 
 const mapStateToProps = (state) => {
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
 const mapActionToProps = (dispatch) => {
     return {
-        save: (state) => dispatch(action(state))
+        save: (state) => dispatch(action(state, "home"))
     }
 };
 

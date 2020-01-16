@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import Role from './Role';
 import Add from "./Add";
-import action from './action';
+import action from '../../../util/action';
 import {withRouter} from 'react-router-dom';
 
 const mapStateToProps = (state) => {
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 
 const mapActionToProps = (dispatch) => {
     return {
-        save: (state) => dispatch(action(state))
+        save: (state) => dispatch(action(state, "role"))
     }
 };
 
