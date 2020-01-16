@@ -74,7 +74,7 @@ class Home extends Component {
         const userDrop = (
             <Menu>
                 <Menu.Item key="user-info">
-                    <a href="#">个人信息</a>
+                    <Link to="/personal">个人信息</Link>
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item key="logout">
