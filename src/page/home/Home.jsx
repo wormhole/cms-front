@@ -30,6 +30,7 @@ class Home extends Component {
         axios.get('/home/authority').then(response => {
             if (response.data.status) {
                 this.props.save({user: response.data.data});
+                this.loadConfig();
             } else {
                 message.error(response.data.message);
             }
@@ -69,6 +70,37 @@ class Home extends Component {
         });
     }
 
+    loadConfig() {
+        axios.get('/home/config').then(response => {
+            if (response.data.status) {
+                let configs = {};
+                response.data.data.map(config => {
+                    if (config.key === 'title') {
+                        configs['title'] = config.value;
+                    } else if (config.key === 'copyright') {
+                        configs['copyright'] = config.value;
+                    }
+                });
+                this.props.save({config: configs});
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
     render() {
 
         const userDrop = (
@@ -88,7 +120,8 @@ class Home extends Component {
                 <Sider className="cms-home-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
                     <div className="cms-home-logo">
                         <Avatar shape="square" size={40} src={logo}/>
-                        <span className="cms-home-logo-text" style={this.props.home.logoTextStyle}>内容管理系统</span>
+                        <span className="cms-home-logo-text"
+                              style={this.props.home.logoTextStyle}>{this.props.home.config.title}</span>
                     </div>
                     <Menu theme="dark" mode="inline" className="cms-home-menu">
                         <Menu.Item key="dashboard" className="cms-home-menu-item">
@@ -136,7 +169,7 @@ class Home extends Component {
                         <Redirect path="/" to="/dashboard"/>
                         <Route exact path="/dashboard" component={DashBoard}/>
                         <Router/>
-                        <Footer className="cms-home-footer">copyright &copy; 2019 by 凉衫薄</Footer>
+                        <Footer className="cms-home-footer">{this.props.home.config.copyright}</Footer>
                     </Content>
                 </Layout>
             </Layout>

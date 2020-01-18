@@ -7,6 +7,10 @@ const initState = {
         username: null,
         roles: [],
         permissions: []
+    },
+    config: {
+        title: null,
+        copyright: null
     }
 };
 
