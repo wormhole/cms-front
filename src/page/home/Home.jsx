@@ -152,7 +152,7 @@ class Home extends Component {
                             <Menu.Item key="config" className="cms-home-menu-item">
                                 <Icon type="setting" size={40}/>
                                 <span><Link to="/config"
-                                            className="cms-home-link">网站配置</Link></span>
+                                            className="cms-home-link">系统设置</Link></span>
                             </Menu.Item> : null
                         }
                     </Menu>

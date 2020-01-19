@@ -99,7 +99,7 @@ class Config extends Component {
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/config"
-                                           className="cms-module-link">网站配置</Link></Breadcrumb.Item>
+                                           className="cms-module-link">系统设置</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
                     <div className="cms-module-tool">
