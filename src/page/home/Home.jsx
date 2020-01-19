@@ -77,6 +77,7 @@ class Home extends Component {
                 response.data.data.map(config => {
                     if (config.key === 'title') {
                         configs['title'] = config.value;
+                        document.title = config.value;
                     } else if (config.key === 'copyright') {
                         configs['copyright'] = config.value;
                     }
