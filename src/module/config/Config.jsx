@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Breadcrumb, Button, Form, Input, message} from 'antd';
+import {Breadcrumb, Button, Form, Input, message, Upload} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from "../../util/axios";
+import logo from '../../image/logo.jpg';
 
 class Config extends Component {
     constructor(props) {
@@ -92,26 +93,25 @@ class Config extends Component {
         }
     }
 
-    render() {
+    handleBeforeUpload(file) {
+        this.getBase64(file, imageUrl => {
+            this.props.save({
+                head: {
+                    file: [file],
+                    url: imageUrl
+                }
+            });
+        });
+        return false;
+    }
 
-        const props = {
-            onRemove: file => {
-                const index = this.props.config.head.file.indexOf(file);
-                const newFileList = this.props.config.head.file.slice();
-                newFileList.splice(index, 1);
-                this.props.save({head: {...this.props.config.head.file, file: newFileList}});
-            },
-            beforeUpload: file => {
-                this.props.save({
-                    head: {
-                        ...this.props.config.head,
-                        file: [file]
-                    }
-                });
-                return false;
-            },
-            fileList: this.props.config.head.file,
-        };
+    getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    }
+
+    render() {
 
         return (
 
@@ -150,6 +150,17 @@ class Config extends Component {
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-form-item">
                                     <Button type="primary" onClick={this.handleUpdate.bind(this)}>更新</Button>
+                                </Form.Item>
+                                <Form.Item label="文件上传" className="cms-form-item">
+                                    <Upload
+                                        listType="picture-card"
+                                        fileList={this.props.config.head.file}
+                                        showUploadList={false}
+                                        beforeUpload={this.handleBeforeUpload.bind(this)}>
+                                        {this.props.config.head.url ?
+                                            <img src={this.props.config.head.url} style={{width: '100%'}}/> :
+                                            <img src={logo} style={{width: '100%'}}/>}
+                                    </Upload>
                                 </Form.Item>
                             </div>
                         </Form>

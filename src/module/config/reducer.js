@@ -10,7 +10,8 @@ const initState = {
         value: null
     },
     head: {
-        file: []
+        file: [],
+        url: null
     }
 };
 
