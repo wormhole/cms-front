@@ -8,6 +8,9 @@ const initState = {
         id: null,
         key: null,
         value: null
+    },
+    head: {
+        file: []
     }
 };
 

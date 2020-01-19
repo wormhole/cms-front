@@ -93,6 +93,26 @@ class Config extends Component {
     }
 
     render() {
+
+        const props = {
+            onRemove: file => {
+                const index = this.props.config.head.file.indexOf(file);
+                const newFileList = this.props.config.head.file.slice();
+                newFileList.splice(index, 1);
+                this.props.save({head: {...this.props.config.head.file, file: newFileList}});
+            },
+            beforeUpload: file => {
+                this.props.save({
+                    head: {
+                        ...this.props.config.head,
+                        file: [file]
+                    }
+                });
+                return false;
+            },
+            fileList: this.props.config.head.file,
+        };
+
         return (
 
             <div className="cms-module">
