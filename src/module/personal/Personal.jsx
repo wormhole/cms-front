@@ -3,16 +3,14 @@ import {Breadcrumb, Button, Form, Input, message} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from "../../util/axios";
 
-class Add extends Component {
+class Personal extends Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
         axios.get('/personal/info').then(response => {
-            console.log(response.data);
             if (response.data.status) {
-
                 this.props.save({
                     id: response.data.data.id,
                     username: response.data.data.username,
@@ -192,4 +190,4 @@ class Add extends Component {
     }
 }
 
-export default Add;
+export default Personal;

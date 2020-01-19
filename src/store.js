@@ -6,6 +6,7 @@ import userReducer from "./module/auth/user/reducer";
 import roleReducer from "./module/auth/role/reducer";
 import permissionReducer from "./module/auth/permission/reducer";
 import personalReducer from "./module/personal/reducer";
+import configReducer from "./module/config/reducer";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     user: userReducer,
     role: roleReducer,
     permission: permissionReducer,
-    personal: personalReducer
+    personal: personalReducer,
+    config: configReducer
 });
 
 const store = createStore(rootReducer);
