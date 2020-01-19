@@ -17,6 +17,13 @@ class Config extends Component {
                         this.props.save({title: {id: config.id, key: config.key, value: config.value}});
                     } else if (config.key === 'copyright') {
                         this.props.save({copyright: {id: config.id, key: config.key, value: config.value}});
+                    } else if (config.key === 'head') {
+                        this.props.save({
+                            head: {
+                                file: [],
+                                url: config.value === 'default' ? null : process.env.NODE_ENV === 'production' ? '' + config.value : '/api' + config.value
+                            }
+                        });
                     }
                 });
             } else {
@@ -49,6 +56,10 @@ class Config extends Component {
                 id: null,
                 key: null,
                 value: null
+            },
+            head: {
+                file: [],
+                url: null
             }
         });
     }
@@ -111,6 +122,31 @@ class Config extends Component {
         reader.readAsDataURL(img);
     }
 
+    handleUpdateHead() {
+        let param = new FormData();
+        param.append("file", this.props.config.head.file[0]);
+        axios.post('/config/head', param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
+            if (response.data.status === true) {
+                message.success(response.data.message);
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
     render() {
 
         return (
@@ -149,9 +185,9 @@ class Config extends Component {
                                            onChange={this.handleValueChange.bind(this, 'copyright')}/>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-form-item">
-                                    <Button type="primary" onClick={this.handleUpdate.bind(this)}>更新</Button>
+                                    <Button type="primary" onClick={this.handleUpdate.bind(this)}>更新基本信息</Button>
                                 </Form.Item>
-                                <Form.Item label="文件上传" className="cms-form-item">
+                                <Form.Item label="头像" className="cms-form-item">
                                     <Upload
                                         listType="picture-card"
                                         fileList={this.props.config.head.file}
@@ -162,13 +198,16 @@ class Config extends Component {
                                             <img src={logo} style={{width: '100%'}}/>}
                                     </Upload>
                                 </Form.Item>
+                                <Form.Item label="操作" className="cms-module-form-item">
+                                    <Button type="primary" onClick={this.handleUpdateHead.bind(this)}
+                                            disabled={this.props.config.head.file.length > 0 ? false : true}>更新头像</Button>
+                                </Form.Item>
                             </div>
                         </Form>
                     </div>
                 </div>
             </div>
         )
-
     }
 }
 

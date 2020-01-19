@@ -10,7 +10,8 @@ const initState = {
     },
     config: {
         title: null,
-        copyright: null
+        copyright: null,
+        head: null
     }
 };
 

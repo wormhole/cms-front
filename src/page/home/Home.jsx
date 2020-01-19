@@ -80,6 +80,8 @@ class Home extends Component {
                         document.title = config.value;
                     } else if (config.key === 'copyright') {
                         configs['copyright'] = config.value;
+                    } else if (config.key === 'head') {
+                        configs['head'] = config.value === 'default' ? logo : process.env.NODE_ENV === 'production' ? '' + config.value : '/api' + config.value
                     }
                 });
                 this.props.save({config: configs});
@@ -120,7 +122,7 @@ class Home extends Component {
             <Layout className="cms-home">
                 <Sider className="cms-home-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
                     <div className="cms-home-logo">
-                        <Avatar shape="square" size={40} src={logo}/>
+                        <Avatar shape="square" size={40} src={this.props.home.config.head}/>
                         <span className="cms-home-logo-text"
                               style={this.props.home.logoTextStyle}>{this.props.home.config.title}</span>
                     </div>
