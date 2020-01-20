@@ -1,4 +1,6 @@
-const initState = {};
+const initState = {
+    count: []
+};
 
 const dashboardReducer = (state = initState, action) => {
 
