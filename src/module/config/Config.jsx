@@ -14,9 +14,15 @@ class Config extends Component {
             if (response.data.status) {
                 response.data.data.map(config => {
                     if (config.key === 'title') {
-                        this.props.save({title: {id: config.id, key: config.key, value: config.value}});
+                        this.props.save({
+                            title: {id: config.id, key: config.key, value: config.value},
+                            original: {...this.props.config.original, title: config.value}
+                        });
                     } else if (config.key === 'copyright') {
-                        this.props.save({copyright: {id: config.id, key: config.key, value: config.value}});
+                        this.props.save({
+                            copyright: {id: config.id, key: config.key, value: config.value},
+                            original: {...this.props.config.original, copyright: config.value}
+                        });
                     } else if (config.key === 'head') {
                         this.props.save({
                             head: {
@@ -47,6 +53,10 @@ class Config extends Component {
 
     componentWillUnmount() {
         this.props.save({
+            original: {
+                title: null,
+                copyright: null
+            },
             title: {
                 id: null,
                 key: null,
@@ -77,6 +87,12 @@ class Config extends Component {
         axios.put("/config/update", param).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
+                this.props.save({
+                    original: {
+                        title: this.props.config.title.value,
+                        copyright: this.props.config.copyright.value
+                    }
+                });
             } else {
                 message.error(response.data.message);
             }
@@ -117,7 +133,7 @@ class Config extends Component {
     }
 
     getBase64(img, callback) {
-        const reader = new FileReader();
+        let reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     }
@@ -128,6 +144,48 @@ class Config extends Component {
         axios.post('/config/head', param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
+    handleRestore() {
+        axios.put("/config/restore").then(response => {
+            if (response.data.status) {
+                response.data.data.map(config => {
+                    if (config.key === 'title') {
+                        this.props.save({
+                            title: {id: config.id, key: config.key, value: config.value},
+                            original: {...this.props.config.original, title: config.value}
+                        });
+                    } else if (config.key === 'copyright') {
+                        this.props.save({
+                            copyright: {id: config.id, key: config.key, value: config.value},
+                            original: {...this.props.config.original, copyright: config.value}
+                        });
+                    } else if (config.key === 'head') {
+                        this.props.save({
+                            head: {
+                                file: [],
+                                url: config.value === 'default' ? null : process.env.NODE_ENV === 'production' ? '' + config.value : '/api' + config.value
+                            }
+                        });
+                    }
+                });
             } else {
                 message.error(response.data.message);
             }
@@ -159,6 +217,8 @@ class Config extends Component {
                 </Breadcrumb>
                 <div className="cms-module-content">
                     <div className="cms-module-tool">
+                        <Button type="primary" className="cms-module-tool-button"
+                                onClick={this.handleRestore.bind(this)}>还原默认</Button>
                         <Button type="primary" className="cms-module-tool-back" onClick={this.handleBack.bind(this)}
                                 ghost>返回</Button>
                     </div>
@@ -185,7 +245,8 @@ class Config extends Component {
                                            onChange={this.handleValueChange.bind(this, 'copyright')}/>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-form-item">
-                                    <Button type="primary" onClick={this.handleUpdate.bind(this)}>更新基本信息</Button>
+                                    <Button type="primary" onClick={this.handleUpdate.bind(this)}
+                                            disabled={this.props.config.original.title === this.props.config.title.value && this.props.config.original.copyright === this.props.config.copyright.value}>更新基本信息</Button>
                                 </Form.Item>
                                 <Form.Item label="头像" className="cms-form-item">
                                     <Upload

@@ -1,4 +1,8 @@
 const initState = {
+    original: {
+        title: null,
+        copyright: null
+    },
     title: {
         id: null,
         key: null,
