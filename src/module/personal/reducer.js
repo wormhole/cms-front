@@ -1,4 +1,9 @@
 const initState = {
+    original: {
+        username: null,
+        email: null,
+        telephone: null
+    },
     id: null,
     username: null,
     email: null,

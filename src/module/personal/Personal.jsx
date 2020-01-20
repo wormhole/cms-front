@@ -15,7 +15,12 @@ class Personal extends Component {
                     id: response.data.data.id,
                     username: response.data.data.username,
                     email: response.data.data.email,
-                    telephone: response.data.data.telephone
+                    telephone: response.data.data.telephone,
+                    original: {
+                        username: response.data.data.username,
+                        email: response.data.data.email,
+                        telephone: response.data.data.telephone
+                    }
                 });
             } else {
                 message.error(response.data.message);
@@ -43,7 +48,12 @@ class Personal extends Component {
             email: null,
             telephone: null,
             password: null,
-            checkPassword: null
+            checkPassword: null,
+            original: {
+                username: null,
+                email: null,
+                telephone: null
+            }
         });
     }
 
@@ -97,6 +107,17 @@ class Personal extends Component {
         axios.put("/personal/update", param).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
+                this.props.save({
+                    id: response.data.data.id,
+                    username: response.data.data.username,
+                    email: response.data.data.email,
+                    telephone: response.data.data.telephone,
+                    original: {
+                        username: response.data.data.username,
+                        email: response.data.data.email,
+                        telephone: response.data.data.telephone
+                    }
+                });
             } else {
                 message.error(response.data.message);
             }
@@ -162,7 +183,10 @@ class Personal extends Component {
                                            onChange={this.handleValueChange.bind(this, 'telephone')}/>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-form-item">
-                                    <Button type="primary" onClick={this.handleUpdateBase.bind(this)}>修改基本信息</Button>
+                                    <Button type="primary" onClick={this.handleUpdateBase.bind(this)}
+                                            disabled={this.props.personal.original.username === this.props.personal.username &&
+                                            this.props.personal.original.email === this.props.personal.email &&
+                                            this.props.personal.original.telephone === this.props.personal.telephone}>修改基本信息</Button>
                                 </Form.Item>
                             </div>
 
@@ -178,7 +202,8 @@ class Personal extends Component {
                                                     onChange={this.handleValueChange.bind(this, 'checkPassword')}/>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-form-item">
-                                    <Button type="primary" onClick={this.handleUpdatePassword.bind(this)}>修改密码</Button>
+                                    <Button type="primary" onClick={this.handleUpdatePassword.bind(this)}
+                                            disabled={!this.props.personal.password}>修改密码</Button>
                                 </Form.Item>
                             </div>
                         </Form>
