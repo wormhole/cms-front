@@ -1,20 +1,40 @@
 import React, {Component} from 'react';
-import {Breadcrumb} from 'antd';
-import {Link} from 'react-router-dom';
+import {Card, Col, Row} from 'antd';
 
 class DashBoard extends Component {
     constructor(props) {
         super(props);
     }
 
+    componentDidMount() {
+
+    }
+
     render() {
         return (
             <div className="cms-module">
-                <Breadcrumb className="cms-module-breadcrumb">
-                    <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">监控面板</Link></Breadcrumb.Item>
-                </Breadcrumb>
-                <div className="cms-module-content">
-                    dashboard
+                <div className="cms-module-dashboard">
+                    <Row gutter={32}>
+                        <Col span={8}>
+                            <Card title="在线用户" className="cms-module-card">
+                                <div id="online" className="cms-module-chart">
+
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="用户、角色、权限统计" className="cms-module-card">
+                                <div id="count" className="cms-module-chart">
+
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="系统监测" className="cms-module-card">
+                                <div id="system"/>
+                            </Card>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         );

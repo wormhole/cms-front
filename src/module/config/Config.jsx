@@ -166,6 +166,7 @@ class Config extends Component {
     handleRestore() {
         axios.put("/config/restore").then(response => {
             if (response.data.status) {
+                message.success(response.data.message);
                 response.data.data.map(config => {
                     if (config.key === 'title') {
                         this.props.save({

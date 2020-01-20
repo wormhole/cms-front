@@ -7,6 +7,7 @@ import roleReducer from "./module/auth/role/reducer";
 import permissionReducer from "./module/auth/permission/reducer";
 import personalReducer from "./module/personal/reducer";
 import configReducer from "./module/config/reducer";
+import dashboardReducer from "./module/dashboard/reducer";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     role: roleReducer,
     permission: permissionReducer,
     personal: personalReducer,
-    config: configReducer
+    config: configReducer,
+    dashboard: dashboardReducer
 });
 
 const store = createStore(rootReducer);
