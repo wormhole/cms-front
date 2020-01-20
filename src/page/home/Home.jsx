@@ -130,7 +130,7 @@ class Home extends Component {
                         <Menu.Item key="dashboard" className="cms-home-menu-item">
                             <Icon type="dashboard" size={40}/>
                             <span><Link to="/dashboard"
-                                        className="cms-home-link">监控面板</Link></span>
+                                        className="cms-home-link">仪表盘</Link></span>
                         </Menu.Item>
                         {this.props.home.user.permissions.indexOf('user') > -1 ?
                             <SubMenu
