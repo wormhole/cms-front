@@ -1,6 +1,6 @@
 import React from "react";
 import {Route} from "react-router-dom";
-import Config from "../config";
+import Config from "./index";
 
 const ConfigRouter = () => (
     <div>

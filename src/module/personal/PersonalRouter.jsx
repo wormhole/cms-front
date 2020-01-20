@@ -1,6 +1,6 @@
 import React from "react";
 import {Route} from "react-router-dom";
-import Personal from "../personal";
+import Personal from "./index";
 
 const PersonalRouter = () => (
     <div>
