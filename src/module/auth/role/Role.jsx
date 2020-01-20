@@ -314,15 +314,13 @@ class Role extends Component {
                 render: (recorder) => {
                     return (
                         <div>
+                            <a onClick={this.handleEdit.bind(this, recorder.id)}
+                               className="cms-module-table-a">编辑</a>
                             <a onClick={this.handleGrantPermission.bind(this, recorder.id)}
                                className="cms-module-table-a">分配</a>
                             {recorder.deletable === 1 ?
-                                <span>
-                                    <a onClick={this.handleEdit.bind(this, recorder.id)}
-                                       className="cms-module-table-a">编辑</a>
-                                    <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                       className="cms-module-table-danger-a">删除</a>
-                                </span> : null
+                                <a onClick={this.handleDelete.bind(this, [recorder.id])}
+                                   className="cms-module-table-danger-a">删除</a> : null
                             }
                         </div>
                     )
