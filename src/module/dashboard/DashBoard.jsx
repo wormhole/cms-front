@@ -118,7 +118,7 @@ class DashBoard extends Component {
                                         <Avatar size={90} icon="team" style={{backgroundColor: '#E77474'}}/>
                                     </div>
                                     <div className="cms-module-info-right">
-                                        <div className="cms-module-info-title">用户数量(在线/总数)</div>
+                                        <div className="cms-module-info-title">用户数量（在线/总数）</div>
                                         <div className="cms-module-info-number">
                                             <a>{this.props.dashboard.count.online}</a>/
                                             <a>{this.props.dashboard.count.user}</a>
@@ -164,7 +164,7 @@ class DashBoard extends Component {
                                         <Avatar size={90} icon="global" style={{backgroundColor: '#70BFEF'}}/>
                                     </div>
                                     <div className="cms-module-info-right">
-                                        <div className="cms-module-info-title">网络流量(上传/下载)</div>
+                                        <div className="cms-module-info-title">网络流量（上传/下载）</div>
                                         <div className="cms-module-info-number">
                                             {this.props.dashboard.net.upload}/{this.props.dashboard.net.download}
                                         </div>
