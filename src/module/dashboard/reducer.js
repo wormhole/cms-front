@@ -10,7 +10,9 @@ const initState = {
     memData: null,
     diskPlot: null,
     diskData: null,
-    refresh: null
+    refresh: null,
+    onlineShow: false,
+    online: []
 };
 
 const dashboardReducer = (state = initState, action) => {

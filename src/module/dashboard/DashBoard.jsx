@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Avatar, Card, Col, message, Row} from 'antd';
+import {Avatar, Card, Col, List, message, Modal, Row, Statistic} from 'antd';
 import {Pie} from '@antv/g2plot';
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
@@ -27,6 +27,22 @@ class DashBoard extends Component {
 
     componentWillUnmount() {
         window.clearInterval(this.props.dashboard.refresh);
+        this.props.save({
+            count: [],
+            cpu: {},
+            mem: {},
+            disk: {},
+            net: {},
+            cpuPlot: null,
+            cpuData: null,
+            memPlot: null,
+            memData: null,
+            diskPlot: null,
+            diskData: null,
+            refresh: null,
+            onlineShow: false,
+            online: []
+        });
     }
 
     initCpuChart() {
@@ -38,7 +54,7 @@ class DashBoard extends Component {
         if (!this.props.dashboard.cpuPlot) {
             let cpuPlot = new Pie(document.getElementById('cpu'), {
                 forceFit: true,
-                radius: 0.7,
+                radius: 0.8,
                 data: this.props.dashboard.cpuData,
                 angleField: 'value',
                 colorField: 'type',
@@ -61,7 +77,7 @@ class DashBoard extends Component {
         if (!this.props.dashboard.memPlot) {
             let memPlot = new Pie(document.getElementById('mem'), {
                 forceFit: true,
-                radius: 0.7,
+                radius: 0.8,
                 data: data,
                 angleField: 'value',
                 colorField: 'type',
@@ -84,7 +100,7 @@ class DashBoard extends Component {
         if (!this.props.dashboard.diskPlot) {
             let diskPlot = new Pie(document.getElementById('disk'), {
                 forceFit: true,
-                radius: 0.7,
+                radius: 0.8,
                 data: data,
                 angleField: 'value',
                 colorField: 'type',
@@ -128,6 +144,40 @@ class DashBoard extends Component {
         });
     }
 
+    handleOnlineShow() {
+        axios.get('/dashboard/online').then(response => {
+            if (response.data.status) {
+                this.props.save({
+                    online: response.data.data,
+                    onlineShow: true
+                });
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
+    handleOnlineOk() {
+        this.props.save({onlineShow: false});
+    }
+
+    handleOnlineCancel() {
+        this.props.save({onlineShow: false});
+    }
+
     render() {
         return (
             <div className="cms-module">
@@ -142,7 +192,7 @@ class DashBoard extends Component {
                                     <div className="cms-module-info-right">
                                         <div className="cms-module-info-title">用户数量（在线/总数）</div>
                                         <div className="cms-module-info-number">
-                                            <a>{this.props.dashboard.count.online}</a>/
+                                            <a onClick={this.handleOnlineShow.bind(this)}>{this.props.dashboard.count.online}</a>/
                                             <Link to="/auth/user">{this.props.dashboard.count.user}</Link>
                                         </div>
                                     </div>
@@ -199,18 +249,8 @@ class DashBoard extends Component {
                         <Col span={8}>
                             <Card title="CPU监控" className="cms-module-card"
                                   actions={[
-                                      <div className="cms-module-card-action">
-                                          <div>核心数</div>
-                                          <div>
-                                              {this.props.dashboard.cpu.count} 个
-                                          </div>
-                                      </div>,
-                                      <div className="cms-module-card-action">
-                                          <div>使用率</div>
-                                          <div>
-                                              {this.props.dashboard.cpu.percent}
-                                          </div>
-                                      </div>,
+                                      <Statistic title="核心数" value={this.props.dashboard.cpu.count + " 个"}/>,
+                                      <Statistic title="使用率" value={this.props.dashboard.cpu.percent}/>
                                   ]}>
                                 <div id="cpu" className="cms-module-chart"/>
                             </Card>
@@ -218,30 +258,10 @@ class DashBoard extends Component {
                         <Col span={8}>
                             <Card title="内存监控(单位：GB)" className="cms-module-card"
                                   actions={[
-                                      <div className="cms-module-card-action">
-                                          <div>总大小</div>
-                                          <div>
-                                              {this.props.dashboard.mem.total} GB
-                                          </div>
-                                      </div>,
-                                      <div className="cms-module-card-action">
-                                          <div>已使用</div>
-                                          <div>
-                                              {this.props.dashboard.mem.used} GB
-                                          </div>
-                                      </div>,
-                                      <div className="cms-module-card-action">
-                                          <div>未使用</div>
-                                          <div>
-                                              {this.props.dashboard.mem.free} GB
-                                          </div>
-                                      </div>,
-                                      <div className="cms-module-card-action">
-                                          <div>使用率</div>
-                                          <div>
-                                              {this.props.dashboard.mem.percent}
-                                          </div>
-                                      </div>
+                                      <Statistic title="总大小" value={this.props.dashboard.mem.total + " GB"}/>,
+                                      <Statistic title="已使用" value={this.props.dashboard.mem.used + " GB"}/>,
+                                      <Statistic title="未使用" value={this.props.dashboard.mem.free + " GB"}/>,
+                                      <Statistic title="使用率" value={this.props.dashboard.mem.percent}/>
                                   ]}>
                                 <div id="mem" className="cms-module-chart"/>
                             </Card>
@@ -249,35 +269,35 @@ class DashBoard extends Component {
                         <Col span={8}>
                             <Card title="磁盘监控(单位：GB)" className="cms-module-card"
                                   actions={[
-                                      <div className="cms-module-card-action">
-                                          <div>总大小</div>
-                                          <div>
-                                              {this.props.dashboard.disk.total} GB
-                                          </div>
-                                      </div>,
-                                      <div className="cms-module-card-action">
-                                          <div>已使用</div>
-                                          <div>
-                                              {this.props.dashboard.disk.used} GB
-                                          </div>
-                                      </div>,
-                                      <div className="cms-module-card-action">
-                                          <div>未使用</div>
-                                          <div>
-                                              {this.props.dashboard.disk.free} GB
-                                          </div>
-                                      </div>,
-                                      <div className="cms-module-card-action">
-                                          <div>使用率</div>
-                                          <div>
-                                              {this.props.dashboard.disk.percent}
-                                          </div>
-                                      </div>
+                                      <Statistic title="总大小" value={this.props.dashboard.disk.total + " GB"}/>,
+                                      <Statistic title="已使用" value={this.props.dashboard.disk.used + " GB"}/>,
+                                      <Statistic title="未使用" value={this.props.dashboard.disk.free + " GB"}/>,
+                                      <Statistic title="使用率" value={this.props.dashboard.disk.percent}/>
                                   ]}>
                                 <div id="disk" className="cms-module-chart"/>
                             </Card>
                         </Col>
                     </Row>
+                    <Modal
+                        title="在线用户"
+                        visible={this.props.dashboard.onlineShow}
+                        onOk={this.handleOnlineOk.bind(this)}
+                        onCancel={this.handleOnlineCancel.bind(this)}
+                        cancelText="取消"
+                        okText="确认"
+                    >
+                        <List
+                            itemLayout="horizontal"
+                            dataSource={this.props.dashboard.online}
+                            renderItem={item => (
+                                <List.Item>
+                                    <List.Item.Meta
+                                        avatar={<Avatar icon="user"/>}
+                                        title={item}
+                                    />
+                                </List.Item>
+                            )}/>
+                    </Modal>
                 </div>
             </div>
         );
