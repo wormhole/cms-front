@@ -3,7 +3,14 @@ const initState = {
     cpu: {},
     mem: {},
     disk: {},
-    net: {}
+    net: {},
+    cpuPlot: null,
+    cpuData: null,
+    memPlot: null,
+    memData: null,
+    diskPlot: null,
+    diskData: null,
+    refresh: null
 };
 
 const dashboardReducer = (state = initState, action) => {

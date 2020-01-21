@@ -15,66 +15,87 @@ class DashBoard extends Component {
             this.initMemChart();
             this.initDiskChart();
         });
+        let refresh = window.setInterval(() => {
+            this.loadData(() => {
+                this.initCpuChart();
+                this.initMemChart();
+                this.initDiskChart();
+            });
+        }, 3000);
+        this.props.save({refresh: refresh});
+    }
+
+    componentWillUnmount() {
+        window.clearInterval(this.props.dashboard.refresh);
     }
 
     initCpuChart() {
         let data = [];
         data.push({type: '已使用', value: this.props.dashboard.cpu.used});
         data.push({type: '未使用', value: this.props.dashboard.cpu.free});
+        this.props.save({cpuData: data});
 
-        let cpuPlot = new Pie(document.getElementById('cpu'), {
-            forceFit: true,
-            radius: 0.7,
-            data: data,
-            angleField: 'value',
-            colorField: 'type',
-            label: {
-                visible: true,
-                type: 'spider',
-            },
-        });
-
-        cpuPlot.render();
+        if (!this.props.dashboard.cpuPlot) {
+            let cpuPlot = new Pie(document.getElementById('cpu'), {
+                forceFit: true,
+                radius: 0.7,
+                data: this.props.dashboard.cpuData,
+                angleField: 'value',
+                colorField: 'type',
+                label: {
+                    visible: true,
+                    type: 'spider',
+                },
+            });
+            this.props.save({cpuPlot: cpuPlot});
+            this.props.dashboard.cpuPlot.render();
+        }
     }
 
     initMemChart() {
         let data = [];
         data.push({type: '已使用', value: this.props.dashboard.mem.used});
         data.push({type: '未使用', value: this.props.dashboard.mem.free});
+        this.props.save({memData: data});
 
-        let memPlot = new Pie(document.getElementById('mem'), {
-            forceFit: true,
-            radius: 0.7,
-            data: data,
-            angleField: 'value',
-            colorField: 'type',
-            label: {
-                visible: true,
-                type: 'spider',
-            },
-        });
-
-        memPlot.render();
+        if (!this.props.dashboard.memPlot) {
+            let memPlot = new Pie(document.getElementById('mem'), {
+                forceFit: true,
+                radius: 0.7,
+                data: data,
+                angleField: 'value',
+                colorField: 'type',
+                label: {
+                    visible: true,
+                    type: 'spider',
+                },
+            });
+            this.props.save({memPlot: memPlot});
+            this.props.dashboard.memPlot.render();
+        }
     }
 
     initDiskChart() {
         let data = [];
         data.push({type: '已使用', value: this.props.dashboard.disk.used});
         data.push({type: '未使用', value: this.props.dashboard.disk.free});
+        this.props.save({diskData: data});
 
-        let diskPlot = new Pie(document.getElementById('disk'), {
-            forceFit: true,
-            radius: 0.7,
-            data: data,
-            angleField: 'value',
-            colorField: 'type',
-            label: {
-                visible: true,
-                type: 'spider',
-            },
-        });
-
-        diskPlot.render();
+        if (!this.props.dashboard.diskPlot) {
+            let diskPlot = new Pie(document.getElementById('disk'), {
+                forceFit: true,
+                radius: 0.7,
+                data: data,
+                angleField: 'value',
+                colorField: 'type',
+                label: {
+                    visible: true,
+                    type: 'spider',
+                },
+            });
+            this.props.save({diskPlot: diskPlot});
+            this.props.dashboard.diskPlot.render();
+        }
     }
 
     loadData(callback) {
@@ -187,7 +208,7 @@ class DashBoard extends Component {
                                       <div className="cms-module-card-action">
                                           <div>使用率</div>
                                           <div>
-                                              {this.props.dashboard.cpu.percent} %
+                                              {this.props.dashboard.cpu.percent}
                                           </div>
                                       </div>,
                                   ]}>
