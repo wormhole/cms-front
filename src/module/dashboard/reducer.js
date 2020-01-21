@@ -1,5 +1,9 @@
 const initState = {
-    count: []
+    count: [],
+    cpu: {},
+    mem: {},
+    disk: {},
+    net: {}
 };
 
 const dashboardReducer = (state = initState, action) => {
