@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Avatar, Card, Col, message, Row} from 'antd';
 import {Pie} from '@antv/g2plot';
 import axios from "../../util/axios";
+import {Link} from "react-router-dom";
 
 class DashBoard extends Component {
     constructor(props) {
@@ -121,7 +122,7 @@ class DashBoard extends Component {
                                         <div className="cms-module-info-title">用户数量（在线/总数）</div>
                                         <div className="cms-module-info-number">
                                             <a>{this.props.dashboard.count.online}</a>/
-                                            <a>{this.props.dashboard.count.user}</a>
+                                            <Link to="/auth/user">{this.props.dashboard.count.user}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +137,7 @@ class DashBoard extends Component {
                                     <div className="cms-module-info-right">
                                         <div className="cms-module-info-title">角色数量</div>
                                         <div className="cms-module-info-number">
-                                            <a>{this.props.dashboard.count.role}</a>
+                                            <Link to="/auth/role">{this.props.dashboard.count.role}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +152,7 @@ class DashBoard extends Component {
                                     <div className="cms-module-info-right">
                                         <div className="cms-module-info-title">权限数量</div>
                                         <div className="cms-module-info-number">
-                                            <a>{this.props.dashboard.count.permission}</a>
+                                            <Link to="/auth/permission">{this.props.dashboard.count.permission}</Link>
                                         </div>
                                     </div>
                                 </div>
