@@ -57,12 +57,15 @@ class Personal extends Component {
         });
     }
 
+    handleValueChange(key, e) {
+        this.props.save({[key]: e.target.value});
+    }
+
     handleBack() {
         this.props.history.goBack();
     }
 
     handleUpdatePassword() {
-
         if (this.props.personal.password !== this.props.personal.checkPassword) {
             message.error("两次密码不一致");
             return;
@@ -96,7 +99,6 @@ class Personal extends Component {
     }
 
     handleUpdateBase() {
-
         let param = {
             username: this.props.personal.username,
             email: this.props.personal.email,
@@ -137,13 +139,8 @@ class Personal extends Component {
         });
     }
 
-    handleValueChange(key, e) {
-        this.props.save({[key]: e.target.value});
-    }
-
     render() {
         return (
-
             <div className="cms-module">
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>

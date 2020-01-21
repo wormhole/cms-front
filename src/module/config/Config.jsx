@@ -74,12 +74,37 @@ class Config extends Component {
         });
     }
 
+    handleValueChange(key, e) {
+        if (key === 'title') {
+            this.props.save({title: {...this.props.config.title, value: e.target.value}});
+        } else if (key === 'copyright') {
+            this.props.save({copyright: {...this.props.config.copyright, value: e.target.value}});
+        }
+    }
+
+    handleBeforeUpload(file) {
+        this.getBase64(file, imageUrl => {
+            this.props.save({
+                head: {
+                    file: [file],
+                    url: imageUrl
+                }
+            });
+        });
+        return false;
+    }
+
+    getBase64(img, callback) {
+        let reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    }
+
     handleBack() {
         this.props.history.goBack();
     }
 
     handleUpdate() {
-
         let param = [];
         param.push(this.props.config.title);
         param.push(this.props.config.copyright);
@@ -110,32 +135,6 @@ class Config extends Component {
                     break;
             }
         });
-    }
-
-    handleValueChange(key, e) {
-        if (key === 'title') {
-            this.props.save({title: {...this.props.config.title, value: e.target.value}});
-        } else if (key === 'copyright') {
-            this.props.save({copyright: {...this.props.config.copyright, value: e.target.value}});
-        }
-    }
-
-    handleBeforeUpload(file) {
-        this.getBase64(file, imageUrl => {
-            this.props.save({
-                head: {
-                    file: [file],
-                    url: imageUrl
-                }
-            });
-        });
-        return false;
-    }
-
-    getBase64(img, callback) {
-        let reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
     }
 
     handleUpdateHead() {
@@ -207,9 +206,7 @@ class Config extends Component {
     }
 
     render() {
-
         return (
-
             <div className="cms-module">
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
