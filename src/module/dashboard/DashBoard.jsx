@@ -115,7 +115,6 @@ class DashBoard extends Component {
         }).catch(error => {
             switch (error.response.status) {
                 case 401:
-                    message.warning(error.response.data.message);
                     this.props.history.push("/login");
                     break;
                 case 403:

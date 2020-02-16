@@ -39,9 +39,10 @@ module.exports = {
         compress: true,
         proxy: {
             "/api": {
-                "target": "http://localhost",
+                "target": "https://localhost",
                 "changeOrigin": true,
-                "pathRewrite": {"^/api": "/"}
+                "pathRewrite": {"^/api": "/"},
+                secure: false
             }
         }
     },
@@ -50,4 +51,4 @@ module.exports = {
             template: path.join(__dirname, '../src/index.html')
         })
     ]
-}
+};

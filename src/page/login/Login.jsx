@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Checkbox, Col, Form, Icon, Input, message, Row} from 'antd';
 import './login.less';
 import axios from '../../util/axios';
+import {Link} from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
@@ -115,7 +116,7 @@ class Login extends Component {
                                 登录
                             </Button>
                         </Form>
-                        <a href="/#/register">注册用户</a>
+                        <Link to="/register">注册用户</Link>
                     </div>
                 </div>
             </div>
