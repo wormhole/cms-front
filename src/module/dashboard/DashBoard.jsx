@@ -27,22 +27,6 @@ class DashBoard extends Component {
 
     componentWillUnmount() {
         window.clearInterval(this.props.dashboard.refresh);
-        this.props.save({
-            count: [],
-            cpu: {},
-            mem: {},
-            disk: {},
-            net: {},
-            cpuPlot: null,
-            cpuData: null,
-            memPlot: null,
-            memData: null,
-            diskPlot: null,
-            diskData: null,
-            refresh: null,
-            onlineShow: false,
-            online: []
-        });
     }
 
     initCpuChart() {
