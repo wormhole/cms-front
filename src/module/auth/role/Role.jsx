@@ -15,7 +15,7 @@ class Role extends Component {
             limit: 10,
             ...this.props.role.params
         };
-        this.loadTable(params);
+        this.loadData(params);
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -31,7 +31,7 @@ class Role extends Component {
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
             key: this.props.role.params.key
         };
-        this.loadTable(params);
+        this.loadData(params);
     };
 
     handleTableSearch(key) {
@@ -41,7 +41,7 @@ class Role extends Component {
             ...this.props.role.params,
             key: key
         };
-        this.loadTable(params);
+        this.loadData(params);
     }
 
     handleTableSearchValueChange(e) {
@@ -55,7 +55,7 @@ class Role extends Component {
     handleEdit(id) {
         this.props.role.dataSource.map((item) => {
             if (item.id === id) {
-                this.props.save({editRole: {...item}});
+                this.props.save({edit: {...item}});
             }
         });
         this.props.history.push({pathname: "/auth/role/add", type: "edit"});
@@ -82,7 +82,7 @@ class Role extends Component {
                     limit: 10,
                     ...this.props.role.params
                 };
-                this.loadTable(params);
+                this.loadData(params);
             } else {
                 message.error(response.data.message);
             }
@@ -181,7 +181,7 @@ class Role extends Component {
                     ...this.props.role.params
                 };
                 this.props.save({roleId: null, transferModalShow: false});
-                this.loadTable(params);
+                this.loadData(params);
             } else {
                 message.error(response.data.message);
             }
@@ -207,7 +207,7 @@ class Role extends Component {
         })
     }
 
-    loadTable(params) {
+    loadData(params) {
         this.props.save({
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, permissionIds: params.permissionIds}

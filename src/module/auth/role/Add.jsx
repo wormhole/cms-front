@@ -16,7 +16,7 @@ class Add extends Component {
 
     componentWillUnmount() {
         this.props.save({
-            editRole: {
+            edit: {
                 id: null,
                 name: null,
                 description: null
@@ -31,9 +31,9 @@ class Add extends Component {
     handleSave() {
         if (this.props.location.type === 'edit') {
             let param = {
-                id: this.props.role.editRole.id,
-                name: this.props.role.editRole.name,
-                description: this.props.role.editRole.description
+                id: this.props.role.edit.id,
+                name: this.props.role.edit.name,
+                description: this.props.role.edit.description
             };
             axios.put("/auth/role/update", param).then(response => {
                 if (response.data.status) {
@@ -57,8 +57,8 @@ class Add extends Component {
             });
         } else if (this.props.location.type === 'add') {
             axios.post('/auth/role/add', {
-                name: this.props.role.editRole.name,
-                description: this.props.role.editRole.description
+                name: this.props.role.edit.name,
+                description: this.props.role.edit.description
             }).then(response => {
                 if (response.data.status === true) {
                     message.success(response.data.message);
@@ -83,7 +83,7 @@ class Add extends Component {
     }
 
     handleValueChange(key, e) {
-        this.props.save({editRole: {...this.props.role.editRole, [key]: e.target.value}});
+        this.props.save({edit: {...this.props.role.edit, [key]: e.target.value}});
     }
 
     render() {
@@ -118,12 +118,12 @@ class Add extends Component {
                             <div>
                                 <Form.Item label="角色名" className="cms-module-form-item">
                                     <Input type="text" className="cms-module-form-input" placeholder="请输入角色"
-                                           value={this.props.role.editRole.name}
+                                           value={this.props.role.edit.name}
                                            onChange={this.handleValueChange.bind(this, 'name')}/>
                                 </Form.Item>
                                 <Form.Item label="描述" className="cms-module-form-item">
                                     <Input type="description" className="cms-module-form-input" placeholder="请输入描述"
-                                           value={this.props.role.editRole.description}
+                                           value={this.props.role.edit.description}
                                            onChange={this.handleValueChange.bind(this, 'description')}/>
                                 </Form.Item>
                             </div>
