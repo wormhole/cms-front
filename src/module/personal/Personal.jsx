@@ -9,52 +9,7 @@ class Personal extends Component {
     }
 
     componentDidMount() {
-        axios.get('/personal/info').then(response => {
-            if (response.data.status) {
-                this.props.save({
-                    id: response.data.data.id,
-                    username: response.data.data.username,
-                    email: response.data.data.email,
-                    telephone: response.data.data.telephone,
-                    original: {
-                        username: response.data.data.username,
-                        email: response.data.data.email,
-                        telephone: response.data.data.telephone
-                    }
-                });
-            } else {
-                message.error(response.data.message);
-            }
-        }).catch(error => {
-            switch (error.response.status) {
-                case 401:
-                    message.warning(error.response.data.message);
-                    this.props.history.push("/login");
-                    break;
-                case 403:
-                    message.error(error.response.data.message);
-                    break;
-                default:
-                    message.error(error.response.data.message);
-                    break;
-            }
-        });
-    }
-
-    componentWillUnmount() {
-        this.props.save({
-            id: null,
-            username: null,
-            email: null,
-            telephone: null,
-            password: null,
-            checkPassword: null,
-            original: {
-                username: null,
-                email: null,
-                telephone: null
-            }
-        });
+        this.loadData();
     }
 
     handleValueChange(key, e) {
@@ -109,6 +64,39 @@ class Personal extends Component {
         axios.put("/personal/update", param).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
+                this.props.save({
+                    id: response.data.data.id,
+                    username: response.data.data.username,
+                    email: response.data.data.email,
+                    telephone: response.data.data.telephone,
+                    original: {
+                        username: response.data.data.username,
+                        email: response.data.data.email,
+                        telephone: response.data.data.telephone
+                    }
+                });
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
+    loadData() {
+        axios.get('/personal/info').then(response => {
+            if (response.data.status) {
                 this.props.save({
                     id: response.data.data.id,
                     username: response.data.data.username,
