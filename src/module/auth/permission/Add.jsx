@@ -16,7 +16,7 @@ class Add extends Component {
 
     componentWillUnmount() {
         this.props.save({
-            editPermission: {
+            edit: {
                 id: null,
                 name: null,
                 description: null
@@ -31,9 +31,9 @@ class Add extends Component {
     handleSave() {
         if (this.props.location.type === 'edit') {
             let param = {
-                id: this.props.permission.editPermission.id,
-                name: this.props.permission.editPermission.name,
-                description: this.props.permission.editPermission.description
+                id: this.props.permission.edit.id,
+                name: this.props.permission.edit.name,
+                description: this.props.permission.edit.description
             };
             axios.put("/auth/permission/update", param).then(response => {
                 if (response.data.status) {
@@ -57,8 +57,8 @@ class Add extends Component {
             });
         } else if (this.props.location.type === 'add') {
             axios.post('/auth/permission/add', {
-                name: this.props.permission.editPermission.name,
-                description: this.props.permission.editPermission.description
+                name: this.props.permission.edit.name,
+                description: this.props.permission.edit.description
             }).then(response => {
                 if (response.data.status === true) {
                     message.success(response.data.message);
@@ -83,7 +83,7 @@ class Add extends Component {
     }
 
     handleValueChange(key, e) {
-        this.props.save({editPermission: {...this.props.permission.editPermission, [key]: e.target.value}});
+        this.props.save({edit: {...this.props.permission.edit, [key]: e.target.value}});
     }
 
     render() {
@@ -119,12 +119,12 @@ class Add extends Component {
                             <div>
                                 <Form.Item label="权限名" className="cms-module-form-item">
                                     <Input type="text" className="cms-module-form-input" placeholder="请输入权限名"
-                                           value={this.props.permission.editPermission.name}
+                                           value={this.props.permission.edit.name}
                                            onChange={this.handleValueChange.bind(this, 'name')}/>
                                 </Form.Item>
                                 <Form.Item label="描述" className="cms-module-form-item">
                                     <Input type="description" className="cms-module-form-input" placeholder="请输入描述"
-                                           value={this.props.permission.editPermission.description}
+                                           value={this.props.permission.edit.description}
                                            onChange={this.handleValueChange.bind(this, 'description')}/>
                                 </Form.Item>
                             </div>

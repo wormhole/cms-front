@@ -15,7 +15,7 @@ class Permission extends Component {
             limit: 10,
             ...this.props.permission.params
         };
-        this.loadTable(params);
+        this.loadData(params);
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -30,7 +30,7 @@ class Permission extends Component {
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
             key: this.props.permission.params.key
         };
-        this.loadTable(params);
+        this.loadData(params);
     };
 
     handleTableSearch(key) {
@@ -40,7 +40,7 @@ class Permission extends Component {
             ...this.props.permission.params,
             key: key
         };
-        this.loadTable(params);
+        this.loadData(params);
     }
 
     handleTableSearchValueChange(e) {
@@ -54,7 +54,7 @@ class Permission extends Component {
     handleEdit(id) {
         this.props.permission.dataSource.map((item) => {
             if (item.id === id) {
-                this.props.save({editPermission: {...item}});
+                this.props.save({edit: {...item}});
             }
         });
         this.props.history.push({pathname: "/auth/permission/add", type: "edit"});
@@ -81,7 +81,7 @@ class Permission extends Component {
                     limit: 10,
                     ...this.props.permission.params
                 };
-                this.loadTable(params);
+                this.loadData(params);
             } else {
                 message.error(response.data.message);
             }
@@ -101,7 +101,7 @@ class Permission extends Component {
         });
     }
 
-    loadTable(params) {
+    loadData(params) {
         this.props.save({
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key}

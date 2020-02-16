@@ -9,7 +9,7 @@ const initState = {
     pagination: {current: 1, pageSize: 10},
     dataSource: [],
     loading: false,
-    editPermission: {
+    edit: {
         id: null,
         name: null,
         description: null
