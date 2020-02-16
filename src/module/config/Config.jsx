@@ -3,6 +3,7 @@ import {Breadcrumb, Button, Form, Input, message, Upload} from 'antd';
 import {Link} from 'react-router-dom';
 import axios from "../../util/axios";
 import logo from '../../image/logo.jpg';
+import getBase64 from "../../util/image";
 
 class Config extends Component {
     constructor(props) {
@@ -10,68 +11,7 @@ class Config extends Component {
     }
 
     componentDidMount() {
-        axios.get('/config/info').then(response => {
-            if (response.data.status) {
-                response.data.data.map(config => {
-                    if (config.key === 'title') {
-                        this.props.save({
-                            title: {id: config.id, key: config.key, value: config.value},
-                            original: {...this.props.config.original, title: config.value}
-                        });
-                    } else if (config.key === 'copyright') {
-                        this.props.save({
-                            copyright: {id: config.id, key: config.key, value: config.value},
-                            original: {...this.props.config.original, copyright: config.value}
-                        });
-                    } else if (config.key === 'head') {
-                        this.props.save({
-                            head: {
-                                file: [],
-                                url: config.value === 'default' ? null : process.env.NODE_ENV === 'production' ? '' + config.value : '/api' + config.value
-                            }
-                        });
-                    }
-                });
-            } else {
-                message.error(response.data.message);
-            }
-        }).catch(error => {
-            switch (error.response.status) {
-                case 401:
-                    message.warning(error.response.data.message);
-                    this.props.history.push("/login");
-                    break;
-                case 403:
-                    message.error(error.response.data.message);
-                    break;
-                default:
-                    message.error(error.response.data.message);
-                    break;
-            }
-        });
-    }
-
-    componentWillUnmount() {
-        this.props.save({
-            original: {
-                title: null,
-                copyright: null
-            },
-            title: {
-                id: null,
-                key: null,
-                value: null
-            },
-            copyright: {
-                id: null,
-                key: null,
-                value: null
-            },
-            head: {
-                file: [],
-                url: null
-            }
-        });
+        this.loadData();
     }
 
     handleValueChange(key, e) {
@@ -83,7 +23,7 @@ class Config extends Component {
     }
 
     handleBeforeUpload(file) {
-        this.getBase64(file, imageUrl => {
+        getBase64(file, imageUrl => {
             this.props.save({
                 head: {
                     file: [file],
@@ -92,12 +32,6 @@ class Config extends Component {
             });
         });
         return false;
-    }
-
-    getBase64(img, callback) {
-        let reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
     }
 
     handleBack() {
@@ -166,6 +100,48 @@ class Config extends Component {
         axios.put("/config/restore").then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
+                response.data.data.map(config => {
+                    if (config.key === 'title') {
+                        this.props.save({
+                            title: {id: config.id, key: config.key, value: config.value},
+                            original: {...this.props.config.original, title: config.value}
+                        });
+                    } else if (config.key === 'copyright') {
+                        this.props.save({
+                            copyright: {id: config.id, key: config.key, value: config.value},
+                            original: {...this.props.config.original, copyright: config.value}
+                        });
+                    } else if (config.key === 'head') {
+                        this.props.save({
+                            head: {
+                                file: [],
+                                url: config.value === 'default' ? null : process.env.NODE_ENV === 'production' ? '' + config.value : '/api' + config.value
+                            }
+                        });
+                    }
+                });
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    message.warning(error.response.data.message);
+                    this.props.history.push("/login");
+                    break;
+                case 403:
+                    message.error(error.response.data.message);
+                    break;
+                default:
+                    message.error(error.response.data.message);
+                    break;
+            }
+        });
+    }
+
+    loadData() {
+        axios.get('/config/info').then(response => {
+            if (response.data.status) {
                 response.data.data.map(config => {
                     if (config.key === 'title') {
                         this.props.save({
