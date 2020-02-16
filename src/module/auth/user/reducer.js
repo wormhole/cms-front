@@ -15,7 +15,7 @@ const initState = {
     transferData: [],
     transferTargetKeys: [],
     userId: null,
-    editUser: {
+    edit: {
         id: null,
         username: null,
         email: null,

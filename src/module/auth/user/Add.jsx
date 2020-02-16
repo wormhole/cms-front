@@ -16,7 +16,7 @@ class Add extends Component {
 
     componentWillUnmount() {
         this.props.save({
-            editUser: {
+            edit: {
                 id: null,
                 username: null,
                 email: null,
@@ -36,21 +36,21 @@ class Add extends Component {
             let param;
             if (this.props.location.content === 'base') {
                 param = {
-                    id: this.props.user.editUser.id,
-                    username: this.props.user.editUser.username,
-                    email: this.props.user.editUser.email,
-                    telephone: this.props.user.editUser.telephone,
+                    id: this.props.user.edit.id,
+                    username: this.props.user.edit.username,
+                    email: this.props.user.edit.email,
+                    telephone: this.props.user.edit.telephone,
                     type: 0
                 }
             } else if (this.props.location.content === 'password') {
-                if (this.props.user.editUser.password !== this.props.user.editUser.checkPassword) {
-                    this.props.save({editUser: {...this.props.user.editUser, checkPassword: null}});
+                if (this.props.user.edit.password !== this.props.user.edit.checkPassword) {
+                    this.props.save({edit: {...this.props.user.edit, checkPassword: null}});
                     message.warning("两次密码不一致");
                     return;
                 } else {
                     param = {
-                        id: this.props.user.editUser.id,
-                        password: this.props.user.editUser.password,
+                        id: this.props.user.edit.id,
+                        password: this.props.user.edit.password,
                         type: 1
                     }
                 }
@@ -77,10 +77,10 @@ class Add extends Component {
             });
         } else if (this.props.location.type === 'add') {
             axios.post('/auth/user/add', {
-                username: this.props.user.editUser.username,
-                telephone: this.props.user.editUser.telephone,
-                email: this.props.user.editUser.email,
-                password: this.props.user.editUser.password
+                username: this.props.user.edit.username,
+                telephone: this.props.user.edit.telephone,
+                email: this.props.user.edit.email,
+                password: this.props.user.edit.password
             }).then(response => {
                 if (response.data.status === true) {
                     message.success(response.data.message);
@@ -105,7 +105,7 @@ class Add extends Component {
     }
 
     handleValueChange(key, e) {
-        this.props.save({editUser: {...this.props.user.editUser, [key]: e.target.value}});
+        this.props.save({edit: {...this.props.user.edit, [key]: e.target.value}});
     }
 
     render() {
@@ -141,17 +141,17 @@ class Add extends Component {
                                 <div>
                                     <Form.Item label="用户名" className="cms-module-form-item">
                                         <Input type="text" className="cms-module-form-input" placeholder="请输入用户名"
-                                               value={this.props.user.editUser.username}
+                                               value={this.props.user.edit.username}
                                                onChange={this.handleValueChange.bind(this, 'username')}/>
                                     </Form.Item>
                                     <Form.Item label="邮箱" className="cms-module-form-item">
                                         <Input type="email" className="cms-module-form-input" placeholder="请输入邮箱"
-                                               value={this.props.user.editUser.email}
+                                               value={this.props.user.edit.email}
                                                onChange={this.handleValueChange.bind(this, 'email')}/>
                                     </Form.Item>
                                     <Form.Item label="电话号码" className="cms-module-form-item">
                                         <Input type="telephone" className="cms-module-form-input" placeholder="请输入电话号码"
-                                               value={this.props.user.editUser.telephone}
+                                               value={this.props.user.edit.telephone}
                                                onChange={this.handleValueChange.bind(this, 'telephone')}/>
                                     </Form.Item>
                                 </div> : null}
@@ -159,12 +159,12 @@ class Add extends Component {
                                 <div>
                                     <Form.Item label="密码" className="cms-module-form-item">
                                         <Input.Password className="cms-module-form-input" placeholder="请输入密码"
-                                                        value={this.props.user.editUser.password}
+                                                        value={this.props.user.edit.password}
                                                         onChange={this.handleValueChange.bind(this, 'password')}/>
                                     </Form.Item>
                                     <Form.Item label="确认密码" className="cms-module-form-item">
                                         <Input.Password className="cms-module-form-input" placeholder="请确认密码"
-                                                        value={this.props.user.editUser.checkPassword}
+                                                        value={this.props.user.edit.checkPassword}
                                                         onChange={this.handleValueChange.bind(this, 'checkPassword')}/>
                                     </Form.Item>
                                 </div> : null}

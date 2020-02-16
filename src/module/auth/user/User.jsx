@@ -15,7 +15,7 @@ class User extends Component {
             limit: 10,
             ...this.props.user.params
         };
-        this.loadTable(params);
+        this.loadData(params);
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -31,7 +31,7 @@ class User extends Component {
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
             key: this.props.user.params.key
         };
-        this.loadTable(params);
+        this.loadData(params);
     };
 
     handleTableSearch(key) {
@@ -41,7 +41,7 @@ class User extends Component {
             ...this.props.user.params,
             key: key
         };
-        this.loadTable(params);
+        this.loadData(params);
     }
 
     handleTableSearchValueChange(e) {
@@ -55,7 +55,7 @@ class User extends Component {
     handleEdit(id) {
         this.props.user.dataSource.map((item) => {
             if (item.id === id) {
-                this.props.save({editUser: {checkPassword: null, password: null, ...item}});
+                this.props.save({edit: {checkPassword: null, password: null, ...item}});
             }
         });
         this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "base"});
@@ -64,7 +64,7 @@ class User extends Component {
     handlePassword(id) {
         this.props.user.dataSource.map((item) => {
             if (item.id === id) {
-                this.props.save({editUser: {checkPassword: null, password: null, ...item}});
+                this.props.save({edit: {checkPassword: null, password: null, ...item}});
             }
         });
         this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "password"});
@@ -91,7 +91,7 @@ class User extends Component {
                     limit: 10,
                     ...this.props.user.params
                 };
-                this.loadTable(params);
+                this.loadData(params);
             } else {
                 message.error(response.data.message);
             }
@@ -122,7 +122,7 @@ class User extends Component {
                     limit: this.props.user.pagination.pageSize,
                     ...this.props.user.params
                 };
-                this.loadTable(params);
+                this.loadData(params);
             } else {
                 message.error(response.data.message);
             }
@@ -153,7 +153,7 @@ class User extends Component {
                     limit: this.props.user.pagination.pageSize,
                     ...this.props.user.params
                 };
-                this.loadTable(params);
+                this.loadData(params);
             } else {
                 message.error(response.data.message);
             }
@@ -252,7 +252,7 @@ class User extends Component {
                     ...this.props.user.params
                 };
                 this.props.save({userId: null, transferModalShow: false});
-                this.loadTable(params);
+                this.loadData(params);
             } else {
                 message.error(response.data.message);
             }
@@ -278,7 +278,7 @@ class User extends Component {
         })
     }
 
-    loadTable(params) {
+    loadData(params) {
         this.props.save({
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
