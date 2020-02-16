@@ -39,10 +39,9 @@ module.exports = {
         compress: true,
         proxy: {
             "/api": {
-                "target": "https://localhost",
+                "target": "http://localhost",
                 "changeOrigin": true,
-                "pathRewrite": {"^/api": "/"},
-                secure: false
+                "pathRewrite": {"^/api": "/"}
             }
         }
     },
