@@ -123,7 +123,7 @@ class Add extends Component {
                                            onChange={this.handleValueChange.bind(this, 'name')}/>
                                 </Form.Item>
                                 <Form.Item label="描述" className="cms-module-form-item">
-                                    <Input type="description" className="cms-module-form-input" placeholder="请输入描述"
+                                    <Input type="text" className="cms-module-form-input" placeholder="请输入描述"
                                            value={this.props.permission.edit.description}
                                            onChange={this.handleValueChange.bind(this, 'description')}/>
                                 </Form.Item>
