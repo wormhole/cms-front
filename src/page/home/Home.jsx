@@ -177,9 +177,9 @@ class Home extends Component {
                     <Content className="cms-home-body">
                         <Redirect path="/" to="/dashboard"/>
                         {
-                            router.forEach((value, key) => {
+                            Object.keys(router).map((key) => {
                                 return (
-                                    <Route exact path={key} component={value}/>
+                                    <Route exact path={key} component={router[key]}/>
                                 )
                             })
                         }
