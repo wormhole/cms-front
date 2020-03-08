@@ -3,9 +3,9 @@ const HTMLPlugin = require('html-webpack-plugin');
 module.exports = {
     devtool: 'eval-source-map',
     resolve: {
-        extensions: ['.js', '.jsx','.json']
+        extensions: ['.js', '.jsx', '.json']
     },
-    entry: path.join(__dirname, '../src/index.jsx'),
+    entry: path.join(__dirname, '../src/Index.jsx'),
     output: {
         path: path.join(__dirname, '../dist'),
         filename: 'bundle.js'

@@ -1,9 +1,9 @@
 import {Avatar, Dropdown, Icon, Layout, Menu, message} from 'antd';
 import React, {Component} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link, Redirect, Route} from 'react-router-dom';
 import axios from '../../util/axios';
 import logo from '../../image/logo.jpg';
-import Router from "../../module/Router";
+import router from "../../module/router";
 import './home.less';
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -176,7 +176,13 @@ class Home extends Component {
                     </Header>
                     <Content className="cms-home-body">
                         <Redirect path="/" to="/dashboard"/>
-                        <Router/>
+                        {
+                            router.forEach((value, key) => {
+                                return (
+                                    <Route exact path={key} component={value}/>
+                                )
+                            })
+                        }
                         <Footer className="cms-home-footer">{this.props.home.config.copyright}</Footer>
                     </Content>
                 </Layout>
