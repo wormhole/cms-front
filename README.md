@@ -45,8 +45,7 @@ npm run start
 │   ├─util
 │   ├─index.html
 │   ├─App.jsx
-│   ├─index.less
-│   ├─module.less
+│   ├─app.less
 │   └─store.js
 ├─.babelrc
 └─package.json
