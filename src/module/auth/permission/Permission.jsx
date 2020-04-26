@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Breadcrumb, Button, Input, message, Table} from 'antd';
-import {Link} from 'react-router-dom';
-import axios from '../../../util/axios';
+import React, {Component} from "react";
+import {Breadcrumb, Button, Input, message, Table} from "antd";
+import {Link} from "react-router-dom";
+import axios from "../../../util/axios";
 
 class Permission extends Component {
 
@@ -106,7 +106,7 @@ class Permission extends Component {
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key}
         });
-        axios.get('/auth/permission/list', {
+        axios.get("/auth/permission/list", {
             params: {
                 ...params
             }
@@ -148,26 +148,26 @@ class Permission extends Component {
     render() {
 
         const columns = [{
-                title: '权限名',
-                dataIndex: 'name',
-                key: 'name',
+                title: "权限名",
+                dataIndex: "name",
+                key: "name",
                 sorter: true
             }, {
-                title: '描述',
-                dataIndex: 'description',
-                key: 'description'
+                title: "描述",
+                dataIndex: "description",
+                key: "description"
             }, {
-                title: '操作项',
-                fixed: 'right',
+                title: "操作项",
+                fixed: "right",
                 width: 250,
                 render: (recorder) => {
                     return (
                         <div>
                             <a onClick={this.handleEdit.bind(this, recorder.id)}
-                               className="cms-module-table-a">编辑</a>
+                               className="cms-module-normal">编辑</a>
                             {recorder.deletable === 1 ?
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                   className="cms-module-table-danger-a">删除</a> : null
+                                   className="cms-module-danger">删除</a> : null
                             }
                         </div>
                     )
@@ -184,10 +184,10 @@ class Permission extends Component {
                                            className="cms-module-link">权限管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-tool">
-                        <Button type="primary" className="cms-module-tool-button"
+                    <div className="cms-module-head">
+                        <Button type="primary" className="cms-module-button"
                                 onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="danger" className="cms-module-tool-button"
+                        <Button type="danger" className="cms-module-button"
                                 disabled={this.props.permission.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.permission.selectedRowKeys)}
                                 ghost>删除</Button>
@@ -196,10 +196,10 @@ class Permission extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.permission.keyValue}
-                            className="cms-module-tool-search"
+                            className="cms-module-search"
                         />
                     </div>
-                    <div className="cms-module-main">
+                    <div className="cms-module-body">
                         <Table
                             className="cms-module-table"
                             rowSelection={{

@@ -24,7 +24,7 @@ const initState = {
 
 const roleReducer = (state = initState, action) => {
 
-    if (action.type === 'role') {
+    if (action.type === "role") {
         return {
             ...state,
             ...action.state,

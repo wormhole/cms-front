@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from 'antd';
-import {Link} from 'react-router-dom';
-import axios from '../../../util/axios';
+import React, {Component} from "react";
+import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from "antd";
+import {Link} from "react-router-dom";
+import axios from "../../../util/axios";
 
 class User extends Component {
 
@@ -49,7 +49,7 @@ class User extends Component {
     }
 
     handleAdd() {
-        this.props.history.push({pathname: "/auth/user/add", type: "add"});
+        this.props.history.push({pathname: "/home/auth/user/add", type: "add"});
     }
 
     handleEdit(id) {
@@ -58,7 +58,7 @@ class User extends Component {
                 this.props.save({edit: {checkPassword: null, password: null, ...item}});
             }
         });
-        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "base"});
+        this.props.history.push({pathname: "/home/auth/user/add", type: "edit", content: "base"});
     }
 
     handlePassword(id) {
@@ -67,7 +67,7 @@ class User extends Component {
                 this.props.save({edit: {checkPassword: null, password: null, ...item}});
             }
         });
-        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "password"});
+        this.props.history.push({pathname: "/home/auth/user/add", type: "edit", content: "password"});
     }
 
     handleDelete(ids) {
@@ -221,7 +221,7 @@ class User extends Component {
     }
 
     handleTransferChange(targetKeys, direction, moveKeys) {
-        if (direction === 'left') {
+        if (direction === "left") {
             let targetKeys = this.props.user.transferTargetKeys;
             moveKeys.map((item) => {
                 let index = targetKeys.indexOf(item);
@@ -230,7 +230,7 @@ class User extends Component {
                 }
             });
             this.props.save({transferTargetKeys: targetKeys});
-        } else if (direction === 'right') {
+        } else if (direction === "right") {
             let targetKeys = this.props.user.transferTargetKeys;
             moveKeys.map((item) => {
                 targetKeys.push(item);
@@ -283,7 +283,7 @@ class User extends Component {
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
         });
-        axios.get('/auth/user/list', {
+        axios.get("/auth/user/list", {
             params: {
                 ...params
             }
@@ -303,7 +303,7 @@ class User extends Component {
                     }
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
-                this.loadFilters();
+                this.loadRefRole();
             } else {
                 message.error(response.data.message);
             }
@@ -323,8 +323,8 @@ class User extends Component {
         });
     }
 
-    loadFilters() {
-        axios.get('/auth/user/filters').then(response => {
+    loadRefRole() {
+        axios.get("/auth/user/ref_role").then(response => {
             if (response.data.status) {
                 let filters = [];
                 response.data.data.roles.map((item) => {
@@ -356,62 +356,62 @@ class User extends Component {
     render() {
 
         const columns = [{
-            title: '用户名',
-            dataIndex: 'username',
-            key: 'username',
+            title: "用户名",
+            dataIndex: "username",
+            key: "username",
             sorter: true
         }, {
-            title: '电话',
-            dataIndex: 'telephone',
-            key: 'telephone'
+            title: "电话",
+            dataIndex: "telephone",
+            key: "telephone"
         }, {
-            title: '邮箱',
-            dataIndex: 'email',
-            key: 'email'
+            title: "邮箱",
+            dataIndex: "email",
+            key: "email"
         }, {
-            title: '角色',
-            dataIndex: 'roles',
-            key: 'roles',
+            title: "角色",
+            dataIndex: "roles",
+            key: "roles",
             render: (roles) => (
                 <span>
-                        {roles.map(role => (
-                            <Tag color="blue" key={role.id}>
-                                {role.name}
-                            </Tag>
-                        ))}
-                    </span>
+                    {roles.map(role => (
+                        <Tag color="blue" key={role.id}>
+                            {role.name}
+                        </Tag>
+                    ))}
+                </span>
             ),
             filters: this.props.user.filters
         }, {
-            title: '状态',
-            dataIndex: 'enabled',
-            key: 'enabled',
+            title: "状态",
+            dataIndex: "enabled",
+            key: "enabled",
             sorter: true,
             render: (enabled) => (
-                <span>{enabled === 1 ? '启用' : '禁用'}</span>
+                <span>{enabled === 1 ? "启用" : "禁用"}</span>
             )
         }, {
-            title: '操作项',
-            fixed: 'right',
+            title: "操作项",
+            fixed: "right",
             width: 270,
             render: (recorder) => {
                 return (
                     <div>
                         <a onClick={this.handleEdit.bind(this, recorder.id)}
-                           className="cms-module-table-a">编辑</a>
+                           className="cms-module-normal">编辑</a>
                         <a onClick={this.handleGrantRole.bind(this, recorder.id)}
-                           className="cms-module-table-a">分配</a>
+                           className="cms-module-normal">分配</a>
                         <a onClick={this.handlePassword.bind(this, recorder.id)}
-                           className="cms-module-table-danger-a">重置</a>
+                           className="cms-module-danger">重置</a>
                         {recorder.deletable === 1 ?
                             <span>
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                   className="cms-module-table-danger-a">删除</a>
+                                   className="cms-module-danger">删除</a>
                                 {recorder.enabled === 1 ?
                                     <a onClick={this.handleDisabled.bind(this, [recorder.id])}
-                                       className="cms-module-table-danger-a">禁用</a> :
+                                       className="cms-module-danger">禁用</a> :
                                     <a onClick={this.handleEnabled.bind(this, [recorder.id])}
-                                       className="cms-module-table-a">启用</a>
+                                       className="cms-module-normal">启用</a>
                                 }
                             </span> : null
                         }
@@ -425,13 +425,14 @@ class User extends Component {
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>认证与授权</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/auth/user" className="cms-module-link">用户管理</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/auth/user"
+                                           className="cms-module-link">用户管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-tool">
-                        <Button type="primary" className="cms-module-tool-button"
+                    <div className="cms-module-head">
+                        <Button type="primary" className="cms-module-button"
                                 onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="danger" className="cms-module-tool-button"
+                        <Button type="danger" className="cms-module-button"
                                 disabled={this.props.user.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.user.selectedRowKeys)}
                                 ghost>删除</Button>
@@ -440,10 +441,10 @@ class User extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.user.keyValue}
-                            className="cms-module-tool-search"
+                            className="cms-module-search"
                         />
                     </div>
-                    <div className="cms-module-main">
+                    <div className="cms-module-body">
                         <Table
                             className="cms-module-table"
                             rowSelection={{
@@ -469,8 +470,8 @@ class User extends Component {
                         width="450px">
                         <Transfer
                             showSearch
-                            titles={['未分配', '已分配']}
-                            locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
+                            titles={["未分配", "已分配"]}
+                            locale={{itemUnit: "项", itemsUnit: "项", searchPlaceholder: "请输入搜索内容"}}
                             dataSource={this.props.user.transferData}
                             filterOption={this.handleTransferFilter.bind(this)}
                             targetKeys={this.props.user.transferTargetKeys}

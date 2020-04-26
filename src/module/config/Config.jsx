@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Breadcrumb, Button, Form, Input, message, Upload} from 'antd';
-import {Link} from 'react-router-dom';
+import React, {Component} from "react";
+import {Breadcrumb, Button, Form, Input, message, Upload} from "antd";
+import {Link} from "react-router-dom";
 import axios from "../../util/axios";
-import logo from '../../image/logo.jpg';
+import logo from "../../image/logo.jpg";
 import getBase64 from "../../util/image";
 
 class Config extends Component {
@@ -15,9 +15,9 @@ class Config extends Component {
     }
 
     handleValueChange(key, e) {
-        if (key === 'title') {
+        if (key === "title") {
             this.props.save({title: {...this.props.config.title, value: e.target.value}});
-        } else if (key === 'copyright') {
+        } else if (key === "copyright") {
             this.props.save({copyright: {...this.props.config.copyright, value: e.target.value}});
         }
     }
@@ -74,7 +74,7 @@ class Config extends Component {
     handleUpdateHead() {
         let param = new FormData();
         param.append("file", this.props.config.head.file[0]);
-        axios.post('/config/head', param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
+        axios.post("/config/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
             } else {
@@ -101,21 +101,21 @@ class Config extends Component {
             if (response.data.status) {
                 message.success(response.data.message);
                 response.data.data.map(config => {
-                    if (config.key === 'title') {
+                    if (config.key === "title") {
                         this.props.save({
                             title: {id: config.id, key: config.key, value: config.value},
                             original: {...this.props.config.original, title: config.value}
                         });
-                    } else if (config.key === 'copyright') {
+                    } else if (config.key === "copyright") {
                         this.props.save({
                             copyright: {id: config.id, key: config.key, value: config.value},
                             original: {...this.props.config.original, copyright: config.value}
                         });
-                    } else if (config.key === 'head') {
+                    } else if (config.key === "head") {
                         this.props.save({
                             head: {
                                 file: [],
-                                url: config.value === 'default' ? null : process.env.NODE_ENV === 'production' ? '' + config.value : '/api' + config.value
+                                url: config.value === "default" ? null : process.env.NODE_ENV === "production" ? "" + config.value : "/api" + config.value
                             }
                         });
                     }
@@ -140,24 +140,24 @@ class Config extends Component {
     }
 
     loadData() {
-        axios.get('/config/info').then(response => {
+        axios.get("/config/info").then(response => {
             if (response.data.status) {
                 response.data.data.map(config => {
-                    if (config.key === 'title') {
+                    if (config.key === "title") {
                         this.props.save({
                             title: {id: config.id, key: config.key, value: config.value},
                             original: {...this.props.config.original, title: config.value}
                         });
-                    } else if (config.key === 'copyright') {
+                    } else if (config.key === "copyright") {
                         this.props.save({
                             copyright: {id: config.id, key: config.key, value: config.value},
                             original: {...this.props.config.original, copyright: config.value}
                         });
-                    } else if (config.key === 'head') {
+                    } else if (config.key === "head") {
                         this.props.save({
                             head: {
                                 file: [],
-                                url: config.value === 'default' ? null : process.env.NODE_ENV === 'production' ? '' + config.value : '/api' + config.value
+                                url: config.value === "default" ? null : process.env.NODE_ENV === "production" ? "" + config.value : "/api" + config.value
                             }
                         });
                     }
@@ -190,13 +190,13 @@ class Config extends Component {
                                            className="cms-module-link">系统设置</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-tool">
-                        <Button type="primary" className="cms-module-tool-button"
+                    <div className="cms-module-head">
+                        <Button type="primary" className="cms-module-button"
                                 onClick={this.handleRestore.bind(this)}>还原默认</Button>
-                        <Button type="primary" className="cms-module-tool-back" onClick={this.handleBack.bind(this)}
+                        <Button type="primary" className="cms-module-back" onClick={this.handleBack.bind(this)}
                                 ghost>返回</Button>
                     </div>
-                    <div className="cms-module-main">
+                    <div className="cms-module-body">
                         <Form {...{
                             labelCol: {
                                 xs: {span: 2},
@@ -208,19 +208,19 @@ class Config extends Component {
                             }
                         }} className="cms-module-form">
                             <div>
-                                <Form.Item label="标题" className="cms-module-form-item">
-                                    <Input type="text" className="cms-module-form-input" placeholder="请输入标题信息"
+                                <Form.Item label="标题" className="cms-module-item">
+                                    <Input type="text" className="cms-module-input" placeholder="请输入标题信息"
                                            value={this.props.config.title.value}
-                                           onChange={this.handleValueChange.bind(this, 'title')}/>
+                                           onChange={this.handleValueChange.bind(this, "title")}/>
                                 </Form.Item>
-                                <Form.Item label="版权" className="cms-module-form-item">
-                                    <Input type="text" className="cms-module-form-input" placeholder="请输入版权信息"
+                                <Form.Item label="版权" className="cms-module-item">
+                                    <Input type="text" className="cms-module-input" placeholder="请输入版权信息"
                                            value={this.props.config.copyright.value}
-                                           onChange={this.handleValueChange.bind(this, 'copyright')}/>
+                                           onChange={this.handleValueChange.bind(this, "copyright")}/>
                                 </Form.Item>
-                                <Form.Item label="操作" className="cms-module-form-item">
+                                <Form.Item label="操作" className="cms-module-item">
                                     <Button type="primary" onClick={this.handleUpdate.bind(this)}
-                                            disabled={this.props.config.original.title === this.props.config.title.value && this.props.config.original.copyright === this.props.config.copyright.value}>更新基本信息</Button>
+                                            disabled={this.props.config.original.title === this.props.config.title.value && this.props.config.original.copyright === this.props.config.copyright.value}>更新设置</Button>
                                 </Form.Item>
                                 <Form.Item label="头像" className="cms-form-item">
                                     <Upload
@@ -229,11 +229,11 @@ class Config extends Component {
                                         showUploadList={false}
                                         beforeUpload={this.handleBeforeUpload.bind(this)}>
                                         {this.props.config.head.url ?
-                                            <img src={this.props.config.head.url} style={{width: '100%'}}/> :
-                                            <img src={logo} style={{width: '100%'}}/>}
+                                            <img src={this.props.config.head.url} style={{width: "100%"}}/> :
+                                            <img src={logo} style={{width: "100%"}}/>}
                                     </Upload>
                                 </Form.Item>
-                                <Form.Item label="操作" className="cms-module-form-item">
+                                <Form.Item label="操作" className="cms-module-item">
                                     <Button type="primary" onClick={this.handleUpdateHead.bind(this)}
                                             disabled={this.props.config.head.file.length > 0 ? false : true}>更新头像</Button>
                                 </Form.Item>

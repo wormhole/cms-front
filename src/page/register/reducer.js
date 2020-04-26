@@ -1,16 +1,17 @@
 const initState = {
-    username: '',
-    telephone: '',
-    email: '',
-    password: '',
-    checkPassword: '',
-    vcode: '',
-    vcodeApi: process.env.NODE_ENV === 'production' ? '/vcode' : '/api/vcode'
+    username: "",
+    telephone: "",
+    email: "",
+    password: "",
+    checkPassword: "",
+    vcode: "",
+    role: "customer",
+    vcodeApi: process.env.NODE_ENV === "production" ? "/vcode" : "/api/vcode"
 };
 
 const registerReducer = (state = initState, action) => {
 
-    if (action.type === 'register') {
+    if (action.type === "register") {
         return {
             ...state,
             ...action.state,

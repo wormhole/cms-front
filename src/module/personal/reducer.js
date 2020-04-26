@@ -1,20 +1,13 @@
 const initState = {
-    original: {
-        username: null,
-        email: null,
-        telephone: null
-    },
     id: null,
     username: null,
     email: null,
-    telephone: null,
-    password: null,
-    checkPassword: null
+    telephone: null
 };
 
 const personalReducer = (state = initState, action) => {
 
-    if (action.type === 'personal') {
+    if (action.type === "personal") {
         return {
             ...state,
             ...action.state,

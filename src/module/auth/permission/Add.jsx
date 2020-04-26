@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {Breadcrumb, Button, Form, Input, message} from 'antd';
-import {Link} from 'react-router-dom';
+import React, {Component} from "react";
+import {Breadcrumb, Button, Form, Input, message} from "antd";
+import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 
 class Add extends Component {
@@ -15,6 +15,10 @@ class Add extends Component {
     }
 
     componentWillUnmount() {
+        this.handleClear();
+    }
+
+    handleClear() {
         this.props.save({
             edit: {
                 id: null,
@@ -29,7 +33,7 @@ class Add extends Component {
     }
 
     handleSave() {
-        if (this.props.location.type === 'edit') {
+        if (this.props.location.type === "edit") {
             let param = {
                 id: this.props.permission.edit.id,
                 name: this.props.permission.edit.name,
@@ -55,13 +59,14 @@ class Add extends Component {
                         break;
                 }
             });
-        } else if (this.props.location.type === 'add') {
-            axios.post('/auth/permission/add', {
+        } else if (this.props.location.type === "add") {
+            axios.post("/auth/permission/add", {
                 name: this.props.permission.edit.name,
                 description: this.props.permission.edit.description
             }).then(response => {
                 if (response.data.status === true) {
                     message.success(response.data.message);
+                    this.handleClear();
                 } else {
                     message.error(response.data.message);
                 }
@@ -96,13 +101,13 @@ class Add extends Component {
                     <Breadcrumb.Item><Link to="/auth/permission"
                                            className="cms-module-link">权限管理</Link></Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/auth/permission/add"
-                                           className="cms-module-link">{this.props.location.type === 'edit' ? '编辑' : '添加'}</Link></Breadcrumb.Item>
+                                           className="cms-module-link">{this.props.location.type === "edit" ? "编辑" : "添加"}</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-tool">
-                        <Button type="primary" className="cms-module-tool-back" onClick={this.handleBack.bind(this)}
+                    <div className="cms-module-head">
+                        <Button type="primary" className="cms-module-back" onClick={this.handleBack.bind(this)}
                                 ghost>返回</Button>
-                        <Button type="primary" className="cms-module-tool-button"
+                        <Button type="primary" className="cms-module-button"
                                 onClick={this.handleSave.bind(this)}>保存</Button>
                     </div>
                     <div className="cms-module-main">
@@ -117,15 +122,15 @@ class Add extends Component {
                             }
                         }} className="cms-module-form">
                             <div>
-                                <Form.Item label="权限名" className="cms-module-form-item">
-                                    <Input type="text" className="cms-module-form-input" placeholder="请输入权限名"
+                                <Form.Item label="权限名" className="cms-module-item">
+                                    <Input type="text" className="cms-module-input" placeholder="请输入权限名"
                                            value={this.props.permission.edit.name}
-                                           onChange={this.handleValueChange.bind(this, 'name')}/>
+                                           onChange={this.handleValueChange.bind(this, "name")}/>
                                 </Form.Item>
-                                <Form.Item label="描述" className="cms-module-form-item">
-                                    <Input type="text" className="cms-module-form-input" placeholder="请输入描述"
+                                <Form.Item label="描述" className="cms-module-item">
+                                    <Input type="text" className="cms-module-input" placeholder="请输入描述"
                                            value={this.props.permission.edit.description}
-                                           onChange={this.handleValueChange.bind(this, 'description')}/>
+                                           onChange={this.handleValueChange.bind(this, "description")}/>
                                 </Form.Item>
                             </div>
                         </Form>

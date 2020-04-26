@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {Avatar, Card, Col, List, message, Modal, Row, Statistic} from 'antd';
-import {Pie} from '@antv/g2plot';
+import React, {Component} from "react";
+import {Avatar, Card, Col, List, message, Modal, Row, Statistic} from "antd";
+import {Pie} from "@antv/g2plot";
+import {ApartmentOutlined, GlobalOutlined, IdcardOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
 
@@ -32,20 +33,20 @@ class DashBoard extends Component {
 
     initCpuChart() {
         let data = [];
-        data.push({type: '已使用', value: this.props.dashboard.cpu.used});
-        data.push({type: '未使用', value: this.props.dashboard.cpu.free});
+        data.push({type: "已使用", value: this.props.dashboard.cpu.used});
+        data.push({type: "未使用", value: this.props.dashboard.cpu.free});
         this.props.save({cpuData: data});
 
         if (!this.props.dashboard.cpuPlot) {
-            let cpuPlot = new Pie(document.getElementById('cpu'), {
+            let cpuPlot = new Pie(document.getElementById("cpu"), {
                 forceFit: true,
                 radius: 0.8,
                 data: this.props.dashboard.cpuData,
-                angleField: 'value',
-                colorField: 'type',
+                angleField: "value",
+                colorField: "type",
                 label: {
                     visible: true,
-                    type: 'spider',
+                    type: "spider",
                 },
             });
             this.props.save({cpuPlot: cpuPlot});
@@ -55,20 +56,20 @@ class DashBoard extends Component {
 
     initMemChart() {
         let data = [];
-        data.push({type: '已使用', value: this.props.dashboard.mem.used});
-        data.push({type: '未使用', value: this.props.dashboard.mem.free});
+        data.push({type: "已使用", value: this.props.dashboard.mem.used});
+        data.push({type: "未使用", value: this.props.dashboard.mem.free});
         this.props.save({memData: data});
 
         if (!this.props.dashboard.memPlot) {
-            let memPlot = new Pie(document.getElementById('mem'), {
+            let memPlot = new Pie(document.getElementById("mem"), {
                 forceFit: true,
                 radius: 0.8,
                 data: data,
-                angleField: 'value',
-                colorField: 'type',
+                angleField: "value",
+                colorField: "type",
                 label: {
                     visible: true,
-                    type: 'spider',
+                    type: "spider",
                 },
             });
             this.props.save({memPlot: memPlot});
@@ -78,20 +79,20 @@ class DashBoard extends Component {
 
     initDiskChart() {
         let data = [];
-        data.push({type: '已使用', value: this.props.dashboard.disk.used});
-        data.push({type: '未使用', value: this.props.dashboard.disk.free});
+        data.push({type: "已使用", value: this.props.dashboard.disk.used});
+        data.push({type: "未使用", value: this.props.dashboard.disk.free});
         this.props.save({diskData: data});
 
         if (!this.props.dashboard.diskPlot) {
-            let diskPlot = new Pie(document.getElementById('disk'), {
+            let diskPlot = new Pie(document.getElementById("disk"), {
                 forceFit: true,
                 radius: 0.8,
                 data: data,
-                angleField: 'value',
-                colorField: 'type',
+                angleField: "value",
+                colorField: "type",
                 label: {
                     visible: true,
-                    type: 'spider',
+                    type: "spider",
                 },
             });
             this.props.save({diskPlot: diskPlot});
@@ -100,7 +101,7 @@ class DashBoard extends Component {
     }
 
     loadData(callback) {
-        axios.get('/dashboard/info').then(response => {
+        axios.get("/dashboard/info").then(response => {
             if (response.data.status) {
                 this.props.save({
                     count: response.data.data.count,
@@ -129,7 +130,7 @@ class DashBoard extends Component {
     }
 
     handleOnlineShow() {
-        axios.get('/dashboard/online').then(response => {
+        axios.get("/dashboard/online").then(response => {
             if (response.data.status) {
                 this.props.save({
                     online: response.data.data,
@@ -170,14 +171,14 @@ class DashBoard extends Component {
                         <Col span={6}>
                             <Card className="cms-module-card">
                                 <div id="user" className="cms-module-info">
-                                    <div className="cms-module-info-left">
-                                        <Avatar size={90} icon="team" style={{backgroundColor: '#E77474'}}/>
+                                    <div className="cms-module-left">
+                                        <Avatar size={90} icon={<TeamOutlined/>} style={{backgroundColor: "#E77474"}}/>
                                     </div>
-                                    <div className="cms-module-info-right">
-                                        <div className="cms-module-info-title">用户数量（在线/总数）</div>
-                                        <div className="cms-module-info-number">
+                                    <div className="cms-module-right">
+                                        <div className="cms-module-title">用户数量（在线/总数）</div>
+                                        <div className="cms-module-number">
                                             <a onClick={this.handleOnlineShow.bind(this)}>{this.props.dashboard.count.online}</a>/
-                                            <Link to="/auth/user">{this.props.dashboard.count.user}</Link>
+                                            <Link to="/home/auth/user">{this.props.dashboard.count.user}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -186,13 +187,14 @@ class DashBoard extends Component {
                         <Col span={6}>
                             <Card className="cms-module-card">
                                 <div id="role" className="cms-module-info">
-                                    <div className="cms-module-info-left">
-                                        <Avatar size={90} icon="idcard" style={{backgroundColor: '#F5D05B'}}/>
+                                    <div className="cms-module-left">
+                                        <Avatar size={90} icon={<IdcardOutlined/>}
+                                                style={{backgroundColor: "#F5D05B"}}/>
                                     </div>
-                                    <div className="cms-module-info-right">
-                                        <div className="cms-module-info-title">角色数量</div>
-                                        <div className="cms-module-info-number">
-                                            <Link to="/auth/role">{this.props.dashboard.count.role}</Link>
+                                    <div className="cms-module-right">
+                                        <div className="cms-module-title">角色数量</div>
+                                        <div className="cms-module-number">
+                                            <Link to="/home/auth/role">{this.props.dashboard.count.role}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -201,13 +203,15 @@ class DashBoard extends Component {
                         <Col span={6}>
                             <Card className="cms-module-card">
                                 <div id="permission" className="cms-module-info">
-                                    <div className="cms-module-info-left">
-                                        <Avatar size={90} icon="apartment" style={{backgroundColor: '#FB9D62'}}/>
+                                    <div className="cms-module-left">
+                                        <Avatar size={90} icon={<ApartmentOutlined/>}
+                                                style={{backgroundColor: "#FB9D62"}}/>
                                     </div>
-                                    <div className="cms-module-info-right">
-                                        <div className="cms-module-info-title">权限数量</div>
-                                        <div className="cms-module-info-number">
-                                            <Link to="/auth/permission">{this.props.dashboard.count.permission}</Link>
+                                    <div className="cms-module-right">
+                                        <div className="cms-module-title">权限数量</div>
+                                        <div className="cms-module-number">
+                                            <Link
+                                                to="/home/auth/permission">{this.props.dashboard.count.permission}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -216,12 +220,13 @@ class DashBoard extends Component {
                         <Col span={6}>
                             <Card className="cms-module-card">
                                 <div id="net" className="cms-module-info">
-                                    <div className="cms-module-info-left">
-                                        <Avatar size={90} icon="global" style={{backgroundColor: '#70BFEF'}}/>
+                                    <div className="cms-module-left">
+                                        <Avatar size={90} icon={<GlobalOutlined/>}
+                                                style={{backgroundColor: "#70BFEF"}}/>
                                     </div>
-                                    <div className="cms-module-info-right">
-                                        <div className="cms-module-info-title">网络流量（上传/下载）</div>
-                                        <div className="cms-module-info-number">
+                                    <div className="cms-module-right">
+                                        <div className="cms-module-title">网络流量（上传/下载）</div>
+                                        <div className="cms-module-number">
                                             {this.props.dashboard.net.upload}/{this.props.dashboard.net.download}
                                         </div>
                                     </div>
@@ -276,7 +281,7 @@ class DashBoard extends Component {
                             renderItem={item => (
                                 <List.Item>
                                     <List.Item.Meta
-                                        avatar={<Avatar icon="user"/>}
+                                        avatar={<Avatar style={{backgroundColor: "#87d068"}} icon={<UserOutlined/>}/>}
                                         title={item}
                                     />
                                 </List.Item>

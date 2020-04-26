@@ -44,7 +44,7 @@ npm run start
 │   │  └─register
 │   ├─util
 │   ├─index.html
-│   ├─Index.jsx
+│   ├─App.jsx
 │   ├─index.less
 │   ├─module.less
 │   └─store.js

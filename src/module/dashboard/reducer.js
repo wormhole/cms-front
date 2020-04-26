@@ -17,7 +17,7 @@ const initState = {
 
 const dashboardReducer = (state = initState, action) => {
 
-    if (action.type === 'dashboard') {
+    if (action.type === "dashboard") {
         return {
             ...state,
             ...action.state,

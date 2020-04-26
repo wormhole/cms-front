@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
     permission: permissionReducer,
     personal: personalReducer,
     config: configReducer,
-    dashboard: dashboardReducer
+    dashboard: dashboardReducer,
 });
 
 const store = createStore(rootReducer);

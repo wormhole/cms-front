@@ -1,21 +1,18 @@
-const initState = {
-    username: '',
-    password: '',
-    rememberMe: false,
-    vcode: '',
-    vcodeApi: process.env.NODE_ENV === 'production' ? '/vcode' : '/api/vcode'
-};
+import {connect} from "react-redux";
+import Login from "./Login";
+import action from "../../util/action";
+import {withRouter} from "react-router-dom";
 
-const loginReducer = (state = initState, action) => {
-
-    if (action.type === 'login') {
-        return {
-            ...state,
-            ...action.state,
-        };
-    } else {
-        return state;
+const mapStateToProps = (state) => {
+    return {
+        login: state.login
     }
 };
 
-export default loginReducer;
+const mapActionToProps = (dispatch) => {
+    return {
+        save: (state) => dispatch(action(state, "login"))
+    }
+};
+
+export default withRouter(connect(mapStateToProps, mapActionToProps)(Login));

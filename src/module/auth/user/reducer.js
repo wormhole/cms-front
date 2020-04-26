@@ -20,14 +20,14 @@ const initState = {
         username: null,
         email: null,
         telephone: null,
-        password: null,
+        newPassword: null,
         checkPassword: null
     }
 };
 
 const userReducer = (state = initState, action) => {
 
-    if (action.type === 'user') {
+    if (action.type === "user") {
         return {
             ...state,
             ...action.state,

@@ -1,29 +1,29 @@
-const path = require('path');
-const HTMLPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HTMLPlugin = require("html-webpack-plugin");
 module.exports = {
-    devtool: 'eval-source-map',
+    devtool: "eval-source-map",
     resolve: {
-        extensions: ['.js', '.jsx', '.json']
+        extensions: [".js", ".jsx", ".json"]
     },
-    entry: path.join(__dirname, '../src/Index.jsx'),
+    entry: path.join(__dirname, "../src/App.jsx"),
     output: {
-        path: path.join(__dirname, '../dist'),
-        filename: 'bundle.js'
+        path: path.join(__dirname, "../dist"),
+        filename: "bundle.js"
     },
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                loader: 'babel-loader',
+                loader: "babel-loader",
                 exclude: /node_modules/
             },
             {
                 test: /\.(le|c)ss$/,
-                use: ['style-loader', 'css-loader', 'less-loader']
+                use: ["style-loader", "css-loader", "less-loader"]
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
-                loader: 'url-loader',
+                loader: "url-loader",
                 options: {
                     limit: 10000
                 }
@@ -32,8 +32,8 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, "../dist/"),
-        host: 'localhost',
-        port: '3000',
+        host: "localhost",
+        port: "3000",
         inline: true,
         open: true,
         compress: true,
@@ -47,7 +47,7 @@ module.exports = {
     },
     plugins: [
         new HTMLPlugin({
-            template: path.join(__dirname, '../src/index.html')
+            template: path.join(__dirname, "../src/index.html")
         })
     ]
 };

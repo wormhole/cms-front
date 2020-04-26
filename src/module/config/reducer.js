@@ -21,7 +21,7 @@ const initState = {
 
 const configReducer = (state = initState, action) => {
 
-    if (action.type === 'config') {
+    if (action.type === "config") {
         return {
             ...state,
             ...action.state,

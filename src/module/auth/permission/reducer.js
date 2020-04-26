@@ -18,7 +18,7 @@ const initState = {
 
 const permissionReducer = (state = initState, action) => {
 
-    if (action.type === 'permission') {
+    if (action.type === "permission") {
         return {
             ...state,
             ...action.state,

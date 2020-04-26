@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from 'antd';
-import {Link} from 'react-router-dom';
-import axios from '../../../util/axios';
+import React, {Component} from "react";
+import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from "antd";
+import {Link} from "react-router-dom";
+import axios from "../../../util/axios";
 
 class Role extends Component {
 
@@ -150,7 +150,7 @@ class Role extends Component {
     }
 
     handleTransferChange(targetKeys, direction, moveKeys) {
-        if (direction === 'left') {
+        if (direction === "left") {
             let targetKeys = this.props.role.transferTargetKeys;
             moveKeys.map((item) => {
                 let index = targetKeys.indexOf(item);
@@ -159,7 +159,7 @@ class Role extends Component {
                 }
             });
             this.props.save({transferTargetKeys: targetKeys});
-        } else if (direction === 'right') {
+        } else if (direction === "right") {
             let targetKeys = this.props.role.transferTargetKeys;
             moveKeys.map((item) => {
                 targetKeys.push(item);
@@ -212,7 +212,7 @@ class Role extends Component {
             loading: true,
             params: {sort: params.sort, order: params.order, key: params.key, permissionIds: params.permissionIds}
         });
-        axios.get('/auth/role/list', {
+        axios.get("/auth/role/list", {
             params: {
                 ...params
             }
@@ -232,7 +232,7 @@ class Role extends Component {
                     }
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
-                this.loadFilters();
+                this.loadRefPermission();
             } else {
                 message.error(response.data.message);
             }
@@ -252,8 +252,8 @@ class Role extends Component {
         });
     }
 
-    loadFilters() {
-        axios.get('/auth/role/filters').then(response => {
+    loadRefPermission() {
+        axios.get("/auth/role/ref_permission").then(response => {
             if (response.data.status) {
                 let filters = [];
                 response.data.data.permissions.map((item) => {
@@ -285,18 +285,18 @@ class Role extends Component {
     render() {
 
         const columns = [{
-                title: '角色名',
-                dataIndex: 'name',
-                key: 'name',
+                title: "角色名",
+                dataIndex: "name",
+                key: "name",
                 sorter: true
             }, {
-                title: '描述',
-                dataIndex: 'description',
-                key: 'description'
+                title: "描述",
+                dataIndex: "description",
+                key: "description"
             }, {
-                title: '权限',
-                dataIndex: 'permissions',
-                key: 'permissions',
+                title: "权限",
+                dataIndex: "permissions",
+                key: "permissions",
                 render: (permissions) => (
                     <span>
                         {permissions.map(permission => (
@@ -308,19 +308,19 @@ class Role extends Component {
                 ),
                 filters: this.props.role.filters
             }, {
-                title: '操作项',
-                fixed: 'right',
+                title: "操作项",
+                fixed: "right",
                 width: 250,
                 render: (recorder) => {
                     return (
                         <div>
                             <a onClick={this.handleEdit.bind(this, recorder.id)}
-                               className="cms-module-table-a">编辑</a>
+                               className="cms-module-normal">编辑</a>
                             <a onClick={this.handleGrantPermission.bind(this, recorder.id)}
-                               className="cms-module-table-a">分配</a>
+                               className="cms-module-normal">分配</a>
                             {recorder.deletable === 1 ?
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                   className="cms-module-table-danger-a">删除</a> : null
+                                   className="cms-module-danger">删除</a> : null
                             }
                         </div>
                     )
@@ -333,13 +333,14 @@ class Role extends Component {
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>认证与授权</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/auth/role" className="cms-module-link">角色管理</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/auth/role"
+                                           className="cms-module-link">角色管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
-                    <div className="cms-module-tool">
-                        <Button type="primary" className="cms-module-tool-button"
+                    <div className="cms-module-head">
+                        <Button type="primary" className="cms-module-button"
                                 onClick={this.handleAdd.bind(this)}>添加</Button>
-                        <Button type="danger" className="cms-module-tool-button"
+                        <Button type="danger" className="cms-module-button"
                                 disabled={this.props.role.selectedRowKeys.length > 0 ? false : true}
                                 onClick={this.handleDelete.bind(this, this.props.role.selectedRowKeys)}
                                 ghost>删除</Button>
@@ -348,10 +349,10 @@ class Role extends Component {
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
                             value={this.props.role.keyValue}
-                            className="cms-module-tool-search"
+                            className="cms-module-search"
                         />
                     </div>
-                    <div className="cms-module-main">
+                    <div className="cms-module-body">
                         <Table
                             className="cms-module-table"
                             rowSelection={{
@@ -377,8 +378,8 @@ class Role extends Component {
                         width="450px">
                         <Transfer
                             showSearch
-                            titles={['未分配', '已分配']}
-                            locale={{itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容'}}
+                            titles={["未分配", "已分配"]}
+                            locale={{itemUnit: "项", itemsUnit: "项", searchPlaceholder: "请输入搜索内容"}}
                             dataSource={this.props.role.transferData}
                             filterOption={this.handleTransferFilter.bind(this)}
                             targetKeys={this.props.role.transferTargetKeys}

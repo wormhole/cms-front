@@ -1,8 +1,8 @@
 {
-  "name": "cms-front",
+  "name": "shop-front",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "App.jsx",
   "scripts": {
     "start": "webpack-dev-server --config ./config/webpack.config.js --mode development",
     "build": "webpack --config ./config/webpack.config.js --mode production"
@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@antv/g2plot": "^0.11.22",
-    "antd": "^3.26.2",
+    "antd": "^4.1.0",
     "axios": "^0.19.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",

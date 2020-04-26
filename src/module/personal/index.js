@@ -1,7 +1,7 @@
-import {connect} from 'react-redux';
-import Personal from './Personal';
-import action from '../../util/action';
-import {withRouter} from 'react-router-dom';
+import {connect} from "react-redux";
+import Personal from "./Personal";
+import action from "../../util/action";
+import {withRouter} from "react-router-dom";
 
 const mapStateToProps = (state) => {
     return {
