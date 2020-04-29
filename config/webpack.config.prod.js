@@ -1,7 +1,6 @@
 const path = require("path");
 const HTMLPlugin = require("html-webpack-plugin");
 module.exports = {
-    devtool: "eval-source-map",
     resolve: {
         extensions: [".js", ".jsx", ".json"]
     },
@@ -25,25 +24,10 @@ module.exports = {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 loader: "url-loader",
                 options: {
-                    limit: 10000
+                    limit: 100
                 }
             }
         ]
-    },
-    devServer: {
-        contentBase: path.join(__dirname, "../dist/"),
-        host: "localhost",
-        port: "3000",
-        inline: true,
-        open: true,
-        compress: true,
-        proxy: {
-            "/api": {
-                "target": "http://localhost",
-                "changeOrigin": true,
-                "pathRewrite": {"^/api": "/"}
-            }
-        }
     },
     plugins: [
         new HTMLPlugin({

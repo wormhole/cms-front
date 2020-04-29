@@ -27,7 +27,7 @@ npm run start
 ## 二、项目结构
 ```$xslt
 ├─config
-│   └─webpack.config.js
+│   └─webpack.config.dev.js
 ├─src
 │   ├─image
 │   ├─module

@@ -1,11 +1,11 @@
 {
-  "name": "shop-front",
+  "name": "cms-front",
   "version": "1.0.0",
   "description": "",
   "main": "App.jsx",
   "scripts": {
-    "start": "webpack-dev-server --config ./config/webpack.config.js --mode development",
-    "build": "webpack --config ./config/webpack.config.js --mode production"
+    "start": "webpack-dev-server --config config/webpack.config.dev.js --mode development",
+    "build": "webpack --config config/webpack.config.prod.js --mode production"
   },
   "keywords": [],
   "author": "",
