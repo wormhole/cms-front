@@ -16,7 +16,7 @@ class Register extends Component {
 
     handleClear() {
         this.props.save({
-            vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" : "/api/vcode?" + Math.random(),
+            vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" + Math.random(): "/api/vcode?" + Math.random(),
             username: null,
             telephone: null,
             email: null,

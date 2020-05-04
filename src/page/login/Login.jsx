@@ -66,7 +66,7 @@ class Login extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" : "/api/vcode?" + Math.random()});
+        this.props.save({vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" + Math.random() : "/api/vcode?" + Math.random()});
     }
 
     render() {
