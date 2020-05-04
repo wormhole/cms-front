@@ -20,7 +20,7 @@ class Login extends Component {
             password: null,
             vcode: null,
             rememberMe: null,
-            vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" : "/api/vcode?" + Math.random()
+            vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" + Math.random() : "/api/vcode?" + Math.random()
         });
     }
 
@@ -37,7 +37,7 @@ class Login extends Component {
                 this.props.history.push("/");
             } else {
                 message.error(response.data.message);
-                this.props.save({vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" : "/api/vcode?" + Math.random()})
+                this.props.save({vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" + Math.random() : "/api/vcode?" + Math.random()})
             }
         }).catch(error => {
             switch (error.response.status) {
