@@ -49,7 +49,7 @@ class User extends Component {
     }
 
     handleAdd() {
-        this.props.history.push({pathname: "/home/auth/user/add", type: "add"});
+        this.props.history.push({pathname: "/auth/user/add", type: "add"});
     }
 
     handleEdit(id) {
@@ -58,7 +58,7 @@ class User extends Component {
                 this.props.save({edit: {checkPassword: null, password: null, ...item}});
             }
         });
-        this.props.history.push({pathname: "/home/auth/user/add", type: "edit", content: "base"});
+        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "base"});
     }
 
     handlePassword(id) {
@@ -67,7 +67,7 @@ class User extends Component {
                 this.props.save({edit: {checkPassword: null, password: null, ...item}});
             }
         });
-        this.props.history.push({pathname: "/home/auth/user/add", type: "edit", content: "password"});
+        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "password"});
     }
 
     handleDelete(ids) {

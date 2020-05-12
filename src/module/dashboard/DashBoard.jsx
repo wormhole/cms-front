@@ -178,7 +178,7 @@ class DashBoard extends Component {
                                         <div className="cms-module-title">用户数量（在线/总数）</div>
                                         <div className="cms-module-number">
                                             <a onClick={this.handleOnlineShow.bind(this)}>{this.props.dashboard.count.online}</a>/
-                                            <Link to="/home/auth/user">{this.props.dashboard.count.user}</Link>
+                                            <Link to="/auth/user">{this.props.dashboard.count.user}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@ class DashBoard extends Component {
                                     <div className="cms-module-right">
                                         <div className="cms-module-title">角色数量</div>
                                         <div className="cms-module-number">
-                                            <Link to="/home/auth/role">{this.props.dashboard.count.role}</Link>
+                                            <Link to="/auth/role">{this.props.dashboard.count.role}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@ class DashBoard extends Component {
                                         <div className="cms-module-title">权限数量</div>
                                         <div className="cms-module-number">
                                             <Link
-                                                to="/home/auth/permission">{this.props.dashboard.count.permission}</Link>
+                                                to="/auth/permission">{this.props.dashboard.count.permission}</Link>
                                         </div>
                                     </div>
                                 </div>

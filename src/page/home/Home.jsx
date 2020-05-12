@@ -189,7 +189,7 @@ class Home extends Component {
                             <span><Link to="/dashboard"
                                         className="cms-home-link">仪表盘</Link></span>
                         </Menu.Item>
-                        {this.props.home.user.permissions.indexOf("user") > -1 ?
+                        {this.props.home.user.permissions.indexOf("auth") > -1 ?
                             <SubMenu
                                 className="cms-home-submenu"
                                 key="auth"
