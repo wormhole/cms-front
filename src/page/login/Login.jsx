@@ -18,9 +18,9 @@ class Login extends Component {
         this.props.save({
             username: null,
             password: null,
-            vcode: null,
+            code: null,
             rememberMe: null,
-            vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" + Math.random() : "/api/vcode?" + Math.random()
+            codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()
         });
     }
 
@@ -28,7 +28,7 @@ class Login extends Component {
         let param = new FormData();
         param.append("username", this.props.login.username);
         param.append("password", this.props.login.password);
-        param.append("vcode", this.props.login.vcode);
+        param.append("code", this.props.login.code);
         param.append("rememberMe", this.props.login.rememberMe);
         axios.post("/login", param, {headers: {"Content-Type": "multipart/form-data"},}).then(response => {
             if (response.data.status === true) {
@@ -37,7 +37,7 @@ class Login extends Component {
                 this.props.history.push("/");
             } else {
                 message.error(response.data.message);
-                this.props.save({vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" + Math.random() : "/api/vcode?" + Math.random()})
+                this.props.save({codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()})
             }
         }).catch(error => {
             switch (error.response.status) {
@@ -47,11 +47,11 @@ class Login extends Component {
                     break;
                 case 403:
                     message.error(error.response.data.message);
-                    this.props.save({vcodeApi: this.props.login.vcodeApi + "?" + Math.random()});
+                    this.props.save({codeApi: this.props.login.codeApi + "?" + Math.random()});
                     break;
                 default:
                     message.error(error.response.data.message);
-                    this.props.save({vcodeApi: this.props.login.vcodeApi + "?" + Math.random()});
+                    this.props.save({codeApi: this.props.login.codeApi + "?" + Math.random()});
                     break;
             }
         });
@@ -66,7 +66,7 @@ class Login extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({vcodeApi: process.env.NODE_ENV === "production" ? "/vcode?" + Math.random() : "/api/vcode?" + Math.random()});
+        this.props.save({codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()});
     }
 
     render() {
@@ -103,12 +103,12 @@ class Login extends Component {
                                             type="text"
                                             placeholder="验证码"
                                             className="cms-login-input"
-                                            value={this.props.login.vcode}
-                                            onChange={this.handleValueChange.bind(this, "vcode")}
+                                            value={this.props.login.code}
+                                            onChange={this.handleValueChange.bind(this, "code")}
                                         />
                                     </Col>
                                     <Col span={10}>
-                                        <img src={this.props.login.vcodeApi} className="cms-login-img"
+                                        <img src={this.props.login.codeApi} className="cms-login-img"
                                              id="verify-img" onClick={this.handleVCodeChange.bind(this)}/>
                                     </Col>
                                 </Row>

@@ -2,8 +2,8 @@ const initState = {
     username: "",
     password: "",
     rememberMe: false,
-    vcode: "",
-    vcodeApi: process.env.NODE_ENV === "production" ? "/vcode" : "/api/vcode"
+    code: "",
+    codeApi: process.env.NODE_ENV === "production" ? "/code" : "/api/code"
 };
 
 const loginReducer = (state = initState, action) => {

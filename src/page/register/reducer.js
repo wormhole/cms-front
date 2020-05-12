@@ -4,9 +4,9 @@ const initState = {
     email: "",
     password: "",
     checkPassword: "",
-    vcode: "",
+    code: "",
     role: "customer",
-    vcodeApi: process.env.NODE_ENV === "production" ? "/vcode" : "/api/vcode"
+    codeApi: process.env.NODE_ENV === "production" ? "/code" : "/api/code"
 };
 
 const registerReducer = (state = initState, action) => {
