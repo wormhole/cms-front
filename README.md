@@ -1,4 +1,4 @@
-# 内容管理系统(后端工程)
+# 内容管理系统(前端工程)
 [![downloads](https://img.shields.io/github/downloads/wormhole/cms-front/total.svg)](https://github.com/wormhole/cms-front/releases)
 [![forks](https://img.shields.io/github/forks/wormhole/cms-front.svg)](https://github.com/stdutil/cms-front/network/members)
 [![stars](https://img.shields.io/github/stars/wormhole/cms-front.svg)](https://github.com/stdutil/cms-front/stargazers) 
