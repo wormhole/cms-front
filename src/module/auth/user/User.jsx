@@ -10,12 +10,7 @@ class User extends Component {
     }
 
     componentDidMount() {
-        let params = {
-            page: 1,
-            limit: 10,
-            ...this.props.user.params
-        };
-        this.loadData(params);
+        this.loadData();
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -279,10 +274,18 @@ class User extends Component {
     }
 
     loadData(params) {
-        this.props.save({
-            loading: true,
-            params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
-        });
+        if (params) {
+            this.props.save({
+                loading: true,
+                params: {sort: params.sort, order: params.order, key: params.key, roleIds: params.roleIds}
+            });
+        } else {
+            params = {
+                page: this.props.user.pagination.current,
+                limit: this.props.user.pagination.pageSize,
+                ...this.props.user.params
+            }
+        }
         axios.get("/auth/user/list", {
             params: {
                 ...params
