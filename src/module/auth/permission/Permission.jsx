@@ -10,12 +10,7 @@ class Permission extends Component {
     }
 
     componentDidMount() {
-        let params = {
-            page: 1,
-            limit: 10,
-            ...this.props.permission.params
-        };
-        this.loadData(params);
+        this.loadData();
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -102,10 +97,18 @@ class Permission extends Component {
     }
 
     loadData(params) {
-        this.props.save({
-            loading: true,
-            params: {sort: params.sort, order: params.order, key: params.key}
-        });
+        if (params) {
+            this.props.save({
+                loading: true,
+                params: {sort: params.sort, order: params.order, key: params.key}
+            });
+        } else {
+            params = {
+                page: this.props.permission.pagination.current,
+                limit: this.props.permission.pagination.pageSize,
+                ...this.props.permission.params
+            }
+        }
         axios.get("/auth/permission/list", {
             params: {
                 ...params
