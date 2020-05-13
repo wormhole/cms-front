@@ -10,12 +10,7 @@ class Role extends Component {
     }
 
     componentDidMount() {
-        let params = {
-            page: 1,
-            limit: 10,
-            ...this.props.role.params
-        };
-        this.loadData(params);
+        this.loadData();
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -208,10 +203,18 @@ class Role extends Component {
     }
 
     loadData(params) {
-        this.props.save({
-            loading: true,
-            params: {sort: params.sort, order: params.order, key: params.key, permissionIds: params.permissionIds}
-        });
+        if (params) {
+            this.props.save({
+                loading: true,
+                params: {sort: params.sort, order: params.order, key: params.key, permissionIds: params.permissionIds}
+            });
+        } else {
+            params = {
+                page: this.props.role.pagination.current,
+                limit: this.props.role.pagination.pageSize,
+                ...this.props.role.params
+            }
+        }
         axios.get("/auth/role/list", {
             params: {
                 ...params
