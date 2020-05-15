@@ -1,5 +1,5 @@
 const initState = {
-    count: [],
+    count: {},
     cpu: {},
     mem: {},
     disk: {},
@@ -10,9 +10,7 @@ const initState = {
     memData: null,
     diskPlot: null,
     diskData: null,
-    refresh: null,
-    onlineShow: false,
-    online: []
+    refresh: null
 };
 
 const dashboardReducer = (state = initState, action) => {
