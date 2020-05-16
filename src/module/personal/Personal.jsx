@@ -22,9 +22,10 @@ class Personal extends Component {
 
     handleUpdate() {
         let param = {
+            id: this.props.personal.id,
             username: this.props.personal.username,
             email: this.props.personal.email,
-            telephone: this.props.personal.telephone,
+            telephone: this.props.personal.telephone
         };
 
         axios.put("/personal/update", param).then(response => {
