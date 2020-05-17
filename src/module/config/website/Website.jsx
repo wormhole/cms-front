@@ -65,6 +65,7 @@ class Website extends Component {
         axios.post("/config/website/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
+                this.props.save({file: []});
             } else {
                 message.error(response.data.message);
             }
