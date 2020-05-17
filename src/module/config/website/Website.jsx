@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {Breadcrumb, Button, Form, Input, message, Upload} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
-import logo from "../../../image/logo.jpg";
 import getBase64 from "../../../util/image";
+import getUrl from "../../../util/url";
 
 class Website extends Component {
     constructor(props) {
@@ -15,20 +15,14 @@ class Website extends Component {
     }
 
     handleValueChange(key, e) {
-        if (key === "title") {
-            this.props.save({title: {...this.props.website.title, value: e.target.value}});
-        } else if (key === "copyright") {
-            this.props.save({copyright: {...this.props.website.copyright, value: e.target.value}});
-        }
+        this.props.save({[key]: e.target.value});
     }
 
     handleBeforeUpload(file) {
         getBase64(file, imageUrl => {
             this.props.save({
-                head: {
-                    file: [file],
-                    url: imageUrl
-                }
+                file: [file],
+                head: imageUrl
             });
         });
         return false;
@@ -40,18 +34,12 @@ class Website extends Component {
 
     handleUpdate() {
         let param = [];
-        param.push(this.props.website.title);
-        param.push(this.props.website.copyright);
+        param.push({"key": "title", "value": this.props.website.title});
+        param.push({"key": "copyright", "value": this.props.website.copyright});
 
-        axios.put("/config/update", param).then(response => {
+        axios.put("/config/website/update", param).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
-                this.props.save({
-                    original: {
-                        title: this.props.website.title.value,
-                        copyright: this.props.website.copyright.value
-                    }
-                });
             } else {
                 message.error(response.data.message);
             }
@@ -73,8 +61,8 @@ class Website extends Component {
 
     handleUpdateHead() {
         let param = new FormData();
-        param.append("file", this.props.website.head.file[0]);
-        axios.post("/config/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
+        param.append("file", this.props.website.file[0]);
+        axios.post("/config/website/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
             } else {
@@ -97,28 +85,14 @@ class Website extends Component {
     }
 
     handleRestore() {
-        axios.put("/config/restore").then(response => {
+        axios.put("/config/website/restore").then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
-                response.data.data.map(config => {
-                    if (config.key === "title") {
-                        this.props.save({
-                            title: {id: config.id, key: config.key, value: config.value},
-                            original: {...this.props.website.original, title: config.value}
-                        });
-                    } else if (config.key === "copyright") {
-                        this.props.save({
-                            copyright: {id: config.id, key: config.key, value: config.value},
-                            original: {...this.props.website.original, copyright: config.value}
-                        });
-                    } else if (config.key === "head") {
-                        this.props.save({
-                            head: {
-                                file: [],
-                                url: config.value === "default" ? null : process.env.NODE_ENV === "production" ? "" + config.value : "/api" + config.value
-                            }
-                        });
-                    }
+                let config = response.data.data;
+                this.props.save({
+                    title: config.title,
+                    copyright: config.copyright,
+                    head: getUrl(config.head)
                 });
             } else {
                 message.error(response.data.message);
@@ -140,27 +114,13 @@ class Website extends Component {
     }
 
     loadData() {
-        axios.get("/config/info").then(response => {
+        axios.get("/config/website/info").then(response => {
             if (response.data.status) {
-                response.data.data.map(config => {
-                    if (config.key === "title") {
-                        this.props.save({
-                            title: {id: config.id, key: config.key, value: config.value},
-                            original: {...this.props.website.original, title: config.value}
-                        });
-                    } else if (config.key === "copyright") {
-                        this.props.save({
-                            copyright: {id: config.id, key: config.key, value: config.value},
-                            original: {...this.props.website.original, copyright: config.value}
-                        });
-                    } else if (config.key === "head") {
-                        this.props.save({
-                            head: {
-                                file: [],
-                                url: config.value === "default" ? null : process.env.NODE_ENV === "production" ? "" + config.value : "/api" + config.value
-                            }
-                        });
-                    }
+                let config = response.data.data;
+                this.props.save({
+                    title: config.title,
+                    copyright: config.copyright,
+                    head: getUrl(config.head)
                 });
             } else {
                 message.error(response.data.message);
@@ -186,8 +146,9 @@ class Website extends Component {
             <div className="cms-module">
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/config"
-                                           className="cms-module-link">系统设置</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>系统设置</Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/config/website"
+                                           className="cms-module-link">网站设置</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
                     <div className="cms-module-head">
@@ -210,32 +171,29 @@ class Website extends Component {
                             <div>
                                 <Form.Item label="标题" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入标题信息"
-                                           value={this.props.website.title.value}
+                                           value={this.props.website.title}
                                            onChange={this.handleValueChange.bind(this, "title")}/>
                                 </Form.Item>
                                 <Form.Item label="版权" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入版权信息"
-                                           value={this.props.website.copyright.value}
+                                           value={this.props.website.copyright}
                                            onChange={this.handleValueChange.bind(this, "copyright")}/>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-item">
-                                    <Button type="primary" onClick={this.handleUpdate.bind(this)}
-                                            disabled={this.props.website.original.title === this.props.website.title.value && this.props.website.original.copyright === this.props.website.copyright.value}>更新设置</Button>
+                                    <Button type="primary" onClick={this.handleUpdate.bind(this)}>更新设置</Button>
                                 </Form.Item>
                                 <Form.Item label="头像" className="cms-form-item">
                                     <Upload
                                         listType="picture-card"
-                                        fileList={this.props.website.head.file}
+                                        fileList={this.props.website.file}
                                         showUploadList={false}
                                         beforeUpload={this.handleBeforeUpload.bind(this)}>
-                                        {this.props.website.head.url ?
-                                            <img src={this.props.website.head.url} style={{width: "100%"}}/> :
-                                            <img src={logo} style={{width: "100%"}}/>}
+                                        <img src={this.props.website.head} style={{width: "100%"}}/>
                                     </Upload>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-item">
                                     <Button type="primary" onClick={this.handleUpdateHead.bind(this)}
-                                            disabled={this.props.website.head.file.length > 0 ? false : true}>更新头像</Button>
+                                            disabled={this.props.website.file.length > 0 ? false : true}>更新头像</Button>
                                 </Form.Item>
                             </div>
                         </Form>

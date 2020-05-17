@@ -10,10 +10,10 @@ import {
 import React, {Component} from "react";
 import {Link, Redirect, Route} from "react-router-dom";
 import axios from "../../util/axios";
-import logo from "../../image/logo.jpg";
 import router from "../../module/router";
 import "./home.less";
 import "./module.less";
+import getUrl from "../../util/url";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -126,18 +126,9 @@ class Home extends Component {
     loadData() {
         axios.get("/home/config").then(response => {
             if (response.data.status) {
-                let configs = {};
-                response.data.data.map(config => {
-                    if (config.key === "title") {
-                        configs["title"] = config.value;
-                        document.title = config.value;
-                    } else if (config.key === "copyright") {
-                        configs["copyright"] = config.value;
-                    } else if (config.key === "head") {
-                        configs["head"] = config.value === "default" ? logo : process.env.NODE_ENV === "production" ? "" + config.value : "/api" + config.value
-                    }
-                });
-                this.props.save({config: configs});
+                let config = response.data.data;
+                config.head = getUrl(config.head);
+                this.props.save({config: config});
             } else {
                 message.error(response.data.message);
             }
