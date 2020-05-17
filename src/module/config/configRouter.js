@@ -1,7 +1,7 @@
-import Config from "./index";
+import Website from "./website";
 
 const configRouter = {
-    "/config": Config
+    "/config/website": Website
 };
 
 export default configRouter;

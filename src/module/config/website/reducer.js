@@ -19,9 +19,9 @@ const initState = {
     }
 };
 
-const configReducer = (state = initState, action) => {
+const websiteReducer = (state = initState, action) => {
 
-    if (action.type === "config") {
+    if (action.type === "website") {
         return {
             ...state,
             ...action.state,
@@ -31,4 +31,4 @@ const configReducer = (state = initState, action) => {
     }
 };
 
-export default configReducer;
+export default websiteReducer;

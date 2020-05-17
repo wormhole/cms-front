@@ -208,12 +208,21 @@ class Home extends Component {
                                                                                             className="cms-home-link">权限管理</Link></Menu.Item>
                             </SubMenu> : null}
                         {this.props.home.user.permissions.indexOf("config") > -1 ?
-                            <Menu.Item key="config" className="cms-home-item">
-                                <SettingOutlined className="cms-home-icon"/>
-                                <span><Link to="/config"
-                                            className="cms-home-link">系统设置</Link></span>
-                            </Menu.Item> : null
-                        }
+                            <SubMenu
+                                className="cms-home-submenu"
+                                key="config"
+                                title={
+                                    <span className="cms-home-subtitle">
+                                        <SettingOutlined className="cms-home-icon"/>
+                                        <span>系统设置</span>
+                                    </span>
+                                }
+                            >
+                                <Menu.Item key="website" className="cms-home-item">
+                                    <span><Link to="/config/website"
+                                                className="cms-home-link">网站设置</Link></span>
+                                </Menu.Item>
+                            </SubMenu> : null}
                     </Menu>
                 </Sider>
                 <Layout className="cms-home-right">

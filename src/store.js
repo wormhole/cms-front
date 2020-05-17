@@ -3,7 +3,7 @@ import userReducer from "./module/auth/user/reducer";
 import roleReducer from "./module/auth/role/reducer";
 import permissionReducer from "./module/auth/permission/reducer";
 import personalReducer from "./module/personal/reducer";
-import configReducer from "./module/config/reducer";
+import websiteReducer from "./module/config/website/reducer";
 import dashboardReducer from "./module/dashboard/reducer";
 import loginReducer from "./page/login/reducer";
 import registerReducer from "./page/register/reducer";
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     role: roleReducer,
     permission: permissionReducer,
     personal: personalReducer,
-    config: configReducer,
+    website: websiteReducer,
     dashboard: dashboardReducer,
     login: loginReducer,
     register: registerReducer,
