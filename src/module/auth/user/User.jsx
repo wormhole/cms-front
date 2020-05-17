@@ -384,14 +384,15 @@ class User extends Component {
                     ))}
                 </span>
             ),
-            filters: this.props.user.filters
+            filters: this.props.user.filters,
+            ellipsis: true
         }, {
             title: "状态",
             dataIndex: "enabled",
             key: "enabled",
             sorter: true,
             render: (enabled) => (
-                <span>{enabled === 1 ? "启用" : "禁用"}</span>
+                <span>{enabled === 1 ? <Tag color="green">启用</Tag> : <Tag color="red">禁用</Tag>}</span>
             )
         }, {
             title: "操作项",

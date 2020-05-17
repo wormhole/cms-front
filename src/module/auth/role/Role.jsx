@@ -309,7 +309,8 @@ class Role extends Component {
                         ))}
                     </span>
                 ),
-                filters: this.props.role.filters
+                filters: this.props.role.filters,
+                ellipsis: true
             }, {
                 title: "操作项",
                 fixed: "right",

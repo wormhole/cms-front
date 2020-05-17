@@ -22,7 +22,7 @@ class DashBoard extends Component {
                 this.initMemChart();
                 this.initDiskChart();
             });
-        }, 3000);
+        }, 10000);
         this.props.save({refresh: refresh});
     }
 
