@@ -2,6 +2,7 @@ import {Avatar, Dropdown, Form, Input, Layout, Menu, message, Modal} from "antd"
 import {
     CaretDownOutlined,
     DashboardOutlined,
+    FolderOpenOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     SettingOutlined,
@@ -197,6 +198,22 @@ class Home extends Component {
                                                                                       className="cms-home-link">角色管理</Link></Menu.Item>
                                 <Menu.Item key="permission" className="cms-home-item"><Link to="/auth/permission"
                                                                                             className="cms-home-link">权限管理</Link></Menu.Item>
+                            </SubMenu> : null}
+                        {this.props.home.user.permissions.indexOf("file") > -1 ?
+                            <SubMenu
+                                className="cms-home-submenu"
+                                key="file"
+                                title={
+                                    <span className="cms-home-subtitle">
+                                        <FolderOpenOutlined className="cms-home-icon"/>
+                                        <span>文件管理</span>
+                                    </span>
+                                }
+                            >
+                                <Menu.Item key="image" className="cms-home-item">
+                                    <span><Link to="/file/image"
+                                                className="cms-home-link">图片管理</Link></span>
+                                </Menu.Item>
                             </SubMenu> : null}
                         {this.props.home.user.permissions.indexOf("config") > -1 ?
                             <SubMenu

@@ -8,6 +8,7 @@ import dashboardReducer from "./module/dashboard/reducer";
 import loginReducer from "./page/login/reducer";
 import registerReducer from "./page/register/reducer";
 import homeReducer from "./page/home/reducer";
+import imageReducer from "./module/file/image/reducer";
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     login: loginReducer,
     register: registerReducer,
     home: homeReducer,
+    image: imageReducer
 });
 
 const store = createStore(rootReducer);
