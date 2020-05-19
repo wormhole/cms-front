@@ -51,6 +51,7 @@ class Register extends Component {
                     break;
                 case 403:
                     message.error(error.response.data.message);
+                    this.props.history.push("/error/403");
                     this.props.save({codeApi: this.props.login.codeApi + "?" + Math.random()});
                     break;
                 default:

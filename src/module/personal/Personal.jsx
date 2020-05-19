@@ -48,6 +48,7 @@ class Personal extends Component {
                     break;
                 case 403:
                     message.error(error.response.data.message);
+                    this.props.history.push("/error/403");
                     break;
                 default:
                     message.error(error.response.data.message);
@@ -76,6 +77,7 @@ class Personal extends Component {
                     break;
                 case 403:
                     message.error(error.response.data.message);
+                    this.props.history.push("/error/403");
                     break;
                 default:
                     message.error(error.response.data.message);
