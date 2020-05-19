@@ -5,6 +5,7 @@ import Website from "./config/website";
 import Dashboard from "./dashboard";
 import Personal from "./personal";
 import Image from "./file/image";
+import NoPermission from "./error/403";
 
 const router = {
     "/auth/user": User,
@@ -16,7 +17,8 @@ const router = {
     "/config/website": Website,
     "/dashboard": Dashboard,
     "/personal": Personal,
-    "/file/image": Image
+    "/file/image": Image,
+    "/error/403": NoPermission
 };
 
 export default router;
