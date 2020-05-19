@@ -12,6 +12,7 @@ import React, {Component} from "react";
 import {Link, Redirect, Route} from "react-router-dom";
 import axios from "../../util/axios";
 import router from "../../module/router";
+import {Scrollbars} from "react-custom-scrollbars";
 import "./home.less";
 import "./module.less";
 import getUrl from "../../util/url";
@@ -173,73 +174,77 @@ class Home extends Component {
         return (
             <Layout className="cms-home">
                 <Sider className="cms-home-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
-                    <div className="cms-home-logo">
-                        <Avatar shape="square" size={40} src={this.props.home.config.head}/>
-                        <span className="cms-home-title"
-                              style={this.props.home.logoTextStyle}>{this.props.home.config.title}</span>
-                    </div>
-                    <Menu theme="dark" mode="inline" className="cms-home-menu">
-                        <Menu.Item key="dashboard" className="cms-home-item">
-                            <DashboardOutlined className="cms-home-icon"/>
-                            <span><Link to="/dashboard"
-                                        className="cms-home-link">仪表盘</Link></span>
-                        </Menu.Item>
-                        {this.props.home.user.permissions.indexOf("auth") > -1 ?
-                            <SubMenu
-                                className="cms-home-submenu"
-                                key="auth"
-                                title={
-                                    <span className="cms-home-subtitle">
+                    <Scrollbars>
+                        <div className="cms-home-logo">
+                            <Avatar shape="square" size={40} src={this.props.home.config.head}/>
+                            <span className="cms-home-title"
+                                  style={this.props.home.logoTextStyle}>{this.props.home.config.title}</span>
+                        </div>
+
+                        <Menu theme="dark" mode="inline" className="cms-home-menu">
+                            <Menu.Item key="dashboard" className="cms-home-item">
+                                <DashboardOutlined className="cms-home-icon"/>
+                                <span><Link to="/dashboard"
+                                            className="cms-home-link">仪表盘</Link></span>
+                            </Menu.Item>
+                            {this.props.home.user.permissions.indexOf("auth") > -1 ?
+                                <SubMenu
+                                    className="cms-home-submenu"
+                                    key="auth"
+                                    title={
+                                        <span className="cms-home-subtitle">
                                         <TeamOutlined className="cms-home-icon"/>
                                         <span>认证与授权</span>
                                     </span>
-                                }
-                            >
-                                <Menu.Item key="user" className="cms-home-item"><Link to="/auth/user"
-                                                                                      className="cms-home-link">用户管理</Link></Menu.Item>
-                                <Menu.Item key="role" className="cms-home-item"><Link to="/auth/role"
-                                                                                      className="cms-home-link">角色管理</Link></Menu.Item>
-                                <Menu.Item key="permission" className="cms-home-item"><Link to="/auth/permission"
-                                                                                            className="cms-home-link">权限管理</Link></Menu.Item>
-                            </SubMenu> : null}
-                        {this.props.home.user.permissions.indexOf("file") > -1 ?
-                            <SubMenu
-                                className="cms-home-submenu"
-                                key="file"
-                                title={
-                                    <span className="cms-home-subtitle">
+                                    }
+                                >
+                                    <Menu.Item key="user" className="cms-home-item"><Link to="/auth/user"
+                                                                                          className="cms-home-link">用户管理</Link></Menu.Item>
+                                    <Menu.Item key="role" className="cms-home-item"><Link to="/auth/role"
+                                                                                          className="cms-home-link">角色管理</Link></Menu.Item>
+                                    <Menu.Item key="permission" className="cms-home-item"><Link to="/auth/permission"
+                                                                                                className="cms-home-link">权限管理</Link></Menu.Item>
+                                </SubMenu> : null}
+                            {this.props.home.user.permissions.indexOf("file") > -1 ?
+                                <SubMenu
+                                    className="cms-home-submenu"
+                                    key="file"
+                                    title={
+                                        <span className="cms-home-subtitle">
                                         <FolderOpenOutlined className="cms-home-icon"/>
                                         <span>文件管理</span>
                                     </span>
-                                }
-                            >
-                                <Menu.Item key="image" className="cms-home-item">
+                                    }
+                                >
+                                    <Menu.Item key="image" className="cms-home-item">
                                     <span><Link to="/file/image"
                                                 className="cms-home-link">图片管理</Link></span>
-                                </Menu.Item>
-                            </SubMenu> : null}
-                        {this.props.home.user.permissions.indexOf("config") > -1 ?
-                            <SubMenu
-                                className="cms-home-submenu"
-                                key="config"
-                                title={
-                                    <span className="cms-home-subtitle">
+                                    </Menu.Item>
+                                </SubMenu> : null}
+                            {this.props.home.user.permissions.indexOf("config") > -1 ?
+                                <SubMenu
+                                    className="cms-home-submenu"
+                                    key="config"
+                                    title={
+                                        <span className="cms-home-subtitle">
                                         <SettingOutlined className="cms-home-icon"/>
                                         <span>系统设置</span>
                                     </span>
-                                }
-                            >
-                                <Menu.Item key="website" className="cms-home-item">
+                                    }
+                                >
+                                    <Menu.Item key="website" className="cms-home-item">
                                     <span><Link to="/config/website"
                                                 className="cms-home-link">网站设置</Link></span>
-                                </Menu.Item>
-                            </SubMenu> : null}
-                    </Menu>
+                                    </Menu.Item>
+                                </SubMenu> : null}
+                        </Menu>
+                    </Scrollbars>
                 </Sider>
                 <Layout className="cms-home-right">
                     <Header className="cms-home-head">
                         {this.props.home.collapsed ?
-                            <MenuUnfoldOutlined className="cms-home-trigger" onClick={this.handleToggle.bind(this)}/> :
+                            <MenuUnfoldOutlined className="cms-home-trigger"
+                                                onClick={this.handleToggle.bind(this)}/> :
                             <MenuFoldOutlined className="cms-home-trigger" onClick={this.handleToggle.bind(this)}/>
                         }
                         <div className="cms-home-user">
@@ -251,17 +256,19 @@ class Home extends Component {
                             </Dropdown>
                         </div>
                     </Header>
-                    <Content className="cms-home-body">
-                        <Redirect path="/" to="/dashboard"/>
-                        {
-                            Object.keys(router).map((key) => {
-                                return (
-                                    <Route exact key={key} path={key} component={router[key]}/>
-                                )
-                            })
-                        }
-                        <Footer className="cms-home-footer">{this.props.home.config.copyright}</Footer>
-                    </Content>
+                    <Scrollbars>
+                        <Content className="cms-home-body">
+                            <Redirect path="/" to="/dashboard"/>
+                            {
+                                Object.keys(router).map((key) => {
+                                    return (
+                                        <Route exact key={key} path={key} component={router[key]}/>
+                                    )
+                                })
+                            }
+                            <Footer className="cms-home-footer">{this.props.home.config.copyright}</Footer>
+                        </Content>
+                    </Scrollbars>
                 </Layout>
                 <Modal
                     title="修改密码"
