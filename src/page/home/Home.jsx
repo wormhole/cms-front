@@ -49,19 +49,7 @@ class Home extends Component {
                 message.error(response.data.message);
             }
         }).catch(error => {
-            switch (error.response.status) {
-                case 401:
-                    message.warning(error.response.data.message);
-                    this.props.history.push("/login");
-                    break;
-                case 403:
-                    message.error(error.response.data.message);
-                    this.props.history.push("/error/403");
-                    break;
-                default:
-                    message.error(error.response.data.message);
-                    break;
-            }
+
         });
     }
 
@@ -83,19 +71,7 @@ class Home extends Component {
                 message.error(response.data.message);
             }
         }).catch(error => {
-            switch (error.response.status) {
-                case 401:
-                    message.warning(error.response.data.message);
-                    this.props.history.push("/login");
-                    break;
-                case 403:
-                    message.error(error.response.data.message);
-                    this.props.history.push("/error/403");
-                    break;
-                default:
-                    message.error(error.response.data.message);
-                    break;
-            }
+
         });
     }
 
@@ -119,7 +95,7 @@ class Home extends Component {
                 message.error(response.data.message);
             }
         }).catch(error => {
-            message.error(error.response.data.message);
+
         });
     }
 
@@ -137,19 +113,7 @@ class Home extends Component {
                 message.error(response.data.message);
             }
         }).catch(error => {
-            switch (error.response.status) {
-                case 401:
-                    message.warning(error.response.data.message);
-                    this.props.history.push("/login");
-                    break;
-                case 403:
-                    message.error(error.response.data.message);
-                    this.props.history.push("/error/403");
-                    break;
-                default:
-                    message.error(error.response.data.message);
-                    break;
-            }
+
         });
     }
 
