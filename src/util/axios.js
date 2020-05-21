@@ -12,7 +12,6 @@ axios.interceptors.response.use(
         const history = createHashHistory();
         switch (error.response.status) {
             case 401:
-                message.warning(error.response.data.message);
                 history.push("/login");
                 break;
             case 403:

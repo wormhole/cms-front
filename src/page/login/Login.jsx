@@ -79,6 +79,7 @@ class Login extends Component {
                                     placeholder="密码"
                                     className="cms-login-input"
                                     value={this.props.login.password}
+                                    autoComplete="off"
                                     onChange={this.handleValueChange.bind(this, "password")}
                                 />
                             </Form.Item>
