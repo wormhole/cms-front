@@ -1,4 +1,4 @@
 import {withRouter} from "react-router-dom";
-import NoPermission from "./403";
+import Page403 from "./403";
 
-export default withRouter(NoPermission);
+export default withRouter(Page403);

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Breadcrumb, Button, Result} from "antd";
 import {Link} from "react-router-dom";
 
-class Page403 extends Component {
+class Page500 extends Component {
 
     handleBack() {
         this.props.history.push("/dashboard");
@@ -20,9 +20,9 @@ class Page403 extends Component {
                 <div className="cms-module-content">
                     <div className="cms-module-body">
                         <Result
-                            status="403"
-                            title="403"
-                            subTitle="对不起，你没有权限进入此页面！"
+                            status="500"
+                            title="500"
+                            subTitle="服务器出错啦"
                             extra={<Button type="primary" onClick={this.handleBack.bind(this)}>返回首页</Button>}
                         />
                     </div>
@@ -32,4 +32,4 @@ class Page403 extends Component {
     }
 }
 
-export default Page403;
+export default Page500;
