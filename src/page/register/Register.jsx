@@ -44,21 +44,7 @@ class Register extends Component {
                 });
             }
         }).catch(error => {
-            switch (error.response.status) {
-                case 401:
-                    message.warning(error.response.data.message);
-                    this.props.history.push("/login");
-                    break;
-                case 403:
-                    message.error(error.response.data.message);
-                    this.props.history.push("/error/403");
-                    this.props.save({codeApi: this.props.login.codeApi + "?" + Math.random()});
-                    break;
-                default:
-                    message.error(error.response.data.message);
-                    this.props.save({codeApi: this.props.login.codeApi + "?" + Math.random()});
-                    break;
-            }
+
         });
     };
 

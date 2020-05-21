@@ -46,19 +46,7 @@ class Add extends Component {
                     message.error(response.data.message);
                 }
             }).catch(error => {
-                switch (error.response.status) {
-                    case 401:
-                        message.warning(error.response.data.message);
-                        this.props.history.push("/login");
-                        break;
-                    case 403:
-                        message.error(error.response.data.message);
-                        this.props.history.push("/error/403");
-                        break;
-                    default:
-                        message.error(error.response.data.message);
-                        break;
-                }
+
             });
         } else if (this.props.location.type === "add") {
             axios.post("/auth/role/add", {
@@ -72,19 +60,7 @@ class Add extends Component {
                     message.error(response.data.message);
                 }
             }).catch(error => {
-                switch (error.response.status) {
-                    case 401:
-                        message.warning(error.response.data.message);
-                        this.props.history.push("/login");
-                        break;
-                    case 403:
-                        message.error(error.response.data.message);
-                        this.props.history.push("/error/403");
-                        break;
-                    default:
-                        message.error(error.response.data.message);
-                        break;
-                }
+
             });
         }
     }
