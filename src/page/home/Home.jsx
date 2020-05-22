@@ -90,6 +90,7 @@ class Home extends Component {
         axios.get("/logout").then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
+                window.localStorage.removeItem("token");
                 this.props.history.push("/login");
             } else {
                 message.error(response.data.message);

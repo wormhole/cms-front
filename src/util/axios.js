@@ -4,6 +4,17 @@ import {createHashHistory} from "history";
 
 axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "/api" : "/api/api";
 
+axios.interceptors.request.use(
+    config => {
+        const token = window.localStorage.getItem("token");
+        token && (config.headers.Authorization = token);
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
 axios.interceptors.response.use(
     response => {
         return response;

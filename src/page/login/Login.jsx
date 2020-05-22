@@ -35,6 +35,7 @@ class Login extends Component {
             if (response.data.status === true) {
                 message.success(response.data.message);
                 this.handleClear();
+                localStorage.setItem("token", response.data.data);
                 this.props.history.push("/");
             } else {
                 message.error(response.data.message);
