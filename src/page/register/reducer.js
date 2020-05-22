@@ -1,3 +1,5 @@
+import getUrl from "../../util/url";
+
 const initState = {
     username: "",
     telephone: "",
@@ -5,8 +7,7 @@ const initState = {
     password: "",
     checkPassword: "",
     code: "",
-    role: "customer",
-    codeApi: process.env.NODE_ENV === "production" ? "/code" : "/api/code"
+    codeApi: getUrl("/api/code")
 };
 
 const registerReducer = (state = initState, action) => {

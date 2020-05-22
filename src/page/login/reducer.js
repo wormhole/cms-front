@@ -1,9 +1,11 @@
+import getUrl from "../../util/url";
+
 const initState = {
     username: "",
     password: "",
     rememberMe: false,
     code: "",
-    codeApi: process.env.NODE_ENV === "production" ? "/code" : "/api/code"
+    codeApi: getUrl("/api/code")
 };
 
 const loginReducer = (state = initState, action) => {

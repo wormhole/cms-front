@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 import {message} from "antd";
 import {createHashHistory} from "history";
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? '' : '/api';
+axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "/api" : "/api/api";
 
 axios.interceptors.response.use(
     response => {

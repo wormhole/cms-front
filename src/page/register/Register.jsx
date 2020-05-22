@@ -4,6 +4,7 @@ import {IeOutlined, LockOutlined, PhoneOutlined, SafetyCertificateOutlined, User
 import "./register.less";
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
+import getUrl from "../../util/url";
 
 class Register extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class Register extends Component {
 
     handleClear() {
         this.props.save({
-            codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random(),
+            codeApi: getUrl("/api/code?" + Math.random()),
             username: null,
             telephone: null,
             email: null,
@@ -40,7 +41,7 @@ class Register extends Component {
             } else {
                 message.error(response.data.message);
                 this.props.save({
-                    codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()
+                    codeApi: getUrl("/api/code?" + Math.random())
                 });
             }
         }).catch(error => {
@@ -53,7 +54,7 @@ class Register extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()});
+        this.props.save({codeApi: getUrl("/api/code?" + Math.random())});
     }
 
     render() {

@@ -4,6 +4,7 @@ import {LockOutlined, SafetyCertificateOutlined, UserOutlined} from "@ant-design
 import "./login.less";
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
+import getUrl from "../../util/url";
 
 class Login extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class Login extends Component {
             password: null,
             code: null,
             rememberMe: null,
-            codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()
+            codeApi: getUrl("/api/code?" + Math.random())
         });
     }
 
@@ -37,7 +38,7 @@ class Login extends Component {
                 this.props.history.push("/");
             } else {
                 message.error(response.data.message);
-                this.props.save({codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()})
+                this.props.save({codeApi: getUrl("/api/code?" + Math.random())})
             }
         }).catch(error => {
 
@@ -53,7 +54,7 @@ class Login extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({codeApi: process.env.NODE_ENV === "production" ? "/code?" + Math.random() : "/api/code?" + Math.random()});
+        this.props.save({codeApi: getUrl("/api/code?" + Math.random())});
     }
 
     render() {
