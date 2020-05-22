@@ -34,7 +34,6 @@ class Login extends Component {
         axios.post("/login", param, {headers: {"Content-Type": "multipart/form-data"},}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
-                this.handleClear();
                 localStorage.setItem("token", response.data.data);
                 this.props.history.push("/");
             } else {
