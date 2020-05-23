@@ -17,7 +17,7 @@ class Register extends Component {
 
     handleClear() {
         this.props.save({
-            codeApi: getUrl("/api/code?" + Math.random()),
+            codeApi: getUrl("/code?" + Math.random()),
             username: null,
             telephone: null,
             email: null,
@@ -41,7 +41,7 @@ class Register extends Component {
             } else {
                 message.error(response.data.message);
                 this.props.save({
-                    codeApi: getUrl("/api/code?" + Math.random())
+                    codeApi: getUrl("/code?" + Math.random())
                 });
             }
         }).catch(error => {
@@ -54,7 +54,7 @@ class Register extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({codeApi: getUrl("/api/code?" + Math.random())});
+        this.props.save({codeApi: getUrl("/code?" + Math.random())});
     }
 
     render() {

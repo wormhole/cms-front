@@ -7,7 +7,7 @@ const initState = {
     password: "",
     checkPassword: "",
     code: "",
-    codeApi: getUrl("/api/code")
+    codeApi: getUrl("/code")
 };
 
 const registerReducer = (state = initState, action) => {

@@ -21,7 +21,7 @@ class Login extends Component {
             password: null,
             code: null,
             rememberMe: null,
-            codeApi: getUrl("/api/code?" + Math.random())
+            codeApi: getUrl("/code?" + Math.random())
         });
     }
 
@@ -38,7 +38,7 @@ class Login extends Component {
                 this.props.history.push("/");
             } else {
                 message.error(response.data.message);
-                this.props.save({codeApi: getUrl("/api/code?" + Math.random())})
+                this.props.save({codeApi: getUrl("/code?" + Math.random())})
             }
         }).catch(error => {
 
@@ -54,7 +54,7 @@ class Login extends Component {
     }
 
     handleVCodeChange() {
-        this.props.save({codeApi: getUrl("/api/code?" + Math.random())});
+        this.props.save({codeApi: getUrl("/code?" + Math.random())});
     }
 
     render() {
