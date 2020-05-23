@@ -1,13 +1,13 @@
 import axios from "axios";
-import {message} from "antd";
-import {createHashHistory} from "history";
+import { message } from "antd";
+import { createHashHistory } from "history";
 
 axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "/api" : "/api/api";
 
 axios.interceptors.request.use(
     config => {
         const token = window.localStorage.getItem("token");
-        token && (config.headers.Authorization = token);
+        token && (config.headers.Authorization = "Bearer " + token);
         return config;
     },
     error => {
