@@ -2,6 +2,7 @@ const initState = {
     title: null,
     copyright: null,
     head: null,
+    rememberMe: "false",
     file: []
 };
 

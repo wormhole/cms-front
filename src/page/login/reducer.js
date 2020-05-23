@@ -5,7 +5,8 @@ const initState = {
     password: "",
     rememberMe: false,
     code: "",
-    codeApi: getUrl("/code")
+    codeApi: getUrl("/code"),
+    isRememberMe: "false"
 };
 
 const loginReducer = (state = initState, action) => {
