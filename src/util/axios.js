@@ -1,6 +1,6 @@
 import axios from "axios";
-import { message } from "antd";
-import { createHashHistory } from "history";
+import {message} from "antd";
+import {createHashHistory} from "history";
 
 axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "" : "/api";
 
@@ -23,6 +23,8 @@ axios.interceptors.response.use(
         const history = createHashHistory();
         switch (error.response.status) {
             case 401:
+                message.warn(error.response.data.message);
+                window.localStorage.removeItem("token");
                 history.push("/login");
                 break;
             case 403:
