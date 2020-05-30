@@ -182,7 +182,8 @@ class DashBoard extends Component {
                                     <div className="cms-module-right">
                                         <div className="cms-module-title">流量（上传/下载）</div>
                                         <div className="cms-module-number">
-                                            {this.props.dashboard.net.upload}/{this.props.dashboard.net.download}
+                                            <Link to="#">{this.props.dashboard.net.upload}</Link>/<Link
+                                            to="#">{this.props.dashboard.net.download}</Link>
                                         </div>
                                     </div>
                                 </div>
