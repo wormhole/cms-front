@@ -63,7 +63,7 @@ class Home extends Component {
             return;
         }
 
-        axios.put("/personal/password", this.props.home.edit).then(response => {
+        axios.put("/personal/user/password", this.props.home.edit).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
                 this.props.save({showModal: false, edit: {oldPassword: null, newPassword: null, checkPassword: null}});
