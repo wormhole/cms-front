@@ -56,7 +56,7 @@ class Permission extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/auth/permission/delete", {
+        axios.delete("/auth/permission_manage/permissions", {
             data: {
                 ids: ids
             }
@@ -98,7 +98,7 @@ class Permission extends Component {
                 ...this.props.permission.params
             }
         }
-        axios.get("/auth/permission/list", {
+        axios.get("/auth/permission_manage/permissions", {
             params: {
                 ...params
             }
@@ -132,11 +132,18 @@ class Permission extends Component {
                 title: "权限名",
                 dataIndex: "name",
                 key: "name",
-                sorter: true
+                sorter: true,
+                ellipsis: true
             }, {
-                title: "描述",
-                dataIndex: "description",
-                key: "description"
+                title: "备注",
+                dataIndex: "note",
+                key: "note",
+                ellipsis: true
+            }, {
+                title: "最后修改时间",
+                dataIndex: "ts",
+                key: "ts",
+                ellipsis: true
             }, {
                 title: "操作项",
                 fixed: "right",
@@ -146,7 +153,7 @@ class Permission extends Component {
                         <div>
                             <a onClick={this.handleEdit.bind(this, recorder.id)}
                                className="cms-module-normal">编辑</a>
-                            {recorder.deletable === 1 ?
+                            {recorder.builtin === 0 ?
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
                                    className="cms-module-danger">删除</a> : null
                             }

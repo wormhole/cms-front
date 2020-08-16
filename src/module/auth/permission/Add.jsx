@@ -23,7 +23,7 @@ class Add extends Component {
             edit: {
                 id: null,
                 name: null,
-                description: null
+                note: null
             }
         });
     }
@@ -37,9 +37,9 @@ class Add extends Component {
             let param = {
                 id: this.props.permission.edit.id,
                 name: this.props.permission.edit.name,
-                description: this.props.permission.edit.description
+                note: this.props.permission.edit.note
             };
-            axios.put("/auth/permission/update", param).then(response => {
+            axios.put("/auth/permission_manage/permission", param).then(response => {
                 if (response.data.status) {
                     message.success(response.data.message);
                 } else {
@@ -49,9 +49,9 @@ class Add extends Component {
 
             });
         } else if (this.props.location.type === "add") {
-            axios.post("/auth/permission/add", {
+            axios.post("/auth/permission_manage/permission", {
                 name: this.props.permission.edit.name,
-                description: this.props.permission.edit.description
+                note: this.props.permission.edit.note
             }).then(response => {
                 if (response.data.status === true) {
                     message.success(response.data.message);
@@ -105,10 +105,10 @@ class Add extends Component {
                                            value={this.props.permission.edit.name}
                                            onChange={this.handleValueChange.bind(this, "name")}/>
                                 </Form.Item>
-                                <Form.Item label="描述" className="cms-module-item">
-                                    <Input type="text" className="cms-module-input" placeholder="请输入描述"
-                                           value={this.props.permission.edit.description}
-                                           onChange={this.handleValueChange.bind(this, "description")}/>
+                                <Form.Item label="备注" className="cms-module-item">
+                                    <Input type="text" className="cms-module-input" placeholder="请输入备注"
+                                           value={this.props.permission.edit.note}
+                                           onChange={this.handleValueChange.bind(this, "note")}/>
                                 </Form.Item>
                             </div>
                         </Form>
