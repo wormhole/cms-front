@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Button, Checkbox, Col, Form, Input, message, Row } from "antd";
-import { LockOutlined, SafetyCertificateOutlined, UserOutlined } from "@ant-design/icons";
+import React, {Component} from "react";
+import {Button, Checkbox, Col, Form, Input, message, Row} from "antd";
+import {LockOutlined, SafetyCertificateOutlined, UserOutlined} from "@ant-design/icons";
 import "./login.less";
 import axios from "../../util/axios";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import getUrl from "../../util/url";
 
 class Login extends Component {
@@ -62,7 +62,7 @@ class Login extends Component {
     }
 
     loadData() {
-        axios.get("/login/remember").then(response => {
+        axios.get("/login/property/remember").then(response => {
             if (response.data.status) {
                 this.props.save({
                     isRememberMe: response.data.data
