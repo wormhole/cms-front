@@ -338,6 +338,12 @@ class User extends Component {
                 <span>{enable === 1 ? <Tag color="green">启用</Tag> : <Tag color="red">禁用</Tag>}</span>
             )
         }, {
+            title: "最后修改时间",
+            dataIndex: "ts",
+            key: "ts",
+            sorter: true,
+            ellipsis: true
+        }, {
             title: "操作项",
             fixed: "right",
             width: 270,
