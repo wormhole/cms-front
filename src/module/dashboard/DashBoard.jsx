@@ -101,7 +101,7 @@ class DashBoard extends Component {
     }
 
     loadData(callback) {
-        axios.get("/dashboard/info").then(response => {
+        axios.get("/dashboard").then(response => {
             if (response.data.status) {
                 this.props.save({
                     count: response.data.data.count,

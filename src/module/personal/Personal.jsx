@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, Form, Input, message} from "antd";
+import {Breadcrumb, Button, Form, Input, InputNumber, message} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../util/axios";
 
@@ -13,7 +13,11 @@ class Personal extends Component {
     }
 
     handleValueChange(key, e) {
-        this.props.save({[key]: e.target.value});
+        if (key === "lock" || key === "limit" || key === "ttl" || key === "failure") {
+            this.props.save({[key]: e})
+        } else {
+            this.props.save({[key]: e.target.value});
+        }
     }
 
     handleBack() {
@@ -25,10 +29,14 @@ class Personal extends Component {
             id: this.props.personal.id,
             username: this.props.personal.username,
             email: this.props.personal.email,
-            telephone: this.props.personal.telephone
+            telephone: this.props.personal.telephone,
+            ttl: this.props.personal.ttl,
+            lock: this.props.personal.lock,
+            limit: this.props.personal.limit,
+            failure: this.props.personal.failure
         };
 
-        axios.put("/personal/update", param).then(response => {
+        axios.put("/personal/user", param).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
                 this.props.save({
@@ -36,6 +44,10 @@ class Personal extends Component {
                     username: response.data.data.username,
                     email: response.data.data.email,
                     telephone: response.data.data.telephone,
+                    ttl: response.data.data.ttl,
+                    lock: response.data.data.lock,
+                    limit: response.data.data.limit,
+                    failure: response.data.data.failure
                 });
             } else {
                 message.error(response.data.message);
@@ -46,13 +58,17 @@ class Personal extends Component {
     }
 
     loadData() {
-        axios.get("/personal/info").then(response => {
+        axios.get("/personal/user").then(response => {
             if (response.data.status) {
                 this.props.save({
                     id: response.data.data.id,
                     username: response.data.data.username,
                     email: response.data.data.email,
                     telephone: response.data.data.telephone,
+                    ttl: response.data.data.ttl,
+                    lock: response.data.data.lock,
+                    limit: response.data.data.limit,
+                    failure: response.data.data.failure
                 });
             } else {
                 message.error(response.data.message);
@@ -103,6 +119,22 @@ class Personal extends Component {
                                     <Input type="telephone" className="cms-module-input" placeholder="请输入电话号码"
                                            value={this.props.personal.telephone}
                                            onChange={this.handleValueChange.bind(this, "telephone")}/>
+                                </Form.Item>
+                                <Form.Item label="会话时长" className="cms-module-item">
+                                    <InputNumber min={1} value={this.props.personal.ttl}
+                                                 onChange={this.handleValueChange.bind(this, "ttl")}/>
+                                </Form.Item>
+                                <Form.Item label="登录限制" className="cms-module-item">
+                                    <InputNumber min={1} value={this.props.personal.limit}
+                                                 onChange={this.handleValueChange.bind(this, "limit")}/>
+                                </Form.Item>
+                                <Form.Item label="锁定时长" className="cms-module-item">
+                                    <InputNumber min={1} value={this.props.personal.lock}
+                                                 onChange={this.handleValueChange.bind(this, "lock")}/>
+                                </Form.Item>
+                                <Form.Item label="失败次数" className="cms-module-item">
+                                    <InputNumber min={3} value={this.props.personal.failure}
+                                                 onChange={this.handleValueChange.bind(this, "failure")}/>
                                 </Form.Item>
                             </div>
                         </Form>
