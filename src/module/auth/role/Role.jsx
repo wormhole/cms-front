@@ -57,7 +57,7 @@ class Role extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/auth/role/delete", {
+        axios.delete("/auth/role_manage/roles", {
             data: {
                 ids: ids
             }
@@ -87,7 +87,7 @@ class Role extends Component {
     }
 
     handleGrantPermission(id) {
-        axios.get("/auth/role/ref_role_permission", {
+        axios.get("/auth/role_manage/ref_role_permission", {
             params: {
                 id: id
             }
@@ -142,7 +142,7 @@ class Role extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/auth/role/grant_permission", {
+        axios.put("/auth/role_manage/grant_permission", {
             roleId: this.props.role.roleId,
             permissionIds: this.props.role.transferTargetKeys
         }).then(response => {
@@ -182,7 +182,7 @@ class Role extends Component {
                 ...this.props.role.params
             }
         }
-        axios.get("/auth/role/list", {
+        axios.get("/auth/role_manage/roles", {
             params: {
                 ...params
             }
@@ -212,7 +212,7 @@ class Role extends Component {
     }
 
     loadRefPermission() {
-        axios.get("/auth/role/ref_permission").then(response => {
+        axios.get("/auth/role_manage/ref_permission").then(response => {
             if (response.data.status) {
                 let filters = [];
                 response.data.data.permissions.map((item) => {
@@ -236,11 +236,18 @@ class Role extends Component {
                 title: "角色名",
                 dataIndex: "name",
                 key: "name",
-                sorter: true
+                sorter: true,
+                ellipsis: true
             }, {
-                title: "描述",
-                dataIndex: "description",
-                key: "description"
+                title: "备注",
+                dataIndex: "note",
+                key: "note",
+                ellipsis: true
+            }, {
+                title: "最后修改时间",
+                dataIndex: "ts",
+                key: "ts",
+                ellipsis: true
             }, {
                 title: "权限",
                 dataIndex: "permissions",
@@ -267,7 +274,7 @@ class Role extends Component {
                                className="cms-module-normal">编辑</a>
                             <a onClick={this.handleGrantPermission.bind(this, recorder.id)}
                                className="cms-module-normal">分配</a>
-                            {recorder.deletable === 1 ?
+                            {recorder.builtin === 0 ?
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
                                    className="cms-module-danger">删除</a> : null
                             }

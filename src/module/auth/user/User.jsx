@@ -356,7 +356,7 @@ class User extends Component {
                            className="cms-module-normal">分配</a>
                         <a onClick={this.handlePassword.bind(this, recorder.id)}
                            className="cms-module-danger">重置</a>
-                        {recorder.builtin !== 1 ?
+                        {recorder.builtin === 0 ?
                             <span>
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
                                    className="cms-module-danger">删除</a>

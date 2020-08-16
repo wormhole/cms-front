@@ -18,7 +18,7 @@ const initState = {
     edit: {
         id: null,
         name: null,
-        description: null
+        note: null
     }
 };
 
