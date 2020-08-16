@@ -20,6 +20,10 @@ const initState = {
         username: null,
         email: null,
         telephone: null,
+        limit: 1,
+        ttl: 30,
+        lock: 30,
+        failure: 5,
         newPassword: null,
         checkPassword: null
     }

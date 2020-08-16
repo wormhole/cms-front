@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, Form, Input, message} from "antd";
+import {Breadcrumb, Button, Form, Input, InputNumber, message} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 
@@ -25,6 +25,10 @@ class Add extends Component {
                 username: null,
                 email: null,
                 telephone: null,
+                limit: 1,
+                ttl: 30,
+                lock: 30,
+                failure: 5,
                 newPassword: null,
                 checkPassword: null
             }
@@ -44,8 +48,12 @@ class Add extends Component {
                     username: this.props.user.edit.username,
                     email: this.props.user.edit.email,
                     telephone: this.props.user.edit.telephone,
+                    ttl: this.props.user.edit.ttl,
+                    lock: this.props.user.edit.lock,
+                    limit: this.props.user.edit.limit,
+                    failure: this.props.user.edit.failure
                 }
-                api = "/auth/user/update";
+                api = "/auth/user_manage/user";
             } else if (this.props.location.content === "password") {
                 if (this.props.user.edit.newPassword !== this.props.user.edit.checkPassword) {
                     this.props.save({edit: {...this.props.user.edit, checkPassword: null}});
@@ -54,11 +62,10 @@ class Add extends Component {
                 } else {
                     param = {
                         id: this.props.user.edit.id,
-                        newPassword: this.props.user.edit.newPassword,
-                        checkPassword: this.props.user.edit.checkPassword
+                        newPassword: this.props.user.edit.newPassword
                     }
                 }
-                api = "/auth/user/password";
+                api = "/auth/user_manage/user/password";
             }
             axios.put(api, param).then(response => {
                 if (response.data.status) {
@@ -70,10 +77,19 @@ class Add extends Component {
 
             });
         } else if (this.props.location.type === "add") {
-            axios.post("/auth/user/add", {
+            if (this.props.user.edit.newPassword !== this.props.user.edit.checkPassword) {
+                this.props.save({edit: {...this.props.user.edit, checkPassword: null}});
+                message.warning("两次密码不一致");
+                return;
+            }
+            axios.post("/auth/user_manage/user", {
                 username: this.props.user.edit.username,
                 telephone: this.props.user.edit.telephone,
                 email: this.props.user.edit.email,
+                ttl: this.props.user.edit.ttl,
+                lock: this.props.user.edit.lock,
+                limit: this.props.user.edit.limit,
+                failure: this.props.user.edit.failure,
                 password: this.props.user.edit.newPassword
             }).then(response => {
                 if (response.data.status === true) {
@@ -89,7 +105,11 @@ class Add extends Component {
     }
 
     handleValueChange(key, e) {
-        this.props.save({edit: {...this.props.user.edit, [key]: e.target.value}});
+        if (key === "lock" || key === "limit" || key === "ttl" || key === "failure") {
+            this.props.save({edit: {...this.props.user.edit, [key]: e}});
+        } else {
+            this.props.save({edit: {...this.props.user.edit, [key]: e.target.value}});
+        }
     }
 
     render() {
@@ -138,6 +158,30 @@ class Add extends Component {
                                         <Input type="telephone" className="cms-module-input" placeholder="请输入电话号码"
                                                value={this.props.user.edit.telephone}
                                                onChange={this.handleValueChange.bind(this, "telephone")}/>
+                                    </Form.Item>
+                                    <Form.Item label="会话时长" className="cms-module-item">
+                                        <InputNumber min={1} value={this.props.user.edit.ttl}
+                                                     formatter={value => `${value}分钟`}
+                                                     parser={value => value.replace("分钟", "")}
+                                                     onChange={this.handleValueChange.bind(this, "ttl")}/>
+                                    </Form.Item>
+                                    <Form.Item label="登录限制" className="cms-module-item">
+                                        <InputNumber min={1} value={this.props.user.edit.limit}
+                                                     formatter={value => `${value}次`}
+                                                     parser={value => value.replace("次", "")}
+                                                     onChange={this.handleValueChange.bind(this, "limit")}/>
+                                    </Form.Item>
+                                    <Form.Item label="锁定时长" className="cms-module-item">
+                                        <InputNumber min={1} value={this.props.user.edit.lock}
+                                                     formatter={value => `${value}分钟`}
+                                                     parser={value => value.replace("分钟", "")}
+                                                     onChange={this.handleValueChange.bind(this, "lock")}/>
+                                    </Form.Item>
+                                    <Form.Item label="失败次数" className="cms-module-item">
+                                        <InputNumber min={3} value={this.props.user.edit.failure}
+                                                     formatter={value => `${value}次`}
+                                                     parser={value => value.replace("次", "")}
+                                                     onChange={this.handleValueChange.bind(this, "failure")}/>
                                     </Form.Item>
                                 </div> : null}
                             {this.props.location.content !== "base" ?

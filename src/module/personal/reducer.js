@@ -4,9 +4,9 @@ const initState = {
     email: null,
     telephone: null,
     limit: 1,
-    ttl: 1,
-    lock: 1,
-    failure: 3
+    ttl: 30,
+    lock: 30,
+    failure: 5
 };
 
 const personalReducer = (state = initState, action) => {

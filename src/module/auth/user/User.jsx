@@ -66,7 +66,7 @@ class User extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/auth/user/delete", {
+        axios.delete("/auth/user_manage/users", {
             data: {
                 ids: ids
             }
@@ -96,7 +96,7 @@ class User extends Component {
     }
 
     handleEnabled(ids) {
-        axios.put("/auth/user/enabled", {
+        axios.put("/auth/user_manage/users/enabled", {
             ids: ids
         }).then(response => {
             if (response.data.status) {
@@ -116,7 +116,7 @@ class User extends Component {
     }
 
     handleDisabled(ids) {
-        axios.put("/auth/user/disabled", {
+        axios.put("/auth/user_manage/users/disabled", {
             ids: ids
         }).then(response => {
             if (response.data.status) {
@@ -136,7 +136,7 @@ class User extends Component {
     }
 
     handleGrantRole(id) {
-        axios.get("/auth/user/ref_user_role", {
+        axios.get("/auth/user_manage/ref_user_role", {
             params: {
                 id: id
             }
@@ -191,7 +191,7 @@ class User extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/auth/user/grant_role", {
+        axios.put("/auth/user_manage/grant_role", {
             userId: this.props.user.userId,
             roleIds: this.props.user.transferTargetKeys
         }).then(response => {
@@ -231,7 +231,7 @@ class User extends Component {
                 ...this.props.user.params
             }
         }
-        axios.get("/auth/user/list", {
+        axios.get("/auth/user_manage/users", {
             params: {
                 ...params
             }
@@ -261,10 +261,10 @@ class User extends Component {
     }
 
     loadRefRole() {
-        axios.get("/auth/user/ref_role").then(response => {
+        axios.get("/auth/user_manage/ref_role").then(response => {
             if (response.data.status) {
                 let filters = [];
-                response.data.data.roles.map((item) => {
+                response.data.data.map((item) => {
                     filters.push({
                         text: item.name,
                         value: item.id
@@ -285,15 +285,35 @@ class User extends Component {
             title: "用户名",
             dataIndex: "username",
             key: "username",
-            sorter: true
+            sorter: true,
+            ellipsis: true
         }, {
             title: "电话",
             dataIndex: "telephone",
-            key: "telephone"
+            key: "telephone",
+            ellipsis: true
         }, {
             title: "邮箱",
             dataIndex: "email",
-            key: "email"
+            key: "email",
+            ellipsis: true
+        }, {
+            title: "会话时长",
+            dataIndex: "ttl",
+            key: "ttl",
+            ellipsis: true
+        }, {
+            title: "登录限制",
+            dataIndex: "limit",
+            key: "limit"
+        }, {
+            title: "失败次数",
+            dataIndex: "failure",
+            key: "failure"
+        }, {
+            title: "锁定时间",
+            dataIndex: "lock",
+            key: "lock"
         }, {
             title: "角色",
             dataIndex: "roles",
@@ -311,11 +331,11 @@ class User extends Component {
             ellipsis: true
         }, {
             title: "状态",
-            dataIndex: "enabled",
-            key: "enabled",
+            dataIndex: "enable",
+            key: "enable",
             sorter: true,
-            render: (enabled) => (
-                <span>{enabled === 1 ? <Tag color="green">启用</Tag> : <Tag color="red">禁用</Tag>}</span>
+            render: (enable) => (
+                <span>{enable === 1 ? <Tag color="green">启用</Tag> : <Tag color="red">禁用</Tag>}</span>
             )
         }, {
             title: "操作项",
@@ -330,11 +350,11 @@ class User extends Component {
                            className="cms-module-normal">分配</a>
                         <a onClick={this.handlePassword.bind(this, recorder.id)}
                            className="cms-module-danger">重置</a>
-                        {recorder.deletable === 1 ?
+                        {recorder.builtin !== 1 ?
                             <span>
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
                                    className="cms-module-danger">删除</a>
-                                {recorder.enabled === 1 ?
+                                {recorder.enable === 1 ?
                                     <a onClick={this.handleDisabled.bind(this, [recorder.id])}
                                        className="cms-module-danger">禁用</a> :
                                     <a onClick={this.handleEnabled.bind(this, [recorder.id])}

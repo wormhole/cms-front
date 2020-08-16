@@ -122,18 +122,26 @@ class Personal extends Component {
                                 </Form.Item>
                                 <Form.Item label="会话时长" className="cms-module-item">
                                     <InputNumber min={1} value={this.props.personal.ttl}
+                                                 formatter={value => `${value}分钟`}
+                                                 parser={value => value.replace("分钟", "")}
                                                  onChange={this.handleValueChange.bind(this, "ttl")}/>
                                 </Form.Item>
                                 <Form.Item label="登录限制" className="cms-module-item">
                                     <InputNumber min={1} value={this.props.personal.limit}
+                                                 formatter={value => `${value}次`}
+                                                 parser={value => value.replace("次", "")}
                                                  onChange={this.handleValueChange.bind(this, "limit")}/>
                                 </Form.Item>
                                 <Form.Item label="锁定时长" className="cms-module-item">
                                     <InputNumber min={1} value={this.props.personal.lock}
+                                                 formatter={value => `${value}分钟`}
+                                                 parser={value => value.replace("分钟", "")}
                                                  onChange={this.handleValueChange.bind(this, "lock")}/>
                                 </Form.Item>
                                 <Form.Item label="失败次数" className="cms-module-item">
                                     <InputNumber min={3} value={this.props.personal.failure}
+                                                 formatter={value => `${value}次`}
+                                                 parser={value => value.replace("次", "")}
                                                  onChange={this.handleValueChange.bind(this, "failure")}/>
                                 </Form.Item>
                             </div>
