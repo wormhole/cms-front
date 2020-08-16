@@ -8,7 +8,7 @@ const initState = {
         roles: [],
         permissions: []
     },
-    config: {
+    properties: {
         title: null,
         copyright: null,
         head: null

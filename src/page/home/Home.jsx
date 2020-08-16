@@ -105,11 +105,11 @@ class Home extends Component {
     }
 
     loadData() {
-        axios.get("/home/config").then(response => {
+        axios.get("/home/properties").then(response => {
             if (response.data.status) {
-                let config = response.data.data;
-                config.head = getUrl(config.head);
-                this.props.save({config: config});
+                let properties = response.data.data;
+                properties.head = getUrl(properties.head);
+                this.props.save({properties: properties});
             } else {
                 message.error(response.data.message);
             }
@@ -141,9 +141,9 @@ class Home extends Component {
                 <Sider className="cms-home-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
                     <Scrollbars>
                         <div className="cms-home-logo">
-                            <Avatar shape="square" size={40} src={this.props.home.config.head}/>
+                            <Avatar shape="square" size={40} src={this.props.home.properties.head}/>
                             <span className="cms-home-title"
-                                  style={this.props.home.logoTextStyle}>{this.props.home.config.title}</span>
+                                  style={this.props.home.logoTextStyle}>{this.props.home.properties.title}</span>
                         </div>
 
                         <Menu theme="dark" mode="inline" className="cms-home-menu">
@@ -231,7 +231,7 @@ class Home extends Component {
                                     )
                                 })
                             }
-                            <Footer className="cms-home-footer">{this.props.home.config.copyright}</Footer>
+                            <Footer className="cms-home-footer">{this.props.home.properties.copyright}</Footer>
                         </Content>
                     </Scrollbars>
                 </Layout>
