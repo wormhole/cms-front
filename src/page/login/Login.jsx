@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Checkbox, Col, Form, Input, message, Row} from "antd";
+import {Button, Col, Form, Input, message, Row} from "antd";
 import {LockOutlined, SafetyCertificateOutlined, UserOutlined} from "@ant-design/icons";
 import "./login.less";
 import axios from "../../util/axios";
@@ -11,10 +11,6 @@ class Login extends Component {
         super(props);
     }
 
-    componentDidMount(){
-        this.loadData();
-    }
-
     componentWillUnmount() {
         this.handleClear();
     }
@@ -24,7 +20,6 @@ class Login extends Component {
             username: null,
             password: null,
             code: null,
-            rememberMe: null,
             codeApi: getUrl("/code?" + Math.random())
         });
     }
@@ -34,15 +29,14 @@ class Login extends Component {
         param.append("username", this.props.login.username);
         param.append("password", this.props.login.password);
         param.append("code", this.props.login.code);
-        param.append("rememberMe", this.props.login.rememberMe);
-        axios.post("/login", param, { headers: { "Content-Type": "multipart/form-data" }, }).then(response => {
+        axios.post("/login", param, {headers: {"Content-Type": "multipart/form-data"},}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
                 localStorage.setItem("token", response.data.data);
                 this.props.history.push("/");
             } else {
                 message.error(response.data.message);
-                this.props.save({ codeApi: getUrl("/code?" + Math.random()) })
+                this.props.save({codeApi: getUrl("/code?" + Math.random())})
             }
         }).catch(error => {
 
@@ -50,29 +44,11 @@ class Login extends Component {
     };
 
     handleValueChange(key, e) {
-        if (key === "rememberMe") {
-            this.props.save({ [key]: e.target.checked });
-        } else {
-            this.props.save({ [key]: e.target.value });
-        }
+        this.props.save({[key]: e.target.value});
     }
 
     handleVCodeChange() {
-        this.props.save({ codeApi: getUrl("/code?" + Math.random()) });
-    }
-
-    loadData() {
-        axios.get("/login/property/remember").then(response => {
-            if (response.data.status) {
-                this.props.save({
-                    isRememberMe: response.data.data
-                });
-            } else {
-                message.error(response.data.message);
-            }
-        }).catch(error => {
-
-        });
+        this.props.save({codeApi: getUrl("/code?" + Math.random())});
     }
 
     render() {
@@ -84,7 +60,7 @@ class Login extends Component {
                         <Form onFinish={this.handleSubmit.bind(this)} className="cms-login-form">
                             <Form.Item>
                                 <Input
-                                    prefix={<UserOutlined className="cms-login-icon" />}
+                                    prefix={<UserOutlined className="cms-login-icon"/>}
                                     placeholder="用户名"
                                     className="cms-login-input"
                                     value={this.props.login.username}
@@ -93,7 +69,7 @@ class Login extends Component {
                             </Form.Item>
                             <Form.Item>
                                 <Input.Password
-                                    prefix={<LockOutlined className="cms-login-icon" />}
+                                    prefix={<LockOutlined className="cms-login-icon"/>}
                                     type="password"
                                     placeholder="密码"
                                     className="cms-login-input"
@@ -106,7 +82,7 @@ class Login extends Component {
                                 <Row gutter={8}>
                                     <Col span={14}>
                                         <Input
-                                            prefix={<SafetyCertificateOutlined className="cms-login-icon" />}
+                                            prefix={<SafetyCertificateOutlined className="cms-login-icon"/>}
                                             type="text"
                                             placeholder="验证码"
                                             className="cms-login-input"
@@ -116,15 +92,10 @@ class Login extends Component {
                                     </Col>
                                     <Col span={10}>
                                         <img src={this.props.login.codeApi} className="cms-login-img"
-                                            id="verify-img" onClick={this.handleVCodeChange.bind(this)} />
+                                             id="verify-img" onClick={this.handleVCodeChange.bind(this)}/>
                                     </Col>
                                 </Row>
                             </Form.Item>
-                            {this.props.login.isRememberMe === "true" ?
-                                <Form.Item>
-                                    <Checkbox checked={this.props.login.rememberMe}
-                                        onChange={this.handleValueChange.bind(this, "rememberMe")}>记住我</Checkbox>
-                                </Form.Item> : null}
                             <Button type="primary" htmlType="submit" className="cms-login-button">
                                 登录
                             </Button>

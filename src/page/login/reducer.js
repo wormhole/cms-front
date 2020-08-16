@@ -3,10 +3,8 @@ import getUrl from "../../util/url";
 const initState = {
     username: "",
     password: "",
-    rememberMe: false,
     code: "",
-    codeApi: getUrl("/code"),
-    isRememberMe: "false"
+    codeApi: getUrl("/code")
 };
 
 const loginReducer = (state = initState, action) => {

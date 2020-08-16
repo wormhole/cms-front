@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, Form, Input, message, Switch, Upload} from "antd";
+import {Breadcrumb, Button, Form, Input, message, Upload} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 import getBase64 from "../../../util/image";
@@ -15,13 +15,8 @@ class Website extends Component {
     }
 
     handleValueChange(key, e) {
-        let value;
-        if (key === "rememberMe") {
-            value = e ? "true" : "false";
-        } else {
-            value = e.target.value;
-        }
-        this.props.save({ [key]: value });
+        let value = e.target.value;
+        this.props.save({[key]: value});
     }
 
     handleBeforeUpload(file) {
@@ -40,9 +35,8 @@ class Website extends Component {
 
     handleUpdate() {
         let param = [];
-        param.push({ "key": "title", "value": this.props.website.title });
-        param.push({ "key": "copyright", "value": this.props.website.copyright });
-        param.push({ "key": "rememberMe", "value": this.props.website.rememberMe });
+        param.push({"key": "title", "value": this.props.website.title});
+        param.push({"key": "copyright", "value": this.props.website.copyright});
 
         axios.put("/config/website/properties", param).then(response => {
             if (response.data.status) {
@@ -58,10 +52,10 @@ class Website extends Component {
     handleUpdateHead() {
         let param = new FormData();
         param.append("file", this.props.website.file[0]);
-        axios.post("/config/website/head", param, { headers: { "Content-Type": "multipart/form-data" } }).then(response => {
+        axios.post("/config/website/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
             if (response.data.status === true) {
                 message.success(response.data.message);
-                this.props.save({ file: [] });
+                this.props.save({file: []});
             } else {
                 message.error(response.data.message);
             }
@@ -78,7 +72,6 @@ class Website extends Component {
                 this.props.save({
                     title: config.title,
                     copyright: config.copyright,
-                    rememberMe: config.rememberMe,
                     head: getUrl(config.head)
                 });
             } else {
@@ -96,7 +89,6 @@ class Website extends Component {
                 this.props.save({
                     title: config.title,
                     copyright: config.copyright,
-                    rememberMe: config.rememberMe,
                     head: getUrl(config.head)
                 });
             } else {
@@ -114,41 +106,36 @@ class Website extends Component {
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>系统设置</Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/config/website"
-                        className="cms-module-link">网站设置</Link></Breadcrumb.Item>
+                                           className="cms-module-link">网站设置</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
                     <div className="cms-module-head">
                         <Button type="primary" className="cms-module-button"
-                            onClick={this.handleRestore.bind(this)}>还原默认</Button>
+                                onClick={this.handleRestore.bind(this)}>还原默认</Button>
                         <Button type="primary" className="cms-module-back" onClick={this.handleBack.bind(this)}
-                            ghost>返回</Button>
+                                ghost>返回</Button>
                     </div>
                     <div className="cms-module-body">
                         <Form {...{
                             labelCol: {
-                                xs: { span: 2 },
-                                sm: { span: 2 }
+                                xs: {span: 2},
+                                sm: {span: 2}
                             },
                             wrapperCol: {
-                                xs: { span: 8 },
-                                sm: { span: 8 }
+                                xs: {span: 8},
+                                sm: {span: 8}
                             }
                         }} className="cms-module-form">
                             <div>
                                 <Form.Item label="标题" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入标题信息"
-                                        value={this.props.website.title}
-                                        onChange={this.handleValueChange.bind(this, "title")} />
+                                           value={this.props.website.title}
+                                           onChange={this.handleValueChange.bind(this, "title")}/>
                                 </Form.Item>
                                 <Form.Item label="版权" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入版权信息"
-                                        value={this.props.website.copyright}
-                                        onChange={this.handleValueChange.bind(this, "copyright")} />
-                                </Form.Item>
-                                <Form.Item label="记住我" className="cms-module-item">
-                                    <Switch checkedChildren="开启" unCheckedChildren="关闭"
-                                        checked={this.props.website.rememberMe === "false" ? false : true}
-                                        onChange={this.handleValueChange.bind(this, "rememberMe")} />
+                                           value={this.props.website.copyright}
+                                           onChange={this.handleValueChange.bind(this, "copyright")}/>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-item">
                                     <Button type="primary" onClick={this.handleUpdate.bind(this)}>更新设置</Button>
@@ -159,12 +146,12 @@ class Website extends Component {
                                         fileList={this.props.website.file}
                                         showUploadList={false}
                                         beforeUpload={this.handleBeforeUpload.bind(this)}>
-                                        <img src={this.props.website.head} style={{ width: "100%" }} />
+                                        <img src={this.props.website.head} style={{width: "100%"}}/>
                                     </Upload>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-item">
                                     <Button type="primary" onClick={this.handleUpdateHead.bind(this)}
-                                        disabled={this.props.website.file.length > 0 ? false : true}>更新头像</Button>
+                                            disabled={this.props.website.file.length > 0 ? false : true}>更新头像</Button>
                                 </Form.Item>
                             </div>
                         </Form>
