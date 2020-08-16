@@ -44,7 +44,7 @@ class Image extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/file/image/delete", {
+        axios.delete("/file/image/uploads", {
             data: {
                 ids: ids
             }
@@ -98,7 +98,7 @@ class Image extends Component {
                 ...this.props.image.params
             }
         }
-        axios.get("/file/image/list", {
+        axios.get("/file/image/uploads", {
             params: {
                 ...params
             }
@@ -130,18 +130,21 @@ class Image extends Component {
 
         const columns = [{
                 title: "时间",
-                dataIndex: "time",
-                key: "time",
-                sorter: true
+                dataIndex: "ts",
+                key: "ts",
+                sorter: true,
+                ellipsis: true
             }, {
                 title: "用户名",
                 dataIndex: "username",
-                key: "username"
+                key: "username",
+                ellipsis: true
             }, {
                 title: "文件名",
                 dataIndex: "name",
                 key: "name",
-                sorter: true
+                sorter: true,
+                ellipsis: true
             }, {
                 title: "路径",
                 dataIndex: "path",

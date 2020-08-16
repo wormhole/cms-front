@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Breadcrumb, Button, Form, Input, message, Upload, Switch } from "antd";
-import { Link } from "react-router-dom";
+import React, {Component} from "react";
+import {Breadcrumb, Button, Form, Input, message, Switch, Upload} from "antd";
+import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 import getBase64 from "../../../util/image";
 import getUrl from "../../../util/url";
@@ -44,7 +44,7 @@ class Website extends Component {
         param.push({ "key": "copyright", "value": this.props.website.copyright });
         param.push({ "key": "rememberMe", "value": this.props.website.rememberMe });
 
-        axios.put("/config/website/update", param).then(response => {
+        axios.put("/config/website/properties", param).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
             } else {
@@ -90,7 +90,7 @@ class Website extends Component {
     }
 
     loadData() {
-        axios.get("/config/website/info").then(response => {
+        axios.get("/config/website/properties").then(response => {
             if (response.data.status) {
                 let config = response.data.data;
                 this.props.save({
