@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, Form, Input, message} from "antd";
+import {Breadcrumb, Button, Form, Input, message, Tree} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 
@@ -14,17 +14,27 @@ class Add extends Component {
         }
     }
 
+    componentDidMount() {
+        this.loadMenuTree();
+        if (this.props.location.type === "edit") {
+            this.loadData(this.props.location.id);
+        }
+    }
+
     componentWillUnmount() {
         this.handleClear();
     }
 
     handleClear() {
         this.props.save({
-            edit: {
+            role: {
                 id: null,
                 name: null,
-                note: null
-            }
+                note: null,
+                menu: []
+            },
+            menu: [],
+            expand: false
         });
     }
 
@@ -35,9 +45,10 @@ class Add extends Component {
     handleSave() {
         if (this.props.location.type === "edit") {
             let param = {
-                id: this.props.role.edit.id,
-                name: this.props.role.edit.name,
-                note: this.props.role.edit.note
+                id: this.props.role.role.id,
+                name: this.props.role.role.name,
+                note: this.props.role.role.note,
+                menus: this.props.role.role.menus
             };
             axios.put("/auth/role_manage/role", param).then(response => {
                 if (response.data.status) {
@@ -50,8 +61,9 @@ class Add extends Component {
             });
         } else if (this.props.location.type === "add") {
             axios.post("/auth/role_manage/role", {
-                name: this.props.role.edit.name,
-                note: this.props.role.edit.note
+                name: this.props.role.role.name,
+                note: this.props.role.role.note,
+                menu: this.props.role.role.menus
             }).then(response => {
                 if (response.data.status === true) {
                     message.success(response.data.message);
@@ -65,11 +77,40 @@ class Add extends Component {
         }
     }
 
+    handleChecked(keys) {
+        this.props.save({role: {...this.props.role.role, menus: keys}});
+    }
+
     handleValueChange(key, e) {
-        this.props.save({edit: {...this.props.role.edit, [key]: e.target.value}});
+        this.props.save({role: {...this.props.role.role, [key]: e.target.value}});
+    }
+
+    loadData(id) {
+        axios.get("/auth/role_manage/role/" + id).then(response => {
+            if (response.data.status) {
+                this.props.save({role: response.data.data});
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+
+        });
+    }
+
+    loadMenuTree() {
+        axios.get("/auth/role_manage/menu").then(response => {
+            if (response.data.status) {
+                this.props.save({menu: response.data.data});
+            } else {
+                message.error(response.data.message);
+            }
+        }).catch(error => {
+
+        });
     }
 
     render() {
+
         return (
 
             <div className="cms-module">
@@ -102,16 +143,24 @@ class Add extends Component {
                             <div>
                                 <Form.Item label="角色名" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入角色"
-                                           value={this.props.role.edit.name}
+                                           value={this.props.role.role.name}
                                            onChange={this.handleValueChange.bind(this, "name")}/>
                                 </Form.Item>
                                 <Form.Item label="备注" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入备注"
-                                           value={this.props.role.edit.note}
+                                           value={this.props.role.role.note}
                                            onChange={this.handleValueChange.bind(this, "note")}/>
                                 </Form.Item>
                             </div>
                         </Form>
+                        <Tree
+                            className="cms-module-tree"
+                            checkable
+                            expandedKeys={this.props.role.role.menus}
+                            checkedKeys={this.props.role.role.menus}
+                            onCheck={this.handleChecked.bind(this)}
+                            treeData={this.props.role.menu}
+                        />
                     </div>
                 </div>
             </div>

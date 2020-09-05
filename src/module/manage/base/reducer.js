@@ -5,9 +5,9 @@ const initState = {
     file: []
 };
 
-const websiteReducer = (state = initState, action) => {
+const baseReducer = (state = initState, action) => {
 
-    if (action.type === "website") {
+    if (action.type === "base") {
         return {
             ...state,
             ...action.state,
@@ -17,4 +17,4 @@ const websiteReducer = (state = initState, action) => {
     }
 };
 
-export default websiteReducer;
+export default baseReducer;

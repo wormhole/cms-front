@@ -4,22 +4,19 @@ const initState = {
     params: {
         key: null,
         sort: null,
-        order: null,
-        permissionIds: []
+        order: null
     },
     pagination: {current: 1, pageSize: 10},
     dataSource: [],
-    filters: [],
     loading: false,
-    transferModalShow: false,
-    transferData: [],
-    transferTargetKeys: [],
-    roleId: null,
-    edit: {
+    role: {
         id: null,
         name: null,
-        note: null
-    }
+        note: null,
+        menus: []
+    },
+    menu: [],
+
 };
 
 const roleReducer = (state = initState, action) => {

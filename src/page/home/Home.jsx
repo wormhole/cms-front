@@ -2,7 +2,6 @@ import {Avatar, Dropdown, Form, Input, Layout, Menu, message, Modal} from "antd"
 import {
     CaretDownOutlined,
     DashboardOutlined,
-    FolderOpenOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     SettingOutlined,
@@ -16,6 +15,7 @@ import {Scrollbars} from "react-custom-scrollbars";
 import "./home.less";
 import "./module.less";
 import getUrl from "../../util/url";
+import exist from "../../util/menu";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -35,7 +35,7 @@ class Home extends Component {
             user: {
                 username: null,
                 roles: [],
-                permissions: []
+                menus: []
             }
         });
     }
@@ -136,6 +136,9 @@ class Home extends Component {
             </Menu>
         );
 
+        const hidden = {display: "none"};
+        const menus = this.props.home.user.menus;
+
         return (
             <Layout className="cms-home">
                 <Sider className="cms-home-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
@@ -147,61 +150,52 @@ class Home extends Component {
                         </div>
 
                         <Menu theme="dark" mode="inline" className="cms-home-menu">
-                            <Menu.Item key="dashboard" className="cms-home-item">
+                            <Menu.Item key="dashboard" className="cms-home-item"
+                                       style={exist("dashboard", menus) ? {} : hidden}>
                                 <DashboardOutlined className="cms-home-icon"/>
                                 <span><Link to="/dashboard"
                                             className="cms-home-link">仪表盘</Link></span>
                             </Menu.Item>
-                            {this.props.home.user.permissions.indexOf("auth") > -1 ?
-                                <SubMenu
-                                    className="cms-home-submenu"
-                                    key="auth"
-                                    title={
-                                        <span className="cms-home-subtitle">
+                            <SubMenu
+                                className="cms-home-submenu"
+                                key="auth"
+                                title={
+                                    <span className="cms-home-subtitle">
                                         <TeamOutlined className="cms-home-icon"/>
                                         <span>认证与授权</span>
                                     </span>
-                                    }
-                                >
-                                    <Menu.Item key="user" className="cms-home-item"><Link to="/auth/user"
-                                                                                          className="cms-home-link">用户管理</Link></Menu.Item>
-                                    <Menu.Item key="role" className="cms-home-item"><Link to="/auth/role"
-                                                                                          className="cms-home-link">角色管理</Link></Menu.Item>
-                                    <Menu.Item key="permission" className="cms-home-item"><Link to="/auth/permission"
-                                                                                                className="cms-home-link">权限管理</Link></Menu.Item>
-                                </SubMenu> : null}
-                            {this.props.home.user.permissions.indexOf("file") > -1 ?
-                                <SubMenu
-                                    className="cms-home-submenu"
-                                    key="file"
-                                    title={
-                                        <span className="cms-home-subtitle">
-                                        <FolderOpenOutlined className="cms-home-icon"/>
-                                        <span>文件管理</span>
-                                    </span>
-                                    }
-                                >
-                                    <Menu.Item key="image" className="cms-home-item">
-                                    <span><Link to="/file/image"
-                                                className="cms-home-link">图片管理</Link></span>
-                                    </Menu.Item>
-                                </SubMenu> : null}
-                            {this.props.home.user.permissions.indexOf("config") > -1 ?
-                                <SubMenu
-                                    className="cms-home-submenu"
-                                    key="config"
-                                    title={
-                                        <span className="cms-home-subtitle">
+                                }
+                                style={(exist("user", menus) || exist("role", menus)) ? {} : hidden}
+                            >
+                                <Menu.Item key="user" className="cms-home-item"
+                                           style={exist("user", menus) ? {} : hidden}>
+                                    <Link to="/auth/user" className="cms-home-link">用户管理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="role" className="cms-home-item"
+                                           style={exist("role", menus) ? {} : hidden}>
+                                    <Link to="/auth/role" className="cms-home-link">角色管理</Link>
+                                </Menu.Item>
+                            </SubMenu>
+                            <SubMenu
+                                className="cms-home-submenu"
+                                key="manage"
+                                title={
+                                    <span className="cms-home-subtitle">
                                         <SettingOutlined className="cms-home-icon"/>
-                                        <span>系统设置</span>
+                                        <span>网站管理</span>
                                     </span>
-                                    }
-                                >
-                                    <Menu.Item key="website" className="cms-home-item">
-                                    <span><Link to="/config/website"
-                                                className="cms-home-link">网站设置</Link></span>
-                                    </Menu.Item>
-                                </SubMenu> : null}
+                                }
+                                style={(exist("image", menus) || exist("base", menus)) ? {} : hidden}
+                            >
+                                <Menu.Item key="image" className="cms-home-item"
+                                           style={exist("image", menus) ? {} : hidden}>
+                                    <Link to="/manage/image" className="cms-home-link">图片管理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="base" className="cms-home-item"
+                                           style={exist("base", menus) ? {} : hidden}>
+                                    <Link to="/manage/base" className="cms-home-link">基本信息</Link>
+                                </Menu.Item>
+                            </SubMenu>
                         </Menu>
                     </Scrollbars>
                 </Sider>

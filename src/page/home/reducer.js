@@ -6,7 +6,7 @@ const initState = {
     user: {
         username: null,
         roles: [],
-        permissions: []
+        menus: []
     },
     properties: {
         title: null,

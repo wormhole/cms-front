@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from "antd";
+import {Breadcrumb, Button, Input, message, Table} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 
@@ -21,7 +21,6 @@ class Role extends Component {
         let params = {
             limit: pagination.pageSize,
             page: pagination.current,
-            permissionIds: filters.permissions ? filters.permissions : [],
             sort: sorter.field ? sorter.field : null,
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
             key: this.props.role.params.key
@@ -48,12 +47,7 @@ class Role extends Component {
     }
 
     handleEdit(id) {
-        this.props.role.dataSource.map((item) => {
-            if (item.id === id) {
-                this.props.save({edit: {...item}});
-            }
-        });
-        this.props.history.push({pathname: "/auth/role/add", type: "edit"});
+        this.props.history.push({pathname: "/auth/role/add", type: "edit", id: id});
     }
 
     handleDelete(ids) {
@@ -86,94 +80,11 @@ class Role extends Component {
         });
     }
 
-    handleGrantPermission(id) {
-        axios.get("/auth/role_manage/ref_role_permission", {
-            params: {
-                id: id
-            }
-        }).then(response => {
-            if (response.data.status) {
-                let transferData = [];
-                let transferTargetKeys = [];
-                response.data.data.all.map((item) => {
-                    transferData.push({
-                        key: item.id,
-                        name: item.name
-                    });
-                });
-                response.data.data.target.map((item) => {
-                    transferTargetKeys.push(item.id);
-                });
-                this.props.save({
-                    transferData: transferData,
-                    transferTargetKeys: transferTargetKeys,
-                    transferModalShow: true,
-                    roleId: id
-                });
-            } else {
-                message.error(response.data.message);
-            }
-        }).catch(error => {
-
-        });
-    }
-
-    handleTransferFilter(filterValue, option) {
-        return option.name.indexOf(filterValue) > -1;
-    }
-
-    handleTransferChange(targetKeys, direction, moveKeys) {
-        if (direction === "left") {
-            let targetKeys = this.props.role.transferTargetKeys;
-            moveKeys.map((item) => {
-                let index = targetKeys.indexOf(item);
-                if (index > -1) {
-                    targetKeys.splice(index, 1);
-                }
-            });
-            this.props.save({transferTargetKeys: targetKeys});
-        } else if (direction === "right") {
-            let targetKeys = this.props.role.transferTargetKeys;
-            moveKeys.map((item) => {
-                targetKeys.push(item);
-            });
-            this.props.save({transferTargetKeys: targetKeys});
-        }
-    }
-
-    handleTransferOk() {
-        axios.put("/auth/role_manage/grant_permission", {
-            roleId: this.props.role.roleId,
-            permissionIds: this.props.role.transferTargetKeys
-        }).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
-                let params = {
-                    page: this.props.role.pagination.current,
-                    limit: this.props.role.pagination.pageSize,
-                    ...this.props.role.params
-                };
-                this.props.save({roleId: null, transferModalShow: false});
-                this.loadData(params);
-            } else {
-                message.error(response.data.message);
-            }
-        }).catch(error => {
-
-        });
-    }
-
-    handleTransferCancel() {
-        this.props.save({
-            transferModalShow: false
-        })
-    }
-
     loadData(params) {
         if (params) {
             this.props.save({
                 loading: true,
-                params: {sort: params.sort, order: params.order, key: params.key, permissionIds: params.permissionIds}
+                params: {sort: params.sort, order: params.order, key: params.key}
             });
         } else {
             params = {
@@ -202,26 +113,6 @@ class Role extends Component {
                     }
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
-                this.loadRefPermission();
-            } else {
-                message.error(response.data.message);
-            }
-        }).catch(error => {
-
-        });
-    }
-
-    loadRefPermission() {
-        axios.get("/auth/role_manage/ref_permission").then(response => {
-            if (response.data.status) {
-                let filters = [];
-                response.data.data.permissions.map((item) => {
-                    filters.push({
-                        text: item.name,
-                        value: item.id
-                    });
-                });
-                this.props.save({filters: filters});
             } else {
                 message.error(response.data.message);
             }
@@ -249,21 +140,6 @@ class Role extends Component {
                 key: "ts",
                 ellipsis: true
             }, {
-                title: "权限",
-                dataIndex: "permissions",
-                key: "permissions",
-                render: (permissions) => (
-                    <span>
-                        {permissions.map(permission => (
-                            <Tag color="blue" key={permission.id}>
-                                {permission.name}
-                            </Tag>
-                        ))}
-                    </span>
-                ),
-                filters: this.props.role.filters,
-                ellipsis: true
-            }, {
                 title: "操作项",
                 fixed: "right",
                 width: 250,
@@ -272,8 +148,6 @@ class Role extends Component {
                         <div>
                             <a onClick={this.handleEdit.bind(this, recorder.id)}
                                className="cms-module-normal">编辑</a>
-                            <a onClick={this.handleGrantPermission.bind(this, recorder.id)}
-                               className="cms-module-normal">分配</a>
                             {recorder.builtin === 0 ?
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}
                                    className="cms-module-danger">删除</a> : null
@@ -324,25 +198,6 @@ class Role extends Component {
                             bordered
                         />
                     </div>
-                    <Modal
-                        title="分配权限"
-                        visible={this.props.role.transferModalShow}
-                        onOk={this.handleTransferOk.bind(this)}
-                        onCancel={this.handleTransferCancel.bind(this)}
-                        cancelText="取消"
-                        okText="分配"
-                        width="450px">
-                        <Transfer
-                            showSearch
-                            titles={["未分配", "已分配"]}
-                            locale={{itemUnit: "项", itemsUnit: "项", searchPlaceholder: "请输入搜索内容"}}
-                            dataSource={this.props.role.transferData}
-                            filterOption={this.handleTransferFilter.bind(this)}
-                            targetKeys={this.props.role.transferTargetKeys}
-                            onChange={this.handleTransferChange.bind(this)}
-                            render={item => item.name}
-                        />
-                    </Modal>
                 </div>
             </div>
         )

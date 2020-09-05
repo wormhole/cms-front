@@ -1,18 +1,18 @@
 import {connect} from "react-redux";
-import Website from "./Website";
+import Base from "./Base";
 import action from "../../../util/action";
 import {withRouter} from "react-router-dom";
 
 const mapStateToProps = (state) => {
     return {
-        website: state.website
+        base: state.base
     }
 };
 
 const mapActionToProps = (dispatch) => {
     return {
-        save: (state) => dispatch(action(state, "website"))
+        save: (state) => dispatch(action(state, "base"))
     }
 };
 
-export default withRouter(connect(mapStateToProps, mapActionToProps)(Website));
+export default withRouter(connect(mapStateToProps, mapActionToProps)(Base));

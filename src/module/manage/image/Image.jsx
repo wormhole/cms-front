@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, Input, message, Table} from "antd";
+import {Breadcrumb, Button, Input, message, Modal, Table} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
+import getUrl from "../../../util/url";
 
-class Permission extends Component {
+class Image extends Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +24,7 @@ class Permission extends Component {
             page: pagination.current,
             sort: sorter.field ? sorter.field : null,
             order: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : null,
-            key: this.props.permission.params.key
+            key: this.props.image.params.key
         };
         this.loadData(params);
     };
@@ -32,7 +33,7 @@ class Permission extends Component {
         let params = {
             page: 1,
             limit: 10,
-            ...this.props.permission.params,
+            ...this.props.image.params,
             key: key
         };
         this.loadData(params);
@@ -42,28 +43,15 @@ class Permission extends Component {
         this.props.save({keyValue: e.target.value});
     }
 
-    handleAdd() {
-        this.props.history.push({pathname: "/auth/permission/add", type: "add"});
-    }
-
-    handleEdit(id) {
-        this.props.permission.dataSource.map((item) => {
-            if (item.id === id) {
-                this.props.save({edit: {...item}});
-            }
-        });
-        this.props.history.push({pathname: "/auth/permission/add", type: "edit"});
-    }
-
     handleDelete(ids) {
-        axios.delete("/auth/permission_manage/permissions", {
+        axios.delete("/manage/image/uploads", {
             data: {
                 ids: ids
             }
         }).then(response => {
             if (response.data.status) {
                 message.success(response.data.message);
-                let selectedRowKeys = this.props.permission.selectedRowKeys;
+                let selectedRowKeys = this.props.image.selectedRowKeys;
                 ids.map((item) => {
                     let index = selectedRowKeys.indexOf(item);
                     if (index > -1) {
@@ -74,7 +62,7 @@ class Permission extends Component {
                 let params = {
                     page: 1,
                     limit: 10,
-                    ...this.props.permission.params
+                    ...this.props.image.params
                 };
                 this.loadData(params);
             } else {
@@ -85,6 +73,18 @@ class Permission extends Component {
         });
     }
 
+    handleShow(url) {
+        this.props.save({url: url, show: true});
+    }
+
+    handleOk() {
+        this.props.save({url: null, show: false});
+    }
+
+    handleCancel() {
+        this.props.save({url: null, show: false});
+    }
+
     loadData(params) {
         if (params) {
             this.props.save({
@@ -93,12 +93,12 @@ class Permission extends Component {
             });
         } else {
             params = {
-                page: this.props.permission.pagination.current,
-                limit: this.props.permission.pagination.pageSize,
-                ...this.props.permission.params
+                page: this.props.image.pagination.current,
+                limit: this.props.image.pagination.pageSize,
+                ...this.props.image.params
             }
         }
-        axios.get("/auth/permission_manage/permissions", {
+        axios.get("/manage/image/uploads", {
             params: {
                 ...params
             }
@@ -110,10 +110,10 @@ class Permission extends Component {
                     total: response.data.data.total,
                 };
                 let dataSource = [];
-                response.data.data.list.map((permission) => {
+                response.data.data.list.map((image) => {
                         dataSource.push({
-                            ...permission,
-                            key: permission.id
+                            ...image,
+                            key: image.id
                         })
                     }
                 );
@@ -129,21 +129,42 @@ class Permission extends Component {
     render() {
 
         const columns = [{
-                title: "权限名",
+                title: "时间",
+                dataIndex: "ts",
+                key: "ts",
+                sorter: true,
+                ellipsis: true
+            }, {
+                title: "用户名",
+                dataIndex: "username",
+                key: "username",
+                ellipsis: true
+            }, {
+                title: "文件名",
                 dataIndex: "name",
                 key: "name",
                 sorter: true,
                 ellipsis: true
             }, {
-                title: "备注",
-                dataIndex: "note",
-                key: "note",
+                title: "路径",
+                dataIndex: "path",
+                key: "path",
                 ellipsis: true
             }, {
-                title: "最后修改时间",
-                dataIndex: "ts",
-                key: "ts",
+                title: "url",
+                dataIndex: "url",
+                key: "url",
                 ellipsis: true
+            }, {
+                title: "缩略图",
+                dataIndex: "url",
+                key: "img",
+                render: (url) => {
+                    return <img style={{width: "80px", height: "40px"}}
+                                className="cms-module-img"
+                                onClick={this.handleShow.bind(this, getUrl(url))}
+                                src={getUrl(url)}/>
+                }
             }, {
                 title: "操作项",
                 fixed: "right",
@@ -151,12 +172,8 @@ class Permission extends Component {
                 render: (recorder) => {
                     return (
                         <div>
-                            <a onClick={this.handleEdit.bind(this, recorder.id)}
-                               className="cms-module-normal">编辑</a>
-                            {recorder.builtin === 0 ?
-                                <a onClick={this.handleDelete.bind(this, [recorder.id])}
-                                   className="cms-module-danger">删除</a> : null
-                            }
+                            <a onClick={this.handleDelete.bind(this, [recorder.id])}
+                               className="cms-module-danger">删除</a>
                         </div>
                     )
                 }
@@ -167,23 +184,21 @@ class Permission extends Component {
             <div className="cms-module">
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>认证与授权</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/auth/permission"
-                                           className="cms-module-link">权限管理</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>网站管理</Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to="/manage/image"
+                                           className="cms-module-link">图片管理</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
                     <div className="cms-module-head">
-                        <Button type="primary" className="cms-module-button"
-                                onClick={this.handleAdd.bind(this)}>添加</Button>
                         <Button type="danger" className="cms-module-button"
-                                disabled={this.props.permission.selectedRowKeys.length > 0 ? false : true}
-                                onClick={this.handleDelete.bind(this, this.props.permission.selectedRowKeys)}
+                                disabled={this.props.image.selectedRowKeys.length > 0 ? false : true}
+                                onClick={this.handleDelete.bind(this, this.props.image.selectedRowKeys)}
                                 ghost>删除</Button>
                         <Input.Search
                             placeholder="请输入关键字"
                             onSearch={this.handleTableSearch.bind(this)}
                             onChange={this.handleTableSearchValueChange.bind(this)}
-                            value={this.props.permission.keyValue}
+                            value={this.props.image.keyValue}
                             className="cms-module-search"
                         />
                     </div>
@@ -191,22 +206,31 @@ class Permission extends Component {
                         <Table
                             className="cms-module-table"
                             rowSelection={{
-                                selectedRowKeys: this.props.permission.selectedRowKeys,
+                                selectedRowKeys: this.props.image.selectedRowKeys,
                                 onChange: this.handleTableSelected.bind(this)
                             }}
                             columns={columns}
-                            dataSource={this.props.permission.dataSource}
-                            pagination={this.props.permission.pagination}
-                            loading={this.props.permission.loading}
+                            dataSource={this.props.image.dataSource}
+                            pagination={this.props.image.pagination}
+                            loading={this.props.image.loading}
                             onChange={this.handleTableChange.bind(this)}
                             scroll={{x: 1300}}
                             bordered
                         />
                     </div>
                 </div>
+                <Modal
+                    title="图片展示"
+                    visible={this.props.image.show}
+                    onOk={this.handleOk.bind(this)}
+                    onCancel={this.handleCancel.bind(this)}
+                    width={600}
+                >
+                    <img src={this.props.image.url} style={{"maxWidth": "550px"}}/>
+                </Modal>
             </div>
         )
     }
 }
 
-export default Permission;
+export default Image;
