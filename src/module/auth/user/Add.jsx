@@ -47,17 +47,7 @@ class Add extends Component {
 
     handleSave() {
         if (this.props.location.type === "edit") {
-            let param = {
-                id: this.props.user.user.id,
-                username: this.props.user.user.username,
-                email: this.props.user.user.email,
-                telephone: this.props.user.user.telephone,
-                ttl: this.props.user.user.ttl,
-                lock: this.props.user.user.lock,
-                limit: this.props.user.user.limit,
-                failure: this.props.user.user.failure
-            }
-            axios.put("/user", param).then(result => {
+            axios.put("/user", this.props.user.user).then(result => {
                 if (result.status) {
                     message.success(result.message);
                 } else {
@@ -72,20 +62,11 @@ class Add extends Component {
                 message.warning("两次密码不一致");
                 return;
             }
-            let param = {
-                id: this.props.user.user.id,
-                username: this.props.user.user.username,
-                email: this.props.user.user.email,
-                telephone: this.props.user.user.telephone,
-                ttl: this.props.user.user.ttl,
-                lock: this.props.user.user.lock,
-                limit: this.props.user.user.limit,
-                failure: this.props.user.user.failure
-            }
-            axios.post("/user", param).then(result => {
+            axios.post("/user", this.props.user.user).then(result => {
                 if (result.status === true) {
                     message.success(result.message);
                     this.handleClear();
+                    this.handleBack();
                 } else {
                     message.error(result.message);
                 }

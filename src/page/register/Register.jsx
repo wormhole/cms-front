@@ -28,12 +28,15 @@ class Register extends Component {
     }
 
     handleSubmit() {
-        axios.post("/register", {
+        axios.post("/user/register", {
             username: this.props.register.username,
             telephone: this.props.register.telephone,
             email: this.props.register.email,
-            captcha: this.props.register.captcha,
             password: this.props.register.password,
+        }, {
+            params: {
+                captcha: this.props.register.captcha
+            }
         }).then(result => {
             if (result.status === true) {
                 message.success(result.message);

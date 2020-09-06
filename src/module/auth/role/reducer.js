@@ -16,7 +16,7 @@ const initState = {
         menus: []
     },
     menus: [],
-
+    expand: []
 };
 
 const roleReducer = (state = initState, action) => {

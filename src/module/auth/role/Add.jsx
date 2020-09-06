@@ -31,10 +31,10 @@ class Add extends Component {
                 id: null,
                 name: null,
                 note: null,
-                menu: []
+                menus: []
             },
-            menu: [],
-            expand: false
+            menus: [],
+            expand: []
         });
     }
 
@@ -58,6 +58,7 @@ class Add extends Component {
                 if (result.status === true) {
                     message.success(result.message);
                     this.handleClear();
+                    this.handleBack();
                 } else {
                     message.error(result.message);
                 }
@@ -90,7 +91,11 @@ class Add extends Component {
     loadMenuTree() {
         axios.get("/menu/tree").then(result => {
             if (result.status) {
-                this.props.save({menus: result.data});
+                let expand = [];
+                result.data.map(menu => {
+                    expand.push(menu.key);
+                });
+                this.props.save({menus: result.data, expand: expand});
             } else {
                 message.error(result.message);
             }
@@ -146,7 +151,7 @@ class Add extends Component {
                         <Tree
                             className="cms-module-tree"
                             checkable
-                            expandedKeys={this.props.role.role.menus}
+                            expandedKeys={this.props.role.expand}
                             checkedKeys={this.props.role.role.menus}
                             onCheck={this.handleChecked.bind(this)}
                             treeData={this.props.role.menus}

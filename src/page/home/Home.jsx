@@ -39,7 +39,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.loadUser();
+        this.loadData();
     }
 
     handleOpenPasswordModal() {
@@ -122,7 +122,7 @@ class Home extends Component {
         });
     }
 
-    loadUser() {
+    loadData() {
         axios.get("/user/self").then(result => {
             if (result.status) {
                 this.props.save({username: result.data.username});
