@@ -14,13 +14,19 @@ class Add extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.location.type === "edit" && this.props.location.content === "base") {
+            this.loadData(this.props.location.id);
+        }
+    }
+
     componentWillUnmount() {
         this.handleClear();
     }
 
     handleClear() {
         this.props.save({
-            edit: {
+            user: {
                 id: null,
                 username: null,
                 email: null,
@@ -29,7 +35,7 @@ class Add extends Component {
                 ttl: 30,
                 lock: 30,
                 failure: 5,
-                newPassword: null,
+                password: null,
                 checkPassword: null
             }
         });
@@ -44,25 +50,25 @@ class Add extends Component {
             let param, api;
             if (this.props.location.content === "base") {
                 param = {
-                    id: this.props.user.edit.id,
-                    username: this.props.user.edit.username,
-                    email: this.props.user.edit.email,
-                    telephone: this.props.user.edit.telephone,
-                    ttl: this.props.user.edit.ttl,
-                    lock: this.props.user.edit.lock,
-                    limit: this.props.user.edit.limit,
-                    failure: this.props.user.edit.failure
+                    id: this.props.user.user.id,
+                    username: this.props.user.user.username,
+                    email: this.props.user.user.email,
+                    telephone: this.props.user.user.telephone,
+                    ttl: this.props.user.user.ttl,
+                    lock: this.props.user.user.lock,
+                    limit: this.props.user.user.limit,
+                    failure: this.props.user.user.failure
                 }
                 api = "/auth/user_manage/user";
             } else if (this.props.location.content === "password") {
-                if (this.props.user.edit.newPassword !== this.props.user.edit.checkPassword) {
-                    this.props.save({edit: {...this.props.user.edit, checkPassword: null}});
+                if (this.props.user.user.password !== this.props.user.user.checkPassword) {
+                    this.props.save({user: {...this.props.user.user, checkPassword: null}});
                     message.warning("两次密码不一致");
                     return;
                 } else {
                     param = {
-                        id: this.props.user.edit.id,
-                        newPassword: this.props.user.edit.newPassword
+                        id: this.props.user.user.id,
+                        password: this.props.user.user.password
                     }
                 }
                 api = "/auth/user_manage/user/password";
@@ -77,20 +83,20 @@ class Add extends Component {
 
             });
         } else if (this.props.location.type === "add") {
-            if (this.props.user.edit.newPassword !== this.props.user.edit.checkPassword) {
-                this.props.save({edit: {...this.props.user.edit, checkPassword: null}});
+            if (this.props.user.user.password !== this.props.user.user.checkPassword) {
+                this.props.save({user: {...this.props.user.user, checkPassword: null}});
                 message.warning("两次密码不一致");
                 return;
             }
             axios.post("/auth/user_manage/user", {
-                username: this.props.user.edit.username,
-                telephone: this.props.user.edit.telephone,
-                email: this.props.user.edit.email,
-                ttl: this.props.user.edit.ttl,
-                lock: this.props.user.edit.lock,
-                limit: this.props.user.edit.limit,
-                failure: this.props.user.edit.failure,
-                password: this.props.user.edit.newPassword
+                username: this.props.user.user.username,
+                telephone: this.props.user.user.telephone,
+                email: this.props.user.user.email,
+                ttl: this.props.user.user.ttl,
+                lock: this.props.user.user.lock,
+                limit: this.props.user.user.limit,
+                failure: this.props.user.user.failure,
+                password: this.props.user.user.password
             }).then(result => {
                 if (result.status === true) {
                     message.success(result.message);
@@ -106,10 +112,22 @@ class Add extends Component {
 
     handleValueChange(key, e) {
         if (key === "lock" || key === "limit" || key === "ttl" || key === "failure") {
-            this.props.save({edit: {...this.props.user.edit, [key]: e}});
+            this.props.save({user: {...this.props.user.user, [key]: e}});
         } else {
-            this.props.save({edit: {...this.props.user.edit, [key]: e.target.value}});
+            this.props.save({user: {...this.props.user.user, [key]: e.target.value}});
         }
+    }
+
+    loadData(id) {
+        axios.get("/auth/user_manage/user/" + id).then(result => {
+            if (result.status) {
+                this.props.save({user: {...this.props.user.user, ...result.data}});
+            } else {
+                message.error(result.message);
+            }
+        }).catch(error => {
+
+        });
     }
 
     render() {
@@ -146,39 +164,39 @@ class Add extends Component {
                                 <div>
                                     <Form.Item label="用户名" className="cms-module-item">
                                         <Input type="text" className="cms-module-input" placeholder="请输入用户名"
-                                               value={this.props.user.edit.username}
+                                               value={this.props.user.user.username}
                                                onChange={this.handleValueChange.bind(this, "username")}/>
                                     </Form.Item>
                                     <Form.Item label="邮箱" className="cms-module-item">
                                         <Input type="email" className="cms-module-input" placeholder="请输入邮箱"
-                                               value={this.props.user.edit.email}
+                                               value={this.props.user.user.email}
                                                onChange={this.handleValueChange.bind(this, "email")}/>
                                     </Form.Item>
                                     <Form.Item label="电话号码" className="cms-module-item">
                                         <Input type="telephone" className="cms-module-input" placeholder="请输入电话号码"
-                                               value={this.props.user.edit.telephone}
+                                               value={this.props.user.user.telephone}
                                                onChange={this.handleValueChange.bind(this, "telephone")}/>
                                     </Form.Item>
                                     <Form.Item label="会话时长" className="cms-module-item">
-                                        <InputNumber min={1} value={this.props.user.edit.ttl}
+                                        <InputNumber min={1} value={this.props.user.user.ttl}
                                                      formatter={value => `${value}分钟`}
                                                      parser={value => value.replace("分钟", "")}
                                                      onChange={this.handleValueChange.bind(this, "ttl")}/>
                                     </Form.Item>
                                     <Form.Item label="登录限制" className="cms-module-item">
-                                        <InputNumber min={1} value={this.props.user.edit.limit}
+                                        <InputNumber min={1} value={this.props.user.user.limit}
                                                      formatter={value => `${value}次`}
                                                      parser={value => value.replace("次", "")}
                                                      onChange={this.handleValueChange.bind(this, "limit")}/>
                                     </Form.Item>
                                     <Form.Item label="锁定时长" className="cms-module-item">
-                                        <InputNumber min={1} value={this.props.user.edit.lock}
+                                        <InputNumber min={1} value={this.props.user.user.lock}
                                                      formatter={value => `${value}分钟`}
                                                      parser={value => value.replace("分钟", "")}
                                                      onChange={this.handleValueChange.bind(this, "lock")}/>
                                     </Form.Item>
                                     <Form.Item label="失败次数" className="cms-module-item">
-                                        <InputNumber min={3} value={this.props.user.edit.failure}
+                                        <InputNumber min={3} value={this.props.user.user.failure}
                                                      formatter={value => `${value}次`}
                                                      parser={value => value.replace("次", "")}
                                                      onChange={this.handleValueChange.bind(this, "failure")}/>
@@ -188,12 +206,12 @@ class Add extends Component {
                                 <div>
                                     <Form.Item label="密码" className="cms-module-item">
                                         <Input.Password className="cms-module-input" placeholder="请输入密码"
-                                                        value={this.props.user.edit.newPassword}
-                                                        onChange={this.handleValueChange.bind(this, "newPassword")}/>
+                                                        value={this.props.user.user.password}
+                                                        onChange={this.handleValueChange.bind(this, "password")}/>
                                     </Form.Item>
                                     <Form.Item label="确认密码" className="cms-module-item">
                                         <Input.Password className="cms-module-input" placeholder="请确认密码"
-                                                        value={this.props.user.edit.checkPassword}
+                                                        value={this.props.user.user.checkPassword}
                                                         onChange={this.handleValueChange.bind(this, "checkPassword")}/>
                                     </Form.Item>
                                 </div> : null}

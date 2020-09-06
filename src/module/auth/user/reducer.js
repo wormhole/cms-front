@@ -15,7 +15,7 @@ const initState = {
     transferData: [],
     transferTargetKeys: [],
     userId: null,
-    edit: {
+    user: {
         id: null,
         username: null,
         email: null,
@@ -24,7 +24,7 @@ const initState = {
         ttl: 30,
         lock: 30,
         failure: 5,
-        newPassword: null,
+        password: null,
         checkPassword: null
     }
 };

@@ -11,6 +11,7 @@ class User extends Component {
 
     componentDidMount() {
         this.loadData();
+        this.loadRefRole();
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -48,12 +49,7 @@ class User extends Component {
     }
 
     handleEdit(id) {
-        this.props.user.dataSource.map((item) => {
-            if (item.id === id) {
-                this.props.save({edit: {checkPassword: null, password: null, ...item}});
-            }
-        });
-        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "base"});
+        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "base", id: id});
     }
 
     handlePassword(id) {
@@ -251,7 +247,6 @@ class User extends Component {
                     }
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
-                this.loadRefRole();
             } else {
                 message.error(result.message);
             }
