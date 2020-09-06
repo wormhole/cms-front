@@ -180,7 +180,7 @@ class DashBoard extends Component {
                                                 style={{backgroundColor: "#70BFEF"}}/>
                                     </div>
                                     <div className="cms-module-right">
-                                        <div className="cms-module-title">流量（上传/下载）</div>
+                                        <div className="cms-module-title">上传/下载</div>
                                         <div className="cms-module-number">
                                             <Link to="#">{this.props.dashboard.net.upload}</Link>/<Link
                                             to="#">{this.props.dashboard.net.download}</Link>
