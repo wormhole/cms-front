@@ -38,7 +38,7 @@ class Base extends Component {
         param.push({"key": "title", "value": this.props.base.title});
         param.push({"key": "copyright", "value": this.props.base.copyright});
 
-        axios.put("/manage/base/properties", param).then(result => {
+        axios.put("/property", param).then(result => {
             if (result.status) {
                 message.success(result.message);
             } else {
@@ -52,7 +52,7 @@ class Base extends Component {
     handleUpdateHead() {
         let param = new FormData();
         param.append("file", this.props.base.file[0]);
-        axios.post("/manage/base/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(result => {
+        axios.post("/property/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(result => {
             if (result.status === true) {
                 message.success(result.message);
                 this.props.save({file: []});
@@ -65,7 +65,7 @@ class Base extends Component {
     }
 
     handleRestore() {
-        axios.put("/manage/base/restore").then(result => {
+        axios.put("/property/restore").then(result => {
             if (result.status) {
                 message.success(result.message);
                 let config = result.data;
@@ -83,7 +83,7 @@ class Base extends Component {
     }
 
     loadData() {
-        axios.get("/manage/base/properties").then(result => {
+        axios.get("/property").then(result => {
             if (result.status) {
                 let config = result.data;
                 this.props.save({

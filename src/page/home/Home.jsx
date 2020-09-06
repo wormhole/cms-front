@@ -32,17 +32,14 @@ class Home extends Component {
 
     handleClear() {
         this.props.save({
-            user: {
-                username: null,
-                roles: [],
-                menus: []
-            },
+            username: null,
+            menus: [],
             loaded: false
         });
     }
 
     componentDidMount() {
-        this.loadAuthority();
+        this.loadUser();
     }
 
     handleOpenPasswordModal() {
@@ -50,12 +47,15 @@ class Home extends Component {
     }
 
     handleOk() {
-        if (this.props.home.edit.newPassword !== this.props.home.edit.checkPassword) {
+        if (this.props.home.newPassword !== this.props.home.checkPassword) {
             message.error("两次密码不一致");
             return;
         }
 
-        axios.put("/personal/user/password", this.props.home.edit).then(result => {
+        axios.put("/user/password", {
+            password: this.props.home.newPassword,
+            old: this.props.home.oldPassword
+        }).then(result => {
             if (result.status === true) {
                 message.success(result.message);
                 this.props.save({showModal: false, oldPassword: null, newPassword: null, checkPassword: null});
@@ -96,11 +96,10 @@ class Home extends Component {
         this.props.save({[key]: e.target.value});
     }
 
-    loadAuthority() {
-        axios.get("/home/authority").then(result => {
+    loadMenu() {
+        axios.get("/menu").then(result => {
             if (result.status) {
-                this.props.save({user: result.data, loaded: true});
-                this.loadProperties();
+                this.props.save({menus: result.data, loaded: true});
             } else {
                 message.error(result.message);
             }
@@ -109,12 +108,26 @@ class Home extends Component {
         });
     }
 
-    loadProperties() {
-        axios.get("/home/properties").then(result => {
+    loadProperty() {
+        axios.get("/property").then(result => {
             if (result.status) {
                 let properties = result.data;
                 properties.head = getUrl(properties.head);
                 this.props.save({...properties});
+            } else {
+                message.error(result.message);
+            }
+        }).catch(error => {
+
+        });
+    }
+
+    loadUser() {
+        axios.get("/user/self").then(result => {
+            if (result.status) {
+                this.props.save({username: result.data.username});
+                this.loadMenu();
+                this.loadProperty();
             } else {
                 message.error(result.message);
             }
@@ -142,7 +155,7 @@ class Home extends Component {
         );
 
         const hidden = {display: "none"};
-        const menus = this.props.home.user.menus;
+        const menus = this.props.home.menus;
 
         return (
             <Layout className="cms-home">
@@ -214,7 +227,7 @@ class Home extends Component {
                         <div className="cms-home-user">
                             <Dropdown overlay={userDrop} className="cms-home-dropdown" placement="bottomRight">
                                 <a className="ant-dropdown-link">
-                                    {this.props.home.user.username ? this.props.home.user.username : "未登录"}&nbsp;
+                                    {this.props.home.username ? this.props.home.username : "未登录"}&nbsp;
                                     <CaretDownOutlined/>
                                 </a>
                             </Dropdown>

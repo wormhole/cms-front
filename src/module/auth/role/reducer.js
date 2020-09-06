@@ -15,7 +15,7 @@ const initState = {
         note: null,
         menus: []
     },
-    menu: [],
+    menus: [],
 
 };
 

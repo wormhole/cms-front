@@ -51,7 +51,7 @@ class Role extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/auth/role_manage/roles", {
+        axios.delete("/role", {
             data: {
                 ids: ids
             }
@@ -93,7 +93,7 @@ class Role extends Component {
                 ...this.props.role.params
             }
         }
-        axios.get("/auth/role_manage/roles", {
+        axios.get("/role/list", {
             params: {
                 ...params
             }

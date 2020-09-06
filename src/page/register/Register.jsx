@@ -17,11 +17,11 @@ class Register extends Component {
 
     handleClear() {
         this.props.save({
-            codeApi: getUrl("/code?" + Math.random()),
+            captchaApi: getUrl("/captcha?" + Math.random()),
             username: null,
             telephone: null,
             email: null,
-            code: null,
+            captcha: null,
             password: null,
             checkPassword: null
         });
@@ -32,7 +32,7 @@ class Register extends Component {
             username: this.props.register.username,
             telephone: this.props.register.telephone,
             email: this.props.register.email,
-            code: this.props.register.code,
+            captcha: this.props.register.captcha,
             password: this.props.register.password,
         }).then(result => {
             if (result.status === true) {
@@ -41,7 +41,7 @@ class Register extends Component {
             } else {
                 message.error(result.message);
                 this.props.save({
-                    codeApi: getUrl("/code?" + Math.random())
+                    captchaApi: getUrl("/captcha?" + Math.random())
                 });
             }
         }).catch(error => {
@@ -53,8 +53,8 @@ class Register extends Component {
         this.props.save({[key]: e.target.value});
     }
 
-    handleVCodeChange() {
-        this.props.save({codeApi: getUrl("/code?" + Math.random())});
+    handleCaptchaChange() {
+        this.props.save({captchaApi: getUrl("/captcha?" + Math.random())});
     }
 
     render() {
@@ -119,13 +119,13 @@ class Register extends Component {
                                             type="text"
                                             placeholder="验证码"
                                             className="cms-register-input"
-                                            value={this.props.register.code}
-                                            onChange={this.handleValueChange.bind(this, "code")}
+                                            value={this.props.register.captcha}
+                                            onChange={this.handleValueChange.bind(this, "captcha")}
                                         />
                                     </Col>
                                     <Col span={10}>
-                                        <img src={this.props.register.codeApi} className="cms-register-img"
-                                             id="verify-img" onClick={this.handleVCodeChange.bind(this)}/>
+                                        <img src={this.props.register.captchaApi} className="cms-register-img"
+                                             id="verify-img" onClick={this.handleCaptchaChange.bind(this)}/>
                                     </Col>
                                 </Row>
                             </Form.Item>

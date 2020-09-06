@@ -6,8 +6,8 @@ const initState = {
     email: "",
     password: "",
     checkPassword: "",
-    code: "",
-    codeApi: getUrl("/code")
+    captcha: "",
+    captchaApi: getUrl("/captcha")
 };
 
 const registerReducer = (state = initState, action) => {

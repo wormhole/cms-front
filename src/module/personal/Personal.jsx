@@ -36,19 +36,10 @@ class Personal extends Component {
             failure: this.props.personal.failure
         };
 
-        axios.put("/personal/user", param).then(result => {
+        axios.put("/user", param).then(result => {
             if (result.status) {
                 message.success(result.message);
-                this.props.save({
-                    id: result.data.id,
-                    username: result.data.username,
-                    email: result.data.email,
-                    telephone: result.data.telephone,
-                    ttl: result.data.ttl,
-                    lock: result.data.lock,
-                    limit: result.data.limit,
-                    failure: result.data.failure
-                });
+                this.props.save({...result.data});
             } else {
                 message.error(result.message);
             }
@@ -58,18 +49,9 @@ class Personal extends Component {
     }
 
     loadData() {
-        axios.get("/personal/user").then(result => {
+        axios.get("/user/self").then(result => {
             if (result.status) {
-                this.props.save({
-                    id: result.data.id,
-                    username: result.data.username,
-                    email: result.data.email,
-                    telephone: result.data.telephone,
-                    ttl: result.data.ttl,
-                    lock: result.data.lock,
-                    limit: result.data.limit,
-                    failure: result.data.failure
-                });
+                this.props.save({...result.data});
             } else {
                 message.error(result.message);
             }

@@ -1,11 +1,8 @@
 const initState = {
     collapsed: false,
     logoTextStyle: {display: "inline"},
-    user: {
-        username: null,
-        roles: [],
-        menus: []
-    },
+    username: null,
+    menus: [],
     title: null,
     copyright: null,
     head: null,

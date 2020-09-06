@@ -44,13 +44,7 @@ class Add extends Component {
 
     handleSave() {
         if (this.props.location.type === "edit") {
-            let param = {
-                id: this.props.role.role.id,
-                name: this.props.role.role.name,
-                note: this.props.role.role.note,
-                menus: this.props.role.role.menus
-            };
-            axios.put("/auth/role_manage/role", param).then(result => {
+            axios.put("/role", this.props.role.role).then(result => {
                 if (result.status) {
                     message.success(result.message);
                 } else {
@@ -60,11 +54,7 @@ class Add extends Component {
 
             });
         } else if (this.props.location.type === "add") {
-            axios.post("/auth/role_manage/role", {
-                name: this.props.role.role.name,
-                note: this.props.role.role.note,
-                menu: this.props.role.role.menus
-            }).then(result => {
+            axios.post("/role", this.props.role.role).then(result => {
                 if (result.status === true) {
                     message.success(result.message);
                     this.handleClear();
@@ -86,7 +76,7 @@ class Add extends Component {
     }
 
     loadData(id) {
-        axios.get("/auth/role_manage/role/" + id).then(result => {
+        axios.get("/role/" + id).then(result => {
             if (result.status) {
                 this.props.save({role: result.data});
             } else {
@@ -98,9 +88,9 @@ class Add extends Component {
     }
 
     loadMenuTree() {
-        axios.get("/auth/role_manage/menu").then(result => {
+        axios.get("/menu/tree").then(result => {
             if (result.status) {
-                this.props.save({menu: result.data});
+                this.props.save({menus: result.data});
             } else {
                 message.error(result.message);
             }
@@ -159,7 +149,7 @@ class Add extends Component {
                             expandedKeys={this.props.role.role.menus}
                             checkedKeys={this.props.role.role.menus}
                             onCheck={this.handleChecked.bind(this)}
-                            treeData={this.props.role.menu}
+                            treeData={this.props.role.menus}
                         />
                     </div>
                 </div>

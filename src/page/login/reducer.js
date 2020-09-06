@@ -3,8 +3,8 @@ import getUrl from "../../util/url";
 const initState = {
     username: "",
     password: "",
-    code: "",
-    codeApi: getUrl("/code")
+    captcha: "",
+    captchaApi: getUrl("/captcha")
 };
 
 const loginReducer = (state = initState, action) => {

@@ -11,7 +11,7 @@ class User extends Component {
 
     componentDidMount() {
         this.loadData();
-        this.loadRefRole();
+        this.loadRole();
     }
 
     handleTableSelected(selectedRowKeys) {
@@ -49,20 +49,11 @@ class User extends Component {
     }
 
     handleEdit(id) {
-        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "base", id: id});
-    }
-
-    handlePassword(id) {
-        this.props.user.dataSource.map((item) => {
-            if (item.id === id) {
-                this.props.save({edit: {checkPassword: null, password: null, ...item}});
-            }
-        });
-        this.props.history.push({pathname: "/auth/user/add", type: "edit", content: "password"});
+        this.props.history.push({pathname: "/auth/user/add", type: "edit", id: id});
     }
 
     handleDelete(ids) {
-        axios.delete("/auth/user_manage/users", {
+        axios.delete("/user", {
             data: {
                 ids: ids
             }
@@ -92,7 +83,7 @@ class User extends Component {
     }
 
     handleEnabled(ids) {
-        axios.put("/auth/user_manage/users/enabled", {
+        axios.put("/user/enabled", {
             ids: ids
         }).then(result => {
             if (result.status) {
@@ -112,7 +103,7 @@ class User extends Component {
     }
 
     handleDisabled(ids) {
-        axios.put("/auth/user_manage/users/disabled", {
+        axios.put("/user/disabled", {
             ids: ids
         }).then(result => {
             if (result.status) {
@@ -132,7 +123,7 @@ class User extends Component {
     }
 
     handleGrantRole(id) {
-        axios.get("/auth/user_manage/ref_user_role", {
+        axios.get("/role/transfer", {
             params: {
                 id: id
             }
@@ -187,7 +178,7 @@ class User extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/auth/user_manage/grant_role", {
+        axios.put("/user/grant_role", {
             userId: this.props.user.userId,
             roleIds: this.props.user.transferTargetKeys
         }).then(result => {
@@ -227,7 +218,7 @@ class User extends Component {
                 ...this.props.user.params
             }
         }
-        axios.get("/auth/user_manage/users", {
+        axios.get("/user/list", {
             params: {
                 ...params
             }
@@ -255,8 +246,8 @@ class User extends Component {
         });
     }
 
-    loadRefRole() {
-        axios.get("/auth/user_manage/ref_role").then(result => {
+    loadRole() {
+        axios.get("/role").then(result => {
             if (result.status) {
                 let filters = [];
                 result.data.map((item) => {
@@ -349,8 +340,6 @@ class User extends Component {
                            className="cms-module-normal">编辑</a>
                         <a onClick={this.handleGrantRole.bind(this, recorder.id)}
                            className="cms-module-normal">分配</a>
-                        <a onClick={this.handlePassword.bind(this, recorder.id)}
-                           className="cms-module-danger">重置</a>
                         {recorder.builtin === 0 ?
                             <span>
                                 <a onClick={this.handleDelete.bind(this, [recorder.id])}

@@ -44,7 +44,7 @@ class Image extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/manage/image/uploads", {
+        axios.delete("/upload", {
             data: {
                 ids: ids
             }
@@ -98,7 +98,7 @@ class Image extends Component {
                 ...this.props.image.params
             }
         }
-        axios.get("/manage/image/uploads", {
+        axios.get("/upload/list", {
             params: {
                 ...params
             }
@@ -151,19 +151,14 @@ class Image extends Component {
                 key: "path",
                 ellipsis: true
             }, {
-                title: "url",
-                dataIndex: "url",
-                key: "url",
-                ellipsis: true
-            }, {
                 title: "缩略图",
-                dataIndex: "url",
+                dataIndex: "path",
                 key: "img",
-                render: (url) => {
+                render: (path) => {
                     return <img style={{width: "80px", height: "40px"}}
                                 className="cms-module-img"
-                                onClick={this.handleShow.bind(this, getUrl(url))}
-                                src={getUrl(url)}/>
+                                onClick={this.handleShow.bind(this, getUrl(path))}
+                                src={getUrl(path)}/>
                 }
             }, {
                 title: "操作项",
