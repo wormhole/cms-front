@@ -29,13 +29,13 @@ class Login extends Component {
         param.append("username", this.props.login.username);
         param.append("password", this.props.login.password);
         param.append("code", this.props.login.code);
-        axios.post("/login", param, {headers: {"Content-Type": "multipart/form-data"},}).then(response => {
-            if (response.data.status === true) {
-                message.success(response.data.message);
-                localStorage.setItem("token", response.data.data);
+        axios.post("/login", param, {headers: {"Content-Type": "multipart/form-data"},}).then(result => {
+            if (result.status === true) {
+                message.success(result.message);
+                localStorage.setItem("token", result.data);
                 this.props.history.push("/");
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
                 this.props.save({codeApi: getUrl("/code?" + Math.random())})
             }
         }).catch(error => {

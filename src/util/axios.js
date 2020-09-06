@@ -17,22 +17,22 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     response => {
-        return response;
+        return response.data;
     },
     error => {
         const history = createHashHistory();
         switch (error.response.status) {
             case 401:
-                message.warn(error.response.data.message);
+                message.warn(error.result.message);
                 window.localStorage.removeItem("token");
                 history.push("/login");
                 break;
             case 403:
-                message.error(error.response.data.message);
+                message.error(error.result.message);
                 history.push("/error/403");
                 break;
             default:
-                message.error(error.response.data.message);
+                message.error(error.result.message);
                 break;
         }
         return Promise.reject(error);

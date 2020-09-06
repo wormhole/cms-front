@@ -48,9 +48,9 @@ class Image extends Component {
             data: {
                 ids: ids
             }
-        }).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        }).then(result => {
+            if (result.status) {
+                message.success(result.message);
                 let selectedRowKeys = this.props.image.selectedRowKeys;
                 ids.map((item) => {
                     let index = selectedRowKeys.indexOf(item);
@@ -66,7 +66,7 @@ class Image extends Component {
                 };
                 this.loadData(params);
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -102,15 +102,15 @@ class Image extends Component {
             params: {
                 ...params
             }
-        }).then(response => {
-            if (response.data.status) {
+        }).then(result => {
+            if (result.status) {
                 let pagination = {
                     current: params.page,
                     pageSize: params.limit,
-                    total: response.data.data.total,
+                    total: result.data.total,
                 };
                 let dataSource = [];
-                response.data.data.list.map((image) => {
+                result.data.list.map((image) => {
                         dataSource.push({
                             ...image,
                             key: image.id
@@ -119,7 +119,7 @@ class Image extends Component {
                 );
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 

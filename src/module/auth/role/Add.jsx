@@ -50,11 +50,11 @@ class Add extends Component {
                 note: this.props.role.role.note,
                 menus: this.props.role.role.menus
             };
-            axios.put("/auth/role_manage/role", param).then(response => {
-                if (response.data.status) {
-                    message.success(response.data.message);
+            axios.put("/auth/role_manage/role", param).then(result => {
+                if (result.status) {
+                    message.success(result.message);
                 } else {
-                    message.error(response.data.message);
+                    message.error(result.message);
                 }
             }).catch(error => {
 
@@ -64,12 +64,12 @@ class Add extends Component {
                 name: this.props.role.role.name,
                 note: this.props.role.role.note,
                 menu: this.props.role.role.menus
-            }).then(response => {
-                if (response.data.status === true) {
-                    message.success(response.data.message);
+            }).then(result => {
+                if (result.status === true) {
+                    message.success(result.message);
                     this.handleClear();
                 } else {
-                    message.error(response.data.message);
+                    message.error(result.message);
                 }
             }).catch(error => {
 
@@ -86,11 +86,11 @@ class Add extends Component {
     }
 
     loadData(id) {
-        axios.get("/auth/role_manage/role/" + id).then(response => {
-            if (response.data.status) {
-                this.props.save({role: response.data.data});
+        axios.get("/auth/role_manage/role/" + id).then(result => {
+            if (result.status) {
+                this.props.save({role: result.data});
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -98,11 +98,11 @@ class Add extends Component {
     }
 
     loadMenuTree() {
-        axios.get("/auth/role_manage/menu").then(response => {
-            if (response.data.status) {
-                this.props.save({menu: response.data.data});
+        axios.get("/auth/role_manage/menu").then(result => {
+            if (result.status) {
+                this.props.save({menu: result.data});
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 

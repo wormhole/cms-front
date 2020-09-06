@@ -101,18 +101,18 @@ class DashBoard extends Component {
     }
 
     loadData(callback) {
-        axios.get("/dashboard").then(response => {
-            if (response.data.status) {
+        axios.get("/dashboard").then(result => {
+            if (result.status) {
                 this.props.save({
-                    count: response.data.data.count,
-                    cpu: response.data.data.cpu,
-                    mem: response.data.data.mem,
-                    disk: response.data.data.disk,
-                    net: response.data.data.net
+                    count: result.data.count,
+                    cpu: result.data.cpu,
+                    mem: result.data.mem,
+                    disk: result.data.disk,
+                    net: result.data.net
                 });
                 callback();
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 

@@ -38,11 +38,11 @@ class Base extends Component {
         param.push({"key": "title", "value": this.props.base.title});
         param.push({"key": "copyright", "value": this.props.base.copyright});
 
-        axios.put("/manage/base/properties", param).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        axios.put("/manage/base/properties", param).then(result => {
+            if (result.status) {
+                message.success(result.message);
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -52,12 +52,12 @@ class Base extends Component {
     handleUpdateHead() {
         let param = new FormData();
         param.append("file", this.props.base.file[0]);
-        axios.post("/manage/base/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(response => {
-            if (response.data.status === true) {
-                message.success(response.data.message);
+        axios.post("/manage/base/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(result => {
+            if (result.status === true) {
+                message.success(result.message);
                 this.props.save({file: []});
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -65,17 +65,17 @@ class Base extends Component {
     }
 
     handleRestore() {
-        axios.put("/manage/base/restore").then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
-                let config = response.data.data;
+        axios.put("/manage/base/restore").then(result => {
+            if (result.status) {
+                message.success(result.message);
+                let config = result.data;
                 this.props.save({
                     title: config.title,
                     copyright: config.copyright,
                     head: getUrl(config.head)
                 });
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -83,16 +83,16 @@ class Base extends Component {
     }
 
     loadData() {
-        axios.get("/manage/base/properties").then(response => {
-            if (response.data.status) {
-                let config = response.data.data;
+        axios.get("/manage/base/properties").then(result => {
+            if (result.status) {
+                let config = result.data;
                 this.props.save({
                     title: config.title,
                     copyright: config.copyright,
                     head: getUrl(config.head)
                 });
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 

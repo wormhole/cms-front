@@ -67,11 +67,11 @@ class Add extends Component {
                 }
                 api = "/auth/user_manage/user/password";
             }
-            axios.put(api, param).then(response => {
-                if (response.data.status) {
-                    message.success(response.data.message);
+            axios.put(api, param).then(result => {
+                if (result.status) {
+                    message.success(result.message);
                 } else {
-                    message.error(response.data.message);
+                    message.error(result.message);
                 }
             }).catch(error => {
 
@@ -91,12 +91,12 @@ class Add extends Component {
                 limit: this.props.user.edit.limit,
                 failure: this.props.user.edit.failure,
                 password: this.props.user.edit.newPassword
-            }).then(response => {
-                if (response.data.status === true) {
-                    message.success(response.data.message);
+            }).then(result => {
+                if (result.status === true) {
+                    message.success(result.message);
                     this.handleClear();
                 } else {
-                    message.error(response.data.message);
+                    message.error(result.message);
                 }
             }).catch(error => {
 

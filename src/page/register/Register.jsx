@@ -34,12 +34,12 @@ class Register extends Component {
             email: this.props.register.email,
             code: this.props.register.code,
             password: this.props.register.password,
-        }).then(response => {
-            if (response.data.status === true) {
-                message.success(response.data.message);
+        }).then(result => {
+            if (result.status === true) {
+                message.success(result.message);
                 this.handleClear();
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
                 this.props.save({
                     codeApi: getUrl("/code?" + Math.random())
                 });

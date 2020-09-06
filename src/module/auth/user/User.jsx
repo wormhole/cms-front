@@ -70,9 +70,9 @@ class User extends Component {
             data: {
                 ids: ids
             }
-        }).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        }).then(result => {
+            if (result.status) {
+                message.success(result.message);
                 let selectedRowKeys = this.props.user.selectedRowKeys;
                 ids.map((item) => {
                     let index = selectedRowKeys.indexOf(item);
@@ -88,7 +88,7 @@ class User extends Component {
                 };
                 this.loadData(params);
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -98,9 +98,9 @@ class User extends Component {
     handleEnabled(ids) {
         axios.put("/auth/user_manage/users/enabled", {
             ids: ids
-        }).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        }).then(result => {
+            if (result.status) {
+                message.success(result.message);
                 let params = {
                     page: this.props.user.pagination.current,
                     limit: this.props.user.pagination.pageSize,
@@ -108,7 +108,7 @@ class User extends Component {
                 };
                 this.loadData(params);
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -118,9 +118,9 @@ class User extends Component {
     handleDisabled(ids) {
         axios.put("/auth/user_manage/users/disabled", {
             ids: ids
-        }).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        }).then(result => {
+            if (result.status) {
+                message.success(result.message);
                 let params = {
                     page: this.props.user.pagination.current,
                     limit: this.props.user.pagination.pageSize,
@@ -128,7 +128,7 @@ class User extends Component {
                 };
                 this.loadData(params);
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -140,17 +140,17 @@ class User extends Component {
             params: {
                 id: id
             }
-        }).then(response => {
-            if (response.data.status) {
+        }).then(result => {
+            if (result.status) {
                 let transferData = [];
                 let transferTargetKeys = [];
-                response.data.data.all.map((item) => {
+                result.data.all.map((item) => {
                     transferData.push({
                         key: item.id,
                         name: item.name
                     });
                 });
-                response.data.data.target.map((item) => {
+                result.data.target.map((item) => {
                     transferTargetKeys.push(item.id);
                 });
                 this.props.save({
@@ -160,7 +160,7 @@ class User extends Component {
                     userId: id
                 });
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -194,9 +194,9 @@ class User extends Component {
         axios.put("/auth/user_manage/grant_role", {
             userId: this.props.user.userId,
             roleIds: this.props.user.transferTargetKeys
-        }).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        }).then(result => {
+            if (result.status) {
+                message.success(result.message);
                 let params = {
                     page: this.props.user.pagination.current,
                     limit: this.props.user.pagination.pageSize,
@@ -205,7 +205,7 @@ class User extends Component {
                 this.props.save({userId: null, transferModalShow: false});
                 this.loadData(params);
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -235,15 +235,15 @@ class User extends Component {
             params: {
                 ...params
             }
-        }).then(response => {
-            if (response.data.status) {
+        }).then(result => {
+            if (result.status) {
                 let pagination = {
                     current: params.page,
                     pageSize: params.limit,
-                    total: response.data.data.total,
+                    total: result.data.total,
                 };
                 let dataSource = [];
-                response.data.data.list.map((user) => {
+                result.data.list.map((user) => {
                         dataSource.push({
                             ...user,
                             key: user.id
@@ -253,7 +253,7 @@ class User extends Component {
                 this.props.save({pagination: pagination, dataSource: dataSource, loading: false});
                 this.loadRefRole();
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -261,10 +261,10 @@ class User extends Component {
     }
 
     loadRefRole() {
-        axios.get("/auth/user_manage/ref_role").then(response => {
-            if (response.data.status) {
+        axios.get("/auth/user_manage/ref_role").then(result => {
+            if (result.status) {
                 let filters = [];
-                response.data.data.map((item) => {
+                result.data.map((item) => {
                     filters.push({
                         text: item.name,
                         value: item.id
@@ -272,7 +272,7 @@ class User extends Component {
                 });
                 this.props.save({filters: filters});
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 

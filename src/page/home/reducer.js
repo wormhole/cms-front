@@ -1,24 +1,19 @@
 const initState = {
     collapsed: false,
-    logoTextStyle: {
-        display: "inline"
-    },
+    logoTextStyle: {display: "inline"},
     user: {
         username: null,
         roles: [],
         menus: []
     },
-    properties: {
-        title: null,
-        copyright: null,
-        head: null
-    },
+    title: null,
+    copyright: null,
+    head: null,
     showModal: false,
-    edit: {
-        oldPassword: null,
-        password: null,
-        checkPassword: null
-    }
+    oldPassword: null,
+    newPassword: null,
+    checkPassword: null,
+    loaded: false
 };
 
 const homeReducer = (state = initState, action) => {

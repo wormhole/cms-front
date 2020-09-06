@@ -36,21 +36,13 @@ class Home extends Component {
                 username: null,
                 roles: [],
                 menus: []
-            }
+            },
+            loaded: false
         });
     }
 
     componentDidMount() {
-        axios.get("/home/authority").then(response => {
-            if (response.data.status) {
-                this.props.save({user: response.data.data});
-                this.loadData();
-            } else {
-                message.error(response.data.message);
-            }
-        }).catch(error => {
-
-        });
+        this.loadAuthority();
     }
 
     handleOpenPasswordModal() {
@@ -63,12 +55,12 @@ class Home extends Component {
             return;
         }
 
-        axios.put("/personal/user/password", this.props.home.edit).then(response => {
-            if (response.data.status === true) {
-                message.success(response.data.message);
-                this.props.save({showModal: false, edit: {oldPassword: null, newPassword: null, checkPassword: null}});
+        axios.put("/personal/user/password", this.props.home.edit).then(result => {
+            if (result.status === true) {
+                message.success(result.message);
+                this.props.save({showModal: false, oldPassword: null, newPassword: null, checkPassword: null});
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -87,13 +79,13 @@ class Home extends Component {
     };
 
     handleLogout() {
-        axios.get("/logout").then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        axios.get("/logout").then(result => {
+            if (result.status) {
+                message.success(result.message);
                 window.localStorage.removeItem("token");
                 this.props.history.push("/login");
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -101,17 +93,30 @@ class Home extends Component {
     }
 
     handleValueChange(key, e) {
-        this.props.save({edit: {...this.props.home.edit, [key]: e.target.value}});
+        this.props.save({[key]: e.target.value});
     }
 
-    loadData() {
-        axios.get("/home/properties").then(response => {
-            if (response.data.status) {
-                let properties = response.data.data;
-                properties.head = getUrl(properties.head);
-                this.props.save({properties: properties});
+    loadAuthority() {
+        axios.get("/home/authority").then(result => {
+            if (result.status) {
+                this.props.save({user: result.data, loaded: true});
+                this.loadProperties();
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
+            }
+        }).catch(error => {
+
+        });
+    }
+
+    loadProperties() {
+        axios.get("/home/properties").then(result => {
+            if (result.status) {
+                let properties = result.data;
+                properties.head = getUrl(properties.head);
+                this.props.save({...properties});
+            } else {
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -144,9 +149,9 @@ class Home extends Component {
                 <Sider className="cms-home-left" trigger={null} collapsible collapsed={this.props.home.collapsed}>
                     <Scrollbars>
                         <div className="cms-home-logo">
-                            <Avatar shape="square" size={40} src={this.props.home.properties.head}/>
+                            <Avatar shape="square" size={40} src={this.props.home.head}/>
                             <span className="cms-home-title"
-                                  style={this.props.home.logoTextStyle}>{this.props.home.properties.title}</span>
+                                  style={this.props.home.logoTextStyle}>{this.props.home.title}</span>
                         </div>
 
                         <Menu theme="dark" mode="inline" className="cms-home-menu">
@@ -165,7 +170,7 @@ class Home extends Component {
                                         <span>认证与授权</span>
                                     </span>
                                 }
-                                style={(exist("user", menus) || exist("role", menus)) ? {} : hidden}
+                                style={exist("auth", menus) ? {} : hidden}
                             >
                                 <Menu.Item key="user" className="cms-home-item"
                                            style={exist("user", menus) ? {} : hidden}>
@@ -182,10 +187,10 @@ class Home extends Component {
                                 title={
                                     <span className="cms-home-subtitle">
                                         <SettingOutlined className="cms-home-icon"/>
-                                        <span>网站管理</span>
+                                        <span>系统管理</span>
                                     </span>
                                 }
-                                style={(exist("image", menus) || exist("base", menus)) ? {} : hidden}
+                                style={exist("manage", menus) ? {} : hidden}
                             >
                                 <Menu.Item key="image" className="cms-home-item"
                                            style={exist("image", menus) ? {} : hidden}>
@@ -217,7 +222,9 @@ class Home extends Component {
                     </Header>
                     <Scrollbars>
                         <Content className="cms-home-body">
-                            <Redirect path="/" to="/dashboard"/>
+                            {
+                                this.props.home.loaded ? <Redirect path="/" to="/dashboard"/> : null
+                            }
                             {
                                 Object.keys(router).map((key) => {
                                     return (
@@ -225,7 +232,7 @@ class Home extends Component {
                                     )
                                 })
                             }
-                            <Footer className="cms-home-footer">{this.props.home.properties.copyright}</Footer>
+                            <Footer className="cms-home-footer">{this.props.home.copyright}</Footer>
                         </Content>
                     </Scrollbars>
                 </Layout>
@@ -240,17 +247,17 @@ class Home extends Component {
                     <div>
                         <Form.Item label="旧的密码" className="cms-module-item">
                             <Input.Password className="cms-module-input" placeholder="请输入旧密码"
-                                            value={this.props.home.edit.oldPassword}
+                                            value={this.props.home.oldPassword}
                                             onChange={this.handleValueChange.bind(this, "oldPassword")}/>
                         </Form.Item>
                         <Form.Item label="新的密码" className="cms-module-item">
                             <Input.Password className="cms-module-input" placeholder="请输入新密码"
-                                            value={this.props.home.edit.newPassword}
+                                            value={this.props.home.newPassword}
                                             onChange={this.handleValueChange.bind(this, "newPassword")}/>
                         </Form.Item>
                         <Form.Item label="确认密码" className="cms-module-item">
                             <Input.Password className="cms-module-input" placeholder="请确认密码"
-                                            value={this.props.home.edit.checkPassword}
+                                            value={this.props.home.checkPassword}
                                             onChange={this.handleValueChange.bind(this, "checkPassword")}/>
                         </Form.Item>
                     </div>

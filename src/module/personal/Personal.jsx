@@ -36,21 +36,21 @@ class Personal extends Component {
             failure: this.props.personal.failure
         };
 
-        axios.put("/personal/user", param).then(response => {
-            if (response.data.status) {
-                message.success(response.data.message);
+        axios.put("/personal/user", param).then(result => {
+            if (result.status) {
+                message.success(result.message);
                 this.props.save({
-                    id: response.data.data.id,
-                    username: response.data.data.username,
-                    email: response.data.data.email,
-                    telephone: response.data.data.telephone,
-                    ttl: response.data.data.ttl,
-                    lock: response.data.data.lock,
-                    limit: response.data.data.limit,
-                    failure: response.data.data.failure
+                    id: result.data.id,
+                    username: result.data.username,
+                    email: result.data.email,
+                    telephone: result.data.telephone,
+                    ttl: result.data.ttl,
+                    lock: result.data.lock,
+                    limit: result.data.limit,
+                    failure: result.data.failure
                 });
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
@@ -58,20 +58,20 @@ class Personal extends Component {
     }
 
     loadData() {
-        axios.get("/personal/user").then(response => {
-            if (response.data.status) {
+        axios.get("/personal/user").then(result => {
+            if (result.status) {
                 this.props.save({
-                    id: response.data.data.id,
-                    username: response.data.data.username,
-                    email: response.data.data.email,
-                    telephone: response.data.data.telephone,
-                    ttl: response.data.data.ttl,
-                    lock: response.data.data.lock,
-                    limit: response.data.data.limit,
-                    failure: response.data.data.failure
+                    id: result.data.id,
+                    username: result.data.username,
+                    email: result.data.email,
+                    telephone: result.data.telephone,
+                    ttl: result.data.ttl,
+                    lock: result.data.lock,
+                    limit: result.data.limit,
+                    failure: result.data.failure
                 });
             } else {
-                message.error(response.data.message);
+                message.error(result.message);
             }
         }).catch(error => {
 
