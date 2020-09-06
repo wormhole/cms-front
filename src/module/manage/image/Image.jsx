@@ -147,13 +147,13 @@ class Image extends Component {
                 ellipsis: true
             }, {
                 title: "路径",
-                dataIndex: "path",
-                key: "path",
+                dataIndex: "absolutePath",
+                key: "absolutePath",
                 ellipsis: true
             }, {
                 title: "缩略图",
                 dataIndex: "path",
-                key: "img",
+                key: "path",
                 render: (path) => {
                     return <img style={{width: "80px", height: "40px"}}
                                 className="cms-module-img"
