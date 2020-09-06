@@ -122,7 +122,7 @@ class User extends Component {
         });
     }
 
-    handleGrantRole(id) {
+    handleBindRole(id) {
         axios.get("/role/transfer", {
             params: {
                 id: id
@@ -178,7 +178,7 @@ class User extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/user/grant_role", {
+        axios.put("/user/bind", {
             userId: this.props.user.userId,
             roleIds: this.props.user.transferTargetKeys
         }).then(result => {
@@ -338,7 +338,7 @@ class User extends Component {
                     <div>
                         <a onClick={this.handleEdit.bind(this, recorder.id)}
                            className="cms-module-normal">编辑</a>
-                        <a onClick={this.handleGrantRole.bind(this, recorder.id)}
+                        <a onClick={this.handleBindRole.bind(this, recorder.id)}
                            className="cms-module-normal">分配</a>
                         {recorder.builtin === 0 ?
                             <span>

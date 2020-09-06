@@ -1,15 +1,16 @@
 const initState = {
-    count: {},
+    count: {
+        file: 0,
+        menu: 0,
+        user: 0,
+        role: 0
+    },
     cpu: {},
     mem: {},
-    disk: {},
-    net: {},
     cpuPlot: null,
     cpuData: null,
     memPlot: null,
     memData: null,
-    diskPlot: null,
-    diskData: null,
     refresh: null
 };
 

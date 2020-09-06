@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {Avatar, Card, Col, message, Row, Statistic} from "antd";
-import {Pie} from "@antv/g2plot";
-import {ApartmentOutlined, GlobalOutlined, IdcardOutlined, TeamOutlined} from "@ant-design/icons";
+import {Avatar, Card, Col, message, Row} from "antd";
+import {Bar, Pie} from "@antv/g2plot";
+import {FileOutlined, IdcardOutlined, MenuOutlined, TeamOutlined} from "@ant-design/icons";
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
 
@@ -11,16 +11,16 @@ class DashBoard extends Component {
     }
 
     componentDidMount() {
+        this.loadCount();
+        this.loadUserStatus(this.initUserStatusChart);
         this.loadData(() => {
             this.initCpuChart();
             this.initMemChart();
-            this.initDiskChart();
         });
         let refresh = window.setInterval(() => {
             this.loadData(() => {
                 this.initCpuChart();
                 this.initMemChart();
-                this.initDiskChart();
             });
         }, 10000);
         this.props.save({refresh: refresh});
@@ -77,38 +77,59 @@ class DashBoard extends Component {
         }
     }
 
-    initDiskChart() {
+    initUserStatusChart(userStatus) {
         let data = [];
-        data.push({type: "已使用", value: this.props.dashboard.disk.used});
-        data.push({type: "未使用", value: this.props.dashboard.disk.free});
-        this.props.save({diskData: data});
+        data.push({状态: "总数", 数量: userStatus.total});
+        data.push({状态: "启用", 数量: userStatus.enable});
+        data.push({状态: "在线", 数量: userStatus.online});
+        data.push({状态: "禁用", 数量: userStatus.disable});
+        data.push({状态: "锁定", 数量: userStatus.lock});
 
-        if (!this.props.dashboard.diskPlot) {
-            let diskPlot = new Pie(document.getElementById("disk"), {
-                forceFit: true,
-                radius: 0.8,
-                data: data,
-                angleField: "value",
-                colorField: "type",
-                label: {
-                    visible: true,
-                    type: "spider",
-                },
-            });
-            this.props.save({diskPlot: diskPlot});
-            this.props.dashboard.diskPlot.render();
-        }
+        const barPlot = new Bar(document.getElementById("user"), {
+            forceFit: true,
+            data: data,
+            xField: "数量",
+            yField: "状态",
+            label: {
+                visible: true,
+                formatter: (v) => v + "人",
+            }
+        });
+
+        barPlot.render();
+    }
+
+    loadCount() {
+        axios.get("/dashboard/count").then(result => {
+            if (result.status) {
+                this.props.save({count: result.data});
+            } else {
+                message.error(result.message);
+            }
+        }).catch(error => {
+
+        });
+    }
+
+    loadUserStatus(callBack) {
+        axios.get("/dashboard/user_status").then(result => {
+            if (result.status) {
+                callBack(result.data);
+            } else {
+                message.error(result.message);
+            }
+        }).catch(error => {
+
+        });
     }
 
     loadData(callback) {
         axios.get("/dashboard").then(result => {
             if (result.status) {
                 this.props.save({
-                    count: result.data.count,
                     cpu: result.data.cpu,
                     mem: result.data.mem,
-                    disk: result.data.disk,
-                    net: result.data.net
+                    disk: result.data.disk
                 });
                 callback();
             } else {
@@ -126,100 +147,59 @@ class DashBoard extends Component {
                     <Row gutter={32} className="cms-module-row">
                         <Col span={6}>
                             <Card className="cms-module-card">
-                                <div id="online" className="cms-module-info">
-                                    <div className="cms-module-left">
-                                        <Avatar size={90} icon={<ApartmentOutlined/>}
-                                                style={{backgroundColor: "#FB9D62"}}/>
-                                    </div>
-                                    <div className="cms-module-right">
-                                        <div className="cms-module-title">在线用户</div>
-                                        <div className="cms-module-number">
-                                            <Link
-                                                to="#">{this.props.dashboard.count.online}</Link>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Card.Meta
+                                    avatar={<Avatar size={90} icon={<TeamOutlined/>}
+                                                    style={{backgroundColor: "#E77474"}}/>}
+                                    title="用户数量"
+                                    description={<Link to="#">{this.props.dashboard.count.user}</Link>}
+                                />
                             </Card>
                         </Col>
                         <Col span={6}>
                             <Card className="cms-module-card">
-                                <div id="user" className="cms-module-info">
-                                    <div className="cms-module-left">
-                                        <Avatar size={90} icon={<TeamOutlined/>} style={{backgroundColor: "#E77474"}}/>
-                                    </div>
-                                    <div className="cms-module-right">
-                                        <div className="cms-module-title">用户数量</div>
-                                        <div className="cms-module-number">
-                                            <Link to="#">{this.props.dashboard.count.user}</Link>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Card.Meta
+                                    avatar={<Avatar size={90} icon={<IdcardOutlined/>}
+                                                    style={{backgroundColor: "#F5D05B"}}/>}
+                                    title="角色数量"
+                                    description={<Link to="#">{this.props.dashboard.count.role}</Link>}
+                                />
                             </Card>
                         </Col>
                         <Col span={6}>
                             <Card className="cms-module-card">
-                                <div id="role" className="cms-module-info">
-                                    <div className="cms-module-left">
-                                        <Avatar size={90} icon={<IdcardOutlined/>}
-                                                style={{backgroundColor: "#F5D05B"}}/>
-                                    </div>
-                                    <div className="cms-module-right">
-                                        <div className="cms-module-title">角色数量</div>
-                                        <div className="cms-module-number">
-                                            <Link to="#">{this.props.dashboard.count.role}</Link>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Card.Meta
+                                    avatar={<Avatar size={90} icon={<MenuOutlined/>}
+                                                    style={{backgroundColor: "#FB9D62"}}/>}
+                                    title="菜单数量"
+                                    description={<Link to="#">{this.props.dashboard.count.menu}</Link>}
+                                />
                             </Card>
                         </Col>
                         <Col span={6}>
                             <Card className="cms-module-card">
-                                <div id="net" className="cms-module-info">
-                                    <div className="cms-module-left">
-                                        <Avatar size={90} icon={<GlobalOutlined/>}
-                                                style={{backgroundColor: "#70BFEF"}}/>
-                                    </div>
-                                    <div className="cms-module-right">
-                                        <div className="cms-module-title">上传/下载</div>
-                                        <div className="cms-module-number">
-                                            <Link to="#">{this.props.dashboard.net.upload}</Link>/<Link
-                                            to="#">{this.props.dashboard.net.download}</Link>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Card.Meta
+                                    avatar={<Avatar size={90} icon={<FileOutlined/>}
+                                                    style={{backgroundColor: "#70BFEF"}}/>}
+                                    title="文件数量"
+                                    description={<Link to="#">{this.props.dashboard.count.file}</Link>}
+                                />
                             </Card>
                         </Col>
                     </Row>
                     <Row gutter={32} className="cms-module-row">
                         <Col span={8}>
-                            <Card title="CPU监控" className="cms-module-card"
-                                  actions={[
-                                      <Statistic title="核心数" value={this.props.dashboard.cpu.count}/>,
-                                      <Statistic title="使用率" value={this.props.dashboard.cpu.percent}/>
-                                  ]}>
+                            <Card title="CPU监控" className="cms-module-card">
                                 <div id="cpu" className="cms-module-chart"/>
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="内存监控(单位：GB)" className="cms-module-card"
-                                  actions={[
-                                      <Statistic title="总大小" value={this.props.dashboard.mem.total}/>,
-                                      <Statistic title="已使用" value={this.props.dashboard.mem.used}/>,
-                                      <Statistic title="未使用" value={this.props.dashboard.mem.free}/>,
-                                      <Statistic title="使用率" value={this.props.dashboard.mem.percent}/>
-                                  ]}>
+                            <Card title="内存监控(单位：GB)" className="cms-module-card">
                                 <div id="mem" className="cms-module-chart"/>
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="磁盘监控(单位：GB)" className="cms-module-card"
-                                  actions={[
-                                      <Statistic title="总大小" value={this.props.dashboard.disk.total}/>,
-                                      <Statistic title="已使用" value={this.props.dashboard.disk.used}/>,
-                                      <Statistic title="未使用" value={this.props.dashboard.disk.free}/>,
-                                      <Statistic title="使用率" value={this.props.dashboard.disk.percent}/>
-                                  ]}>
-                                <div id="disk" className="cms-module-chart"/>
+                            <Card title="用户状态统计" className="cms-module-card">
+                                <div id="user" className="cms-module-chart"/>
                             </Card>
                         </Col>
                     </Row>
