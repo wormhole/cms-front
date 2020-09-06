@@ -25,18 +25,7 @@ class Personal extends Component {
     }
 
     handleUpdate() {
-        let param = {
-            id: this.props.personal.id,
-            username: this.props.personal.username,
-            email: this.props.personal.email,
-            telephone: this.props.personal.telephone,
-            ttl: this.props.personal.ttl,
-            lock: this.props.personal.lock,
-            limit: this.props.personal.limit,
-            failure: this.props.personal.failure
-        };
-
-        axios.put("/user", param).then(result => {
+        axios.put("/user", this.props.personal).then(result => {
             if (result.status) {
                 message.success(result.message);
                 this.props.save({...result.data});
