@@ -126,6 +126,23 @@ class DashBoard extends Component {
                     <Row gutter={32} className="cms-module-row">
                         <Col span={6}>
                             <Card className="cms-module-card">
+                                <div id="online" className="cms-module-info">
+                                    <div className="cms-module-left">
+                                        <Avatar size={90} icon={<ApartmentOutlined/>}
+                                                style={{backgroundColor: "#FB9D62"}}/>
+                                    </div>
+                                    <div className="cms-module-right">
+                                        <div className="cms-module-title">在线用户</div>
+                                        <div className="cms-module-number">
+                                            <Link
+                                                to="#">{this.props.dashboard.count.online}</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col span={6}>
+                            <Card className="cms-module-card">
                                 <div id="user" className="cms-module-info">
                                     <div className="cms-module-left">
                                         <Avatar size={90} icon={<TeamOutlined/>} style={{backgroundColor: "#E77474"}}/>
@@ -150,23 +167,6 @@ class DashBoard extends Component {
                                         <div className="cms-module-title">角色数量</div>
                                         <div className="cms-module-number">
                                             <Link to="#">{this.props.dashboard.count.role}</Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
-                        </Col>
-                        <Col span={6}>
-                            <Card className="cms-module-card">
-                                <div id="permission" className="cms-module-info">
-                                    <div className="cms-module-left">
-                                        <Avatar size={90} icon={<ApartmentOutlined/>}
-                                                style={{backgroundColor: "#FB9D62"}}/>
-                                    </div>
-                                    <div className="cms-module-right">
-                                        <div className="cms-module-title">权限数量</div>
-                                        <div className="cms-module-number">
-                                            <Link
-                                                to="#">{this.props.dashboard.count.permission}</Link>
                                         </div>
                                     </div>
                                 </div>
