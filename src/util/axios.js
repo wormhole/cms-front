@@ -23,16 +23,16 @@ axios.interceptors.response.use(
         const history = createHashHistory();
         switch (error.response.status) {
             case 401:
-                message.warn(error.result.message);
+                message.warn(error.response.data.message);
                 window.localStorage.removeItem("token");
                 history.push("/login");
                 break;
             case 403:
-                message.error(error.result.message);
+                message.error(error.response.data.message);
                 history.push("/error/403");
                 break;
             default:
-                message.error(error.result.message);
+                message.error(error.response.data.message);
                 break;
         }
         return Promise.reject(error);
