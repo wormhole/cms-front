@@ -171,7 +171,7 @@ class Home extends Component {
                                         <span>认证与授权</span>
                                     </span>
                                 }
-                                style={exist("auth", menus) ? {} : hidden}
+                                style={(exist("user", menus) || exist("role", menus)) ? {} : hidden}
                             >
                                 <Menu.Item key="user" className="cms-home-item"
                                            style={exist("user", menus) ? {} : hidden}>
@@ -191,7 +191,7 @@ class Home extends Component {
                                         <span>系统管理</span>
                                     </span>
                                 }
-                                style={exist("manage", menus) ? {} : hidden}
+                                style={(exist("image", menus) || exist("base", menus)) ? {} : hidden}
                             >
                                 <Menu.Item key="image" className="cms-home-item"
                                            style={exist("image", menus) ? {} : hidden}>
