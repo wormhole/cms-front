@@ -53,6 +53,7 @@ class DashBoard extends Component {
         const barPlot = new Bar(document.getElementById("ip"), {
             forceFit: true,
             data: data,
+            barSize: 30,
             xField: "数量",
             yField: "地址",
             label: {
@@ -74,6 +75,7 @@ class DashBoard extends Component {
 
         const barPlot = new Bar(document.getElementById("user"), {
             forceFit: true,
+            barSize: 30,
             data: data,
             xField: "数量",
             yField: "状态",
@@ -170,7 +172,7 @@ class DashBoard extends Component {
                     </Row>
                     <Row gutter={32} className="cms-module-row">
                         <Col span={8}>
-                            <Card title="登录ip排行" className="cms-module-card">
+                            <Card title="登录地址排行" className="cms-module-card">
                                 <div id="ip" className="cms-module-chart"/>
                             </Card>
                         </Col>
