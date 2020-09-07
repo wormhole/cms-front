@@ -4,14 +4,7 @@ const initState = {
         menu: 0,
         user: 0,
         role: 0
-    },
-    cpu: {},
-    mem: {},
-    cpuPlot: null,
-    cpuData: null,
-    memPlot: null,
-    memData: null,
-    refresh: null
+    }
 };
 
 const dashboardReducer = (state = initState, action) => {

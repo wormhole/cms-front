@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Breadcrumb, Button, Form, Input, message, Tree} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
+import api from "./api";
 
 class Add extends Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class Add extends Component {
 
     handleSave() {
         if (this.props.location.type === "edit") {
-            axios.put("/role", this.props.role.role).then(result => {
+            axios.put(api.update, this.props.role.role).then(result => {
                 if (result.status) {
                     message.success(result.message);
                 } else {
@@ -54,7 +55,7 @@ class Add extends Component {
 
             });
         } else if (this.props.location.type === "add") {
-            axios.post("/role", this.props.role.role).then(result => {
+            axios.post(api.save, this.props.role.role).then(result => {
                 if (result.status === true) {
                     message.success(result.message);
                     this.handleClear();
@@ -77,7 +78,7 @@ class Add extends Component {
     }
 
     loadData(id) {
-        axios.get("/role/" + id).then(result => {
+        axios.get(api.query + id).then(result => {
             if (result.status) {
                 this.props.save({role: result.data});
             } else {
@@ -89,7 +90,7 @@ class Add extends Component {
     }
 
     loadMenuTree() {
-        axios.get("/menu/tree").then(result => {
+        axios.get(api.menu).then(result => {
             if (result.status) {
                 let expand = [];
                 result.data.map(menu => {

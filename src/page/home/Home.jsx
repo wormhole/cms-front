@@ -16,6 +16,7 @@ import "./home.less";
 import "./module.less";
 import getUrl from "../../util/url";
 import exist from "../../util/menu";
+import api from "./api";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -52,7 +53,7 @@ class Home extends Component {
             return;
         }
 
-        axios.put("/user/password", {
+        axios.put(api.password, {
             password: this.props.home.newPassword,
             old: this.props.home.oldPassword
         }).then(result => {
@@ -79,7 +80,7 @@ class Home extends Component {
     };
 
     handleLogout() {
-        axios.get("/logout").then(result => {
+        axios.get(api.logout).then(result => {
             if (result.status) {
                 message.success(result.message);
                 window.localStorage.removeItem("token");
@@ -96,20 +97,8 @@ class Home extends Component {
         this.props.save({[key]: e.target.value});
     }
 
-    loadMenu() {
-        axios.get("/menu").then(result => {
-            if (result.status) {
-                this.props.save({menus: result.data, loaded: true});
-            } else {
-                message.error(result.message);
-            }
-        }).catch(error => {
-
-        });
-    }
-
-    loadProperty() {
-        axios.get("/property").then(result => {
+    loadBaseInfo() {
+        axios.get(api.base).then(result => {
             if (result.status) {
                 let properties = result.data;
                 properties.head = getUrl(properties.head);
@@ -123,11 +112,10 @@ class Home extends Component {
     }
 
     loadData() {
-        axios.get("/user/self").then(result => {
+        axios.get(api.auth).then(result => {
             if (result.status) {
-                this.props.save({username: result.data.username});
-                this.loadMenu();
-                this.loadProperty();
+                this.props.save({username: result.data.username, menus: result.data.menus, loaded: true});
+                this.loadBaseInfo();
             } else {
                 message.error(result.message);
             }

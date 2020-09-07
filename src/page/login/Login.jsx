@@ -5,6 +5,7 @@ import "./login.less";
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
 import getUrl from "../../util/url";
+import api from "./api";
 
 class Login extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class Login extends Component {
             username: null,
             password: null,
             captcha: null,
-            captchaApi: getUrl("/captcha?" + Math.random())
+            captchaApi: getUrl(api.captcha + "?" + Math.random())
         });
     }
 
@@ -29,14 +30,14 @@ class Login extends Component {
         param.append("username", this.props.login.username);
         param.append("password", this.props.login.password);
         param.append("captcha", this.props.login.captcha);
-        axios.post("/login", param, {headers: {"Content-Type": "multipart/form-data"},}).then(result => {
+        axios.post(api.login, param, {headers: {"Content-Type": "multipart/form-data"},}).then(result => {
             if (result.status === true) {
                 message.success(result.message);
                 localStorage.setItem("token", result.data);
                 this.props.history.push("/");
             } else {
                 message.error(result.message);
-                this.props.save({captchaApi: getUrl("/captcha?" + Math.random())})
+                this.props.save({captchaApi: getUrl(api.captcha + "?" + Math.random())})
             }
         }).catch(error => {
 
@@ -48,7 +49,7 @@ class Login extends Component {
     }
 
     handleCaptchaChange() {
-        this.props.save({captchaApi: getUrl("/captcha?" + Math.random())});
+        this.props.save({captchaApi: getUrl(api.captcha + "?" + Math.random())});
     }
 
     render() {

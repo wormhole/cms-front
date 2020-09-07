@@ -5,6 +5,7 @@ import "./register.less";
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
 import getUrl from "../../util/url";
+import api from "./api";
 
 class Register extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class Register extends Component {
 
     handleClear() {
         this.props.save({
-            captchaApi: getUrl("/captcha?" + Math.random()),
+            captchaApi: getUrl(api.captcha + "?" + Math.random()),
             username: null,
             telephone: null,
             email: null,
@@ -28,7 +29,7 @@ class Register extends Component {
     }
 
     handleSubmit() {
-        axios.post("/user/register", {
+        axios.post(api.register, {
             username: this.props.register.username,
             telephone: this.props.register.telephone,
             email: this.props.register.email,
@@ -44,7 +45,7 @@ class Register extends Component {
             } else {
                 message.error(result.message);
                 this.props.save({
-                    captchaApi: getUrl("/captcha?" + Math.random())
+                    captchaApi: getUrl(api.captcha + "?" + Math.random())
                 });
             }
         }).catch(error => {
@@ -57,7 +58,9 @@ class Register extends Component {
     }
 
     handleCaptchaChange() {
-        this.props.save({captchaApi: getUrl("/captcha?" + Math.random())});
+        this.props.save({
+            captchaApi: getUrl(api.captcha + "?" + Math.random())
+        });
     }
 
     render() {

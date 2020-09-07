@@ -3,6 +3,7 @@ import {Breadcrumb, Button, Input, message, Modal, Table} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 import getUrl from "../../../util/url";
+import api from "./api";
 
 class Image extends Component {
 
@@ -44,7 +45,7 @@ class Image extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/upload", {
+        axios.delete(api.delete, {
             data: {
                 ids: ids
             }
@@ -98,7 +99,7 @@ class Image extends Component {
                 ...this.props.image.params
             }
         }
-        axios.get("/upload/list", {
+        axios.get(api.list, {
             params: {
                 ...params
             }

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Breadcrumb, Button, Input, message, Modal, Table, Tag, Transfer} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
+import api from "./api";
 
 class User extends Component {
 
@@ -53,7 +54,7 @@ class User extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/user", {
+        axios.delete(api.delete, {
             data: {
                 ids: ids
             }
@@ -83,7 +84,7 @@ class User extends Component {
     }
 
     handleEnabled(ids) {
-        axios.put("/user/enabled", {
+        axios.put(api.enabled, {
             ids: ids
         }).then(result => {
             if (result.status) {
@@ -103,7 +104,7 @@ class User extends Component {
     }
 
     handleDisabled(ids) {
-        axios.put("/user/disabled", {
+        axios.put(api.disabled, {
             ids: ids
         }).then(result => {
             if (result.status) {
@@ -123,7 +124,7 @@ class User extends Component {
     }
 
     handleBindRole(id) {
-        axios.get("/role/transfer", {
+        axios.get(api.transfer, {
             params: {
                 id: id
             }
@@ -178,7 +179,7 @@ class User extends Component {
     }
 
     handleTransferOk() {
-        axios.put("/user/bind", {
+        axios.put(api.bind, {
             userId: this.props.user.userId,
             roleIds: this.props.user.transferTargetKeys
         }).then(result => {
@@ -218,7 +219,7 @@ class User extends Component {
                 ...this.props.user.params
             }
         }
-        axios.get("/user/list", {
+        axios.get(api.list, {
             params: {
                 ...params
             }
@@ -247,7 +248,7 @@ class User extends Component {
     }
 
     loadRole() {
-        axios.get("/role").then(result => {
+        axios.get(api.roles).then(result => {
             if (result.status) {
                 let filters = [];
                 result.data.map((item) => {

@@ -4,6 +4,7 @@ import {Bar, Pie} from "@antv/g2plot";
 import {FileOutlined, IdcardOutlined, MenuOutlined, TeamOutlined} from "@ant-design/icons";
 import axios from "../../util/axios";
 import {Link} from "react-router-dom";
+import api from "./api";
 
 class DashBoard extends Component {
     constructor(props) {
@@ -13,45 +14,11 @@ class DashBoard extends Component {
     componentDidMount() {
         this.loadCount();
         this.loadUserStatus(this.initUserStatusChart);
-        this.loadData(() => {
-            this.initCpuChart();
-            this.initMemChart();
-        });
-        let refresh = window.setInterval(() => {
-            this.loadData(() => {
-                this.initCpuChart();
-                this.initMemChart();
-            });
-        }, 10000);
-        this.props.save({refresh: refresh});
+        this.loadTopIp(this.initTopIpChart);
     }
 
     componentWillUnmount() {
-        window.clearInterval(this.props.dashboard.refresh);
-        this.props.save({cpuPlot: null, memPlot: null, diskPlot: null});
-    }
-
-    initCpuChart() {
-        let data = [];
-        data.push({type: "已使用", value: this.props.dashboard.cpu.used});
-        data.push({type: "未使用", value: this.props.dashboard.cpu.free});
-        this.props.save({cpuData: data});
-
-        if (!this.props.dashboard.cpuPlot) {
-            let cpuPlot = new Pie(document.getElementById("cpu"), {
-                forceFit: true,
-                radius: 0.8,
-                data: this.props.dashboard.cpuData,
-                angleField: "value",
-                colorField: "type",
-                label: {
-                    visible: true,
-                    type: "spider",
-                },
-            });
-            this.props.save({cpuPlot: cpuPlot});
-            this.props.dashboard.cpuPlot.render();
-        }
+        this.props.save({memPlot: null});
     }
 
     initMemChart() {
@@ -77,6 +44,26 @@ class DashBoard extends Component {
         }
     }
 
+    initTopIpChart(topIp) {
+        let data = [];
+        for (var key in topIp) {
+            data.push({地址: key, 数量: topIp[key]});
+        }
+
+        const barPlot = new Bar(document.getElementById("ip"), {
+            forceFit: true,
+            data: data,
+            xField: "数量",
+            yField: "地址",
+            label: {
+                visible: true,
+                formatter: (v) => v + "次",
+            }
+        });
+
+        barPlot.render();
+    }
+
     initUserStatusChart(userStatus) {
         let data = [];
         data.push({状态: "总数", 数量: userStatus.total});
@@ -100,7 +87,7 @@ class DashBoard extends Component {
     }
 
     loadCount() {
-        axios.get("/dashboard/count").then(result => {
+        axios.get(api.count).then(result => {
             if (result.status) {
                 this.props.save({count: result.data});
             } else {
@@ -111,10 +98,10 @@ class DashBoard extends Component {
         });
     }
 
-    loadUserStatus(callBack) {
-        axios.get("/dashboard/user_status").then(result => {
+    loadUserStatus(callback) {
+        axios.get(api.userStatus).then(result => {
             if (result.status) {
-                callBack(result.data);
+                callback(result.data);
             } else {
                 message.error(result.message);
             }
@@ -123,15 +110,10 @@ class DashBoard extends Component {
         });
     }
 
-    loadData(callback) {
-        axios.get("/dashboard").then(result => {
+    loadTopIp(callback) {
+        axios.get(api.topIp).then(result => {
             if (result.status) {
-                this.props.save({
-                    cpu: result.data.cpu,
-                    mem: result.data.mem,
-                    disk: result.data.disk
-                });
-                callback();
+                callback(result.data);
             } else {
                 message.error(result.message);
             }
@@ -188,8 +170,8 @@ class DashBoard extends Component {
                     </Row>
                     <Row gutter={32} className="cms-module-row">
                         <Col span={8}>
-                            <Card title="CPU监控" className="cms-module-card">
-                                <div id="cpu" className="cms-module-chart"/>
+                            <Card title="登录ip排行" className="cms-module-card">
+                                <div id="ip" className="cms-module-chart"/>
                             </Card>
                         </Col>
                         <Col span={8}>

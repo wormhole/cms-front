@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
 import getBase64 from "../../../util/image";
 import getUrl from "../../../util/url";
+import api from "./api";
 
 class Base extends Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class Base extends Component {
         param.push({"key": "title", "value": this.props.base.title});
         param.push({"key": "copyright", "value": this.props.base.copyright});
 
-        axios.put("/property", param).then(result => {
+        axios.put(api.update, param).then(result => {
             if (result.status) {
                 message.success(result.message);
             } else {
@@ -52,7 +53,7 @@ class Base extends Component {
     handleUpdateHead() {
         let param = new FormData();
         param.append("file", this.props.base.file[0]);
-        axios.post("/property/head", param, {headers: {"Content-Type": "multipart/form-data"}}).then(result => {
+        axios.post(api.head, param, {headers: {"Content-Type": "multipart/form-data"}}).then(result => {
             if (result.status === true) {
                 message.success(result.message);
                 this.props.save({file: []});
@@ -65,7 +66,7 @@ class Base extends Component {
     }
 
     handleRestore() {
-        axios.put("/property/restore").then(result => {
+        axios.put(api.restore).then(result => {
             if (result.status) {
                 message.success(result.message);
                 let config = result.data;
@@ -83,7 +84,7 @@ class Base extends Component {
     }
 
     loadData() {
-        axios.get("/property").then(result => {
+        axios.get(api.query).then(result => {
             if (result.status) {
                 let config = result.data;
                 this.props.save({

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Breadcrumb, Button, Input, message, Table} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
+import api from "./api";
 
 class Role extends Component {
 
@@ -51,7 +52,7 @@ class Role extends Component {
     }
 
     handleDelete(ids) {
-        axios.delete("/role", {
+        axios.delete(api.delete, {
             data: {
                 ids: ids
             }
@@ -93,7 +94,7 @@ class Role extends Component {
                 ...this.props.role.params
             }
         }
-        axios.get("/role/list", {
+        axios.get(api.list, {
             params: {
                 ...params
             }

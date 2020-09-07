@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Breadcrumb, Button, Form, Input, InputNumber, message} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../../util/axios";
+import api from "./api";
 
 class Add extends Component {
     constructor(props) {
@@ -47,7 +48,7 @@ class Add extends Component {
 
     handleSave() {
         if (this.props.location.type === "edit") {
-            axios.put("/user", this.props.user.user).then(result => {
+            axios.put(api.update, this.props.user.user).then(result => {
                 if (result.status) {
                     message.success(result.message);
                 } else {
@@ -62,7 +63,7 @@ class Add extends Component {
                 message.warning("两次密码不一致");
                 return;
             }
-            axios.post("/user", this.props.user.user).then(result => {
+            axios.post(api.save, this.props.user.user).then(result => {
                 if (result.status === true) {
                     message.success(result.message);
                     this.handleClear();
@@ -85,7 +86,7 @@ class Add extends Component {
     }
 
     loadData(id) {
-        axios.get("/user/" + id).then(result => {
+        axios.get(api.query + id).then(result => {
             if (result.status) {
                 this.props.save({user: {...this.props.user.user, ...result.data}});
             } else {

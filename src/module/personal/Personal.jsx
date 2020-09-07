@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Breadcrumb, Button, Form, Input, InputNumber, message} from "antd";
 import {Link} from "react-router-dom";
 import axios from "../../util/axios";
+import api from "./api";
 
 class Personal extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class Personal extends Component {
     }
 
     handleUpdate() {
-        axios.put("/user", this.props.personal).then(result => {
+        axios.put(api.update, this.props.personal).then(result => {
             if (result.status) {
                 message.success(result.message);
                 this.props.save({...result.data});
@@ -38,7 +39,7 @@ class Personal extends Component {
     }
 
     loadData() {
-        axios.get("/user/self").then(result => {
+        axios.get(api.query).then(result => {
             if (result.status) {
                 this.props.save({...result.data});
             } else {
