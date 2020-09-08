@@ -81,14 +81,6 @@ class DashBoard extends Component {
         mem.push({type: "未使用", value: this.props.dashboard.mem.free});
 
         const statusConfig = {
-            title: {
-                visible: true,
-                text: "用户状态",
-            },
-            description: {
-                visible: true,
-                text: "不同状态下的用户数量统计",
-            },
             forceFit: true,
             data: status,
             xField: "数量",
@@ -115,15 +107,6 @@ class DashBoard extends Component {
                 position: "bottom",
             },
             forceFit: true,
-            title: {
-                visible: true,
-                text: "磁盘使用量",
-            },
-            description: {
-                visible: true,
-                text:
-                    "磁盘使用百分比统计详情",
-            },
             radius: 1,
             padding: "auto",
             data: disk,
@@ -149,15 +132,6 @@ class DashBoard extends Component {
                 position: "bottom",
             },
             forceFit: true,
-            title: {
-                visible: true,
-                text: "内存使用量",
-            },
-            description: {
-                visible: true,
-                text:
-                    "内存使用百分比统计详情",
-            },
             radius: 1,
             padding: "auto",
             data: mem,
