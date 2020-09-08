@@ -35,9 +35,10 @@ class Base extends Component {
     }
 
     handleUpdate() {
-        let param = [];
-        param.push({"key": "title", "value": this.props.base.title});
-        param.push({"key": "copyright", "value": this.props.base.copyright});
+        let param = {
+            title: this.props.base.title,
+            copyright: this.props.base.copyright
+        }
 
         axios.put(api.update, param).then(result => {
             if (result.status) {
