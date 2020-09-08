@@ -14,55 +14,12 @@ class DashBoard extends Component {
     componentDidMount() {
         this.loadCount();
         this.loadUserStatus(this.initUserStatusChart);
+        this.loadDiskInfo(this.initDiskChart);
         this.loadTopIp(this.initTopIpChart);
     }
 
     componentWillUnmount() {
         this.props.save({memPlot: null});
-    }
-
-    initMemChart() {
-        let data = [];
-        data.push({type: "已使用", value: this.props.dashboard.mem.used});
-        data.push({type: "未使用", value: this.props.dashboard.mem.free});
-        this.props.save({memData: data});
-
-        if (!this.props.dashboard.memPlot) {
-            let memPlot = new Pie(document.getElementById("mem"), {
-                forceFit: true,
-                radius: 0.8,
-                data: data,
-                angleField: "value",
-                colorField: "type",
-                label: {
-                    visible: true,
-                    type: "spider",
-                },
-            });
-            this.props.save({memPlot: memPlot});
-            this.props.dashboard.memPlot.render();
-        }
-    }
-
-    initTopIpChart(topIp) {
-        let data = [];
-        for (var key in topIp) {
-            data.push({地址: key, 数量: topIp[key]});
-        }
-
-        const barPlot = new Bar(document.getElementById("ip"), {
-            forceFit: true,
-            data: data,
-            barSize: 30,
-            xField: "数量",
-            yField: "地址",
-            label: {
-                visible: true,
-                formatter: (v) => v + "次",
-            }
-        });
-
-        barPlot.render();
     }
 
     initUserStatusChart(userStatus) {
@@ -88,6 +45,46 @@ class DashBoard extends Component {
         barPlot.render();
     }
 
+    initDiskChart(diskInfo) {
+        let data = [];
+        data.push({type: "已使用", value: diskInfo.used});
+        data.push({type: "未使用", value: diskInfo.free});
+
+        let memPlot = new Pie(document.getElementById("mem"), {
+            forceFit: true,
+            radius: 0.8,
+            data: data,
+            angleField: "value",
+            colorField: "type",
+            label: {
+                visible: true,
+                type: "spider",
+            },
+        });
+        memPlot.render();
+    }
+
+    initTopIpChart(topIp) {
+        let data = [];
+        for (var key in topIp) {
+            data.push({地址: key, 数量: topIp[key]});
+        }
+
+        const barPlot = new Bar(document.getElementById("ip"), {
+            forceFit: true,
+            data: data,
+            barSize: 30,
+            xField: "数量",
+            yField: "地址",
+            label: {
+                visible: true,
+                formatter: (v) => v + "次",
+            }
+        });
+
+        barPlot.render();
+    }
+
     loadCount() {
         axios.get(api.count).then(result => {
             if (result.status) {
@@ -102,6 +99,18 @@ class DashBoard extends Component {
 
     loadUserStatus(callback) {
         axios.get(api.userStatus).then(result => {
+            if (result.status) {
+                callback(result.data);
+            } else {
+                message.error(result.message);
+            }
+        }).catch(error => {
+
+        });
+    }
+
+    loadDiskInfo(callback) {
+        axios.get(api.diskInfo).then(result => {
             if (result.status) {
                 callback(result.data);
             } else {
@@ -172,18 +181,18 @@ class DashBoard extends Component {
                     </Row>
                     <Row gutter={32} className="cms-module-row">
                         <Col span={8}>
-                            <Card title="登录地址排行" className="cms-module-card">
-                                <div id="ip" className="cms-module-chart"/>
-                            </Card>
-                        </Col>
-                        <Col span={8}>
-                            <Card title="内存监控(单位：GB)" className="cms-module-card">
-                                <div id="mem" className="cms-module-chart"/>
-                            </Card>
-                        </Col>
-                        <Col span={8}>
                             <Card title="用户状态统计" className="cms-module-card">
                                 <div id="user" className="cms-module-chart"/>
+                            </Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="磁盘监控(单位：GB)" className="cms-module-card">
+                                <div id="disk" className="cms-module-chart"/>
+                            </Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="登录地址排行" className="cms-module-card">
+                                <div id="ip" className="cms-module-chart"/>
                             </Card>
                         </Col>
                     </Row>

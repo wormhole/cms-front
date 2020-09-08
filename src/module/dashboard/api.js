@@ -1,7 +1,8 @@
 const api = {
     count: "/dashboard/count",
-    topIp: "/dashboard/top_ip",
-    userStatus: "/dashboard/user_status"
+    userStatus: "/dashboard/user_status",
+    diskInfo: "/dashboard/disk",
+    topIp: "/dashboard/top_ip"
 };
 
 export default api;
