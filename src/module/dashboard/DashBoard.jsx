@@ -15,11 +15,7 @@ class DashBoard extends Component {
         this.loadCount();
         this.loadUserStatus(this.initUserStatusChart);
         this.loadDiskInfo(this.initDiskChart);
-        this.loadTopIp(this.initTopIpChart);
-    }
-
-    componentWillUnmount() {
-        this.props.save({memPlot: null});
+        this.loadMemInfo(this.initMemChart);
     }
 
     initUserStatusChart(userStatus) {
@@ -50,6 +46,25 @@ class DashBoard extends Component {
         data.push({type: "已使用", value: diskInfo.used});
         data.push({type: "未使用", value: diskInfo.free});
 
+        let diskPlot = new Pie(document.getElementById("disk"), {
+            forceFit: true,
+            radius: 0.8,
+            data: data,
+            angleField: "value",
+            colorField: "type",
+            label: {
+                visible: true,
+                type: "spider",
+            },
+        });
+        diskPlot.render();
+    }
+
+    initMemChart(memInfo) {
+        let data = [];
+        data.push({type: "已使用", value: memInfo.used});
+        data.push({type: "未使用", value: memInfo.free});
+
         let memPlot = new Pie(document.getElementById("mem"), {
             forceFit: true,
             radius: 0.8,
@@ -62,27 +77,6 @@ class DashBoard extends Component {
             },
         });
         memPlot.render();
-    }
-
-    initTopIpChart(topIp) {
-        let data = [];
-        for (var key in topIp) {
-            data.push({地址: key, 数量: topIp[key]});
-        }
-
-        const barPlot = new Bar(document.getElementById("ip"), {
-            forceFit: true,
-            data: data,
-            barSize: 30,
-            xField: "数量",
-            yField: "地址",
-            label: {
-                visible: true,
-                formatter: (v) => v + "次",
-            }
-        });
-
-        barPlot.render();
     }
 
     loadCount() {
@@ -121,8 +115,8 @@ class DashBoard extends Component {
         });
     }
 
-    loadTopIp(callback) {
-        axios.get(api.topIp).then(result => {
+    loadMemInfo(callback) {
+        axios.get(api.memInfo).then(result => {
             if (result.status) {
                 callback(result.data);
             } else {
@@ -191,8 +185,8 @@ class DashBoard extends Component {
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="登录地址排行" className="cms-module-card">
-                                <div id="ip" className="cms-module-chart"/>
+                            <Card title="内存监控(单位：GB)" className="cms-module-card">
+                                <div id="mem" className="cms-module-chart"/>
                             </Card>
                         </Col>
                     </Row>

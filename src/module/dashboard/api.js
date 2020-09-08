@@ -2,7 +2,7 @@ const api = {
     count: "/dashboard/count",
     userStatus: "/dashboard/user_status",
     diskInfo: "/dashboard/disk",
-    topIp: "/dashboard/top_ip"
+    memInfo: "/dashboard/memory"
 };
 
 export default api;
