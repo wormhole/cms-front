@@ -103,6 +103,13 @@ class DashBoard extends Component {
         };
 
         const diskConfig = {
+            statistic: {
+                visible: true,
+                content: {
+                    value: this.props.dashboard.disk.total + " GB",
+                    name: "磁盘大小",
+                },
+            },
             legend: {
                 visible: true,
                 position: "bottom",
@@ -130,6 +137,13 @@ class DashBoard extends Component {
         };
 
         const memConfig = {
+            statistic: {
+                visible: true,
+                content: {
+                    value: this.props.dashboard.memory.total + " GB",
+                    name: "内存大小",
+                },
+            },
             legend: {
                 visible: true,
                 position: "bottom",
