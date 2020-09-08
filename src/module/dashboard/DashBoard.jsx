@@ -140,7 +140,7 @@ class DashBoard extends Component {
             statistic: {
                 visible: true,
                 content: {
-                    value: this.props.dashboard.memory.total + " GB",
+                    value: this.props.dashboard.mem.total + " GB",
                     name: "内存大小",
                 },
             },
