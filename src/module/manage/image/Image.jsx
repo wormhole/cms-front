@@ -180,7 +180,7 @@ class Image extends Component {
             <div className="cms-module">
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>网站管理</Breadcrumb.Item>
+                    <Breadcrumb.Item>系统管理</Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/manage/image"
                                            className="cms-module-link">图片管理</Link></Breadcrumb.Item>
                 </Breadcrumb>

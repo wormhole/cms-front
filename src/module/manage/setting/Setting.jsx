@@ -106,7 +106,7 @@ class Setting extends Component {
             <div className="cms-module">
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>网站管理</Breadcrumb.Item>
+                    <Breadcrumb.Item>系统管理</Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/manage/setting"
                                            className="cms-module-link">基本信息</Link></Breadcrumb.Item>
                 </Breadcrumb>
