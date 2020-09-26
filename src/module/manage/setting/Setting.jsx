@@ -6,7 +6,7 @@ import getBase64 from "../../../util/image";
 import getUrl from "../../../util/url";
 import api from "./api";
 
-class Base extends Component {
+class Setting extends Component {
     constructor(props) {
         super(props);
     }
@@ -36,8 +36,8 @@ class Base extends Component {
 
     handleUpdate() {
         let param = {
-            title: this.props.base.title,
-            copyright: this.props.base.copyright
+            title: this.props.setting.title,
+            copyright: this.props.setting.copyright
         }
 
         axios.put(api.update, param).then(result => {
@@ -53,7 +53,7 @@ class Base extends Component {
 
     handleUpdateHead() {
         let param = new FormData();
-        param.append("file", this.props.base.file[0]);
+        param.append("file", this.props.setting.file[0]);
         axios.post(api.head, param, {headers: {"Content-Type": "multipart/form-data"}}).then(result => {
             if (result.status === true) {
                 message.success(result.message);
@@ -107,7 +107,7 @@ class Base extends Component {
                 <Breadcrumb className="cms-module-breadcrumb">
                     <Breadcrumb.Item><Link to="/dashboard" className="cms-module-link">首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>网站管理</Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/manage/base"
+                    <Breadcrumb.Item><Link to="/manage/setting"
                                            className="cms-module-link">基本信息</Link></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="cms-module-content">
@@ -131,12 +131,12 @@ class Base extends Component {
                             <div>
                                 <Form.Item label="标题" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入标题信息"
-                                           value={this.props.base.title}
+                                           value={this.props.setting.title}
                                            onChange={this.handleValueChange.bind(this, "title")}/>
                                 </Form.Item>
                                 <Form.Item label="版权" className="cms-module-item">
                                     <Input type="text" className="cms-module-input" placeholder="请输入版权信息"
-                                           value={this.props.base.copyright}
+                                           value={this.props.setting.copyright}
                                            onChange={this.handleValueChange.bind(this, "copyright")}/>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-item">
@@ -145,15 +145,15 @@ class Base extends Component {
                                 <Form.Item label="头像" className="cms-form-item">
                                     <Upload
                                         listType="picture-card"
-                                        fileList={this.props.base.file}
+                                        fileList={this.props.setting.file}
                                         showUploadList={false}
                                         beforeUpload={this.handleBeforeUpload.bind(this)}>
-                                        <img src={this.props.base.head} style={{width: "100%"}}/>
+                                        <img src={this.props.setting.head} style={{width: "100%"}}/>
                                     </Upload>
                                 </Form.Item>
                                 <Form.Item label="操作" className="cms-module-item">
                                     <Button type="primary" onClick={this.handleUpdateHead.bind(this)}
-                                            disabled={this.props.base.file.length > 0 ? false : true}>更新头像</Button>
+                                            disabled={this.props.setting.file.length > 0 ? false : true}>更新头像</Button>
                                 </Form.Item>
                             </div>
                         </Form>
@@ -164,4 +164,4 @@ class Base extends Component {
     }
 }
 
-export default Base;
+export default Setting;

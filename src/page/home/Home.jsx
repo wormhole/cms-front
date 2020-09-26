@@ -97,8 +97,8 @@ class Home extends Component {
         this.props.save({[key]: e.target.value});
     }
 
-    loadBaseInfo() {
-        axios.get(api.base).then(result => {
+    loadSetting() {
+        axios.get(api.setting).then(result => {
             if (result.status) {
                 let properties = result.data;
                 properties.head = getUrl(properties.head);
@@ -115,7 +115,7 @@ class Home extends Component {
         axios.get(api.auth).then(result => {
             if (result.status) {
                 this.props.save({username: result.data.username, menus: result.data.menus, loaded: true});
-                this.loadBaseInfo();
+                this.loadSetting();
             } else {
                 message.error(result.message);
             }
@@ -191,15 +191,15 @@ class Home extends Component {
                                         <span>系统管理</span>
                                     </span>
                                 }
-                                style={(exist("image", menus) || exist("base", menus)) ? {} : hidden}
+                                style={(exist("image", menus) || exist("setting", menus)) ? {} : hidden}
                             >
                                 <Menu.Item key="image" className="cms-home-item"
                                            style={exist("image", menus) ? {} : hidden}>
                                     <Link to="/manage/image" className="cms-home-link">图片管理</Link>
                                 </Menu.Item>
-                                <Menu.Item key="base" className="cms-home-item"
-                                           style={exist("base", menus) ? {} : hidden}>
-                                    <Link to="/manage/base" className="cms-home-link">基本信息</Link>
+                                <Menu.Item key="setting" className="cms-home-item"
+                                           style={exist("setting", menus) ? {} : hidden}>
+                                    <Link to="/manage/setting" className="cms-home-link">基本信息</Link>
                                 </Menu.Item>
                             </SubMenu>
                         </Menu>

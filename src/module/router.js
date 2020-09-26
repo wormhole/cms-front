@@ -1,6 +1,6 @@
 import User, {UserAdd} from "./auth/user";
 import Role, {RoleAdd} from "./auth/role";
-import Base from "./manage/base";
+import Setting from "./manage/setting";
 import Dashboard from "./dashboard";
 import Personal from "./personal";
 import Image from "./manage/image";
@@ -12,7 +12,7 @@ const router = {
     "/auth/user/add": UserAdd,
     "/auth/role": Role,
     "/auth/role/add": RoleAdd,
-    "/manage/base": Base,
+    "/manage/setting": Setting,
     "/manage/image": Image,
     "/dashboard": Dashboard,
     "/personal": Personal,

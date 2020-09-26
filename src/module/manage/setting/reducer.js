@@ -5,9 +5,9 @@ const initState = {
     file: []
 };
 
-const baseReducer = (state = initState, action) => {
+const settingReducer = (state = initState, action) => {
 
-    if (action.type === "base") {
+    if (action.type === "setting") {
         return {
             ...state,
             ...action.state,
@@ -17,4 +17,4 @@ const baseReducer = (state = initState, action) => {
     }
 };
 
-export default baseReducer;
+export default settingReducer;

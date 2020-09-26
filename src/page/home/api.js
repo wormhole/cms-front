@@ -1,6 +1,6 @@
 const api = {
     auth: "/home/auth",
-    base: "/home/base",
+    setting: "/home/setting",
     password: "/home/password",
     logout: "/logout"
 };

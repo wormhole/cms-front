@@ -2,7 +2,7 @@ import {combineReducers, createStore} from 'redux';
 import userReducer from "./module/auth/user/reducer";
 import roleReducer from "./module/auth/role/reducer";
 import personalReducer from "./module/personal/reducer";
-import baseReducer from "./module/manage/base/reducer";
+import settingReducer from "./module/manage/setting/reducer";
 import dashboardReducer from "./module/dashboard/reducer";
 import loginReducer from "./page/login/reducer";
 import registerReducer from "./page/register/reducer";
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     role: roleReducer,
     personal: personalReducer,
-    base: baseReducer,
+    setting: settingReducer,
     dashboard: dashboardReducer,
     login: loginReducer,
     register: registerReducer,
